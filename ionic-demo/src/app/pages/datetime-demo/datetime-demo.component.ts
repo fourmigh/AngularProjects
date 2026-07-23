@@ -2,7 +2,6 @@ import { Component, signal, computed, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonToolbar, IonTitle,
-  IonDatetime,
   IonToggle, IonSegment, IonSegmentButton, IonLabel,
   IonSelect, IonSelectOption, IonInput,
   IonItem, IonItemDivider,
@@ -10,10 +9,11 @@ import {
   IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
   IonBadge, IonChip, IonButton, IonButtons, IonFooter,
 } from '@ionic/angular/standalone';
+import { DatetimePlusComponent } from '../../components/datetime-plus/datetime-plus.component';
 
 type Presentation =
-  | 'date' | 'time' | 'date-time' | 'time-date'
-  | 'month' | 'year' | 'month-year' | 'year-month';
+  | 'time' | 'date' | 'date-time' | 'time-date' | 'week'
+  | 'month' | 'month-year' | 'year-month' | 'year';
 type HourCycle = 'h12' | 'h23';
 type DatetimeSize = 'cover' | 'fixed';
 
@@ -24,13 +24,13 @@ type DatetimeSize = 'cover' | 'fixed';
   imports: [
     FormsModule,
     IonContent, IonHeader, IonToolbar, IonTitle,
-    IonDatetime,
     IonToggle, IonSegment, IonSegmentButton, IonLabel,
     IonSelect, IonSelectOption, IonInput,
     IonItem, IonItemDivider,
     IonList, IonNote, IonText,
     IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
     IonBadge, IonChip, IonButton, IonButtons, IonFooter,
+    DatetimePlusComponent,
   ],
   templateUrl: './datetime-demo.component.html',
   styleUrl: './datetime-demo.component.scss',
@@ -44,7 +44,7 @@ export class DatetimeDemoComponent {
   }
 
   presentation = signal<Presentation>('date-time');
-  value = signal<string | null | undefined>(undefined);
+  value = signal<string | string[] | null | undefined>(undefined);
   minValue = signal('');
   maxValue = signal('');
   disabled = signal(false);
@@ -61,14 +61,15 @@ export class DatetimeDemoComponent {
   color = signal('primary');
 
   presentations: { value: Presentation; label: string }[] = [
-    { value: 'date', label: 'Date' },
     { value: 'time', label: 'Time' },
+    { value: 'date', label: 'Date' },
     { value: 'date-time', label: 'Date-Time' },
     { value: 'time-date', label: 'Time-Date' },
+    { value: 'week', label: 'Week' },
     { value: 'month', label: 'Month' },
-    { value: 'year', label: 'Year' },
     { value: 'month-year', label: 'Month-Year' },
     { value: 'year-month', label: 'Year-Month' },
+    { value: 'year', label: 'Year' },
   ];
 
   hourCycles: { value: HourCycle; label: string }[] = [
@@ -109,7 +110,7 @@ export class DatetimeDemoComponent {
   );
 
   hasDate = computed(() =>
-    ['date', 'date-time', 'time-date', 'month', 'year', 'month-year', 'year-month'].includes(
+    ['date', 'date-time', 'time-date', 'week', 'month', 'year', 'month-year', 'year-month'].includes(
       this.presentation()
     )
   );
@@ -123,9 +124,24 @@ export class DatetimeDemoComponent {
 
   maxInputType = computed((): string => this.minInputType());
 
-  onDatetimeChange(event: CustomEvent) {
-    this.value.set(event.detail.value);
-  }
+  weekRangeLabel = computed(() => {
+    if (this.presentation() !== 'week') return '';
+    const val = this.value();
+    if (!val) return '';
+    const picked = Array.isArray(val) ? val[0] : (typeof val === 'string' ? val : '');
+    if (!picked) return '';
+    const d = new Date(picked);
+    const day = d.getDay();
+    const firstDay = this.firstDayOfWeek();
+    const diffToFirst = (day - firstDay + 7) % 7;
+    const weekStart = new Date(d);
+    weekStart.setDate(d.getDate() - diffToFirst);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    const fmt = (dt: Date) =>
+      dt.toLocaleDateString(this.locale(), { month: 'short', day: 'numeric' });
+    return `${fmt(weekStart)} \u2013 ${fmt(weekEnd)}, ${weekEnd.getFullYear()}`;
+  });
 
   onMinChange(event: Event) {
     const input = event.target as HTMLInputElement;

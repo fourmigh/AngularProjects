@@ -22,11 +22,16 @@
 
         <ion-card-content>
           <div class="datetime-container">
-            <ion-datetime
-              [presentation]="presentation()"
+            <div class="component-label">
+              <ion-badge color="primary">ion-datetime</ion-badge>
+            </div>
+            <app-datetime-plus
               [value]="value()"
-              [min]="minValue() || undefined"
-              [max]="maxValue() || undefined"
+              (valueChange)="value.set($event)"
+              [presentation]="presentation()"
+              [multiple]="multiple()"
+              [min]="minValue()"
+              [max]="maxValue()"
               [disabled]="disabled()"
               [readonly]="readonly()"
               [preferWheel]="hasTime() ? preferWheel() : false"
@@ -35,12 +40,10 @@
               [showClearButton]="showClearButton()"
               [showDefaultTimeLabel]="showDefaultTimeLabel()"
               [size]="hasDate() ? size() : 'cover'"
-              [multiple]="hasDate() ? multiple() : false"
               [firstDayOfWeek]="hasDate() ? firstDayOfWeek() : undefined"
               [locale]="locale()"
               [color]="color()"
-              (ionChange)="onDatetimeChange($event)"
-            ></ion-datetime>
+            ></app-datetime-plus>
           </div>
 
           <div class="value-display">
@@ -56,7 +59,15 @@
             }
           </div>
 
-          @if (multiple()) {
+          @if (weekRangeLabel()) {
+            <div class="week-range">
+              <ion-chip color="success">
+                <ion-label>Week: {{ weekRangeLabel() }}</ion-label>
+              </ion-chip>
+            </div>
+          }
+
+          @if (multiple() && presentation() !== 'week') {
             <ion-note color="warning">
               Multiple selection enabled. Values: {{ value() || '[]' }}
             </ion-note>
@@ -127,8 +138,8 @@
               </ion-select>
             </ion-item>
 
-            <!-- Size (only for date presentations) -->
-            @if (hasDate()) {
+            <!-- Size (only for date presentations, not week) -->
+            @if (hasDate() && presentation() !== 'week') {
               <ion-item>
                 <ion-segment
                   [value]="size()"
@@ -250,8 +261,8 @@
               </ion-item>
             }
 
-            <!-- Multiple (only for date) -->
-            @if (hasDate()) {
+            <!-- Multiple (only for date, not week) -->
+            @if (hasDate() && presentation() !== 'week') {
               <ion-item>
                 <ion-toggle
                   [checked]="multiple()"
