@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import type { DatetimePresentation, DatetimeHourCycle, Color } from '@ionic/core/components';
 import { IonDatetime } from '@ionic/angular/standalone';
 
 @Component({
@@ -11,21 +12,21 @@ export class DatetimePlusComponent implements OnChanges {
   @Input() value: string | string[] | null | undefined;
   @Output() valueChange = new EventEmitter<string | string[] | null | undefined>();
 
-  @Input() presentation = 'date-time';
+  @Input() presentation: DatetimePresentation | 'week' = 'date-time';
   @Input() multiple = false;
   @Input() min = '';
   @Input() max = '';
   @Input() disabled = false;
   @Input() readonly = false;
   @Input() preferWheel = false;
-  @Input() hourCycle?: string;
+  @Input() hourCycle?: DatetimeHourCycle;
   @Input() showDefaultButtons = false;
   @Input() showClearButton = false;
   @Input() showDefaultTimeLabel = true;
-  @Input() size = 'cover';
+  @Input() size: 'cover' | 'fixed' = 'cover';
   @Input() firstDayOfWeek?: number;
   @Input() locale = 'en-US';
-  @Input() color = 'primary';
+  @Input() color: Color = 'primary';
 
   private previousWeekValue: string[] = [];
 

@@ -9,12 +9,11 @@ import {
   IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
   IonBadge, IonChip, IonButton, IonButtons, IonFooter,
 } from '@ionic/angular/standalone';
+import type { DatetimePresentation, DatetimeHourCycle, Color } from '@ionic/core/components';
 import { DatetimePlusComponent } from '../../components/datetime-plus/datetime-plus.component';
 
-type Presentation =
-  | 'time' | 'date' | 'date-time' | 'time-date' | 'week'
-  | 'month' | 'month-year' | 'year-month' | 'year';
-type HourCycle = 'h12' | 'h23';
+type Presentation = DatetimePresentation | 'week';
+type HourCycle = DatetimeHourCycle;
 type DatetimeSize = 'cover' | 'fixed';
 
 @Component({
@@ -58,7 +57,7 @@ export class DatetimeDemoComponent {
   multiple = signal(false);
   firstDayOfWeek = signal(0);
   locale = signal('en-US');
-  color = signal('primary');
+  color = signal<Color>('primary');
 
   presentations: { value: Presentation; label: string }[] = [
     { value: 'time', label: 'Time' },
@@ -68,13 +67,12 @@ export class DatetimeDemoComponent {
     { value: 'week', label: 'Week' },
     { value: 'month', label: 'Month' },
     { value: 'month-year', label: 'Month-Year' },
-    { value: 'year-month', label: 'Year-Month' },
     { value: 'year', label: 'Year' },
   ];
 
   hourCycles: { value: HourCycle; label: string }[] = [
     { value: 'h12', label: '12 Hour' },
-    { value: 'h23', label: '23 Hour' },
+    { value: 'h24', label: '24 Hour' },
   ];
 
   sizes: { value: DatetimeSize; label: string }[] = [
@@ -103,7 +101,7 @@ export class DatetimeDemoComponent {
     { value: 'ar-SA', label: '\u0627\u0644\u0639\u0631\u0628\u064A\u0629' },
   ];
 
-  colors = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'light', 'medium', 'dark'];
+  colors: Color[] = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'light', 'medium', 'dark'];
 
   hasTime = computed(() =>
     ['time', 'date-time', 'time-date'].includes(this.presentation())
