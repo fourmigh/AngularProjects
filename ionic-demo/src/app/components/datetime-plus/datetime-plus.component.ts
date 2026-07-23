@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, model, input, effect } from '@angular/core';
 import type { DatetimePresentation, DatetimeHourCycle, Color } from '@ionic/core/components';
 import { IonDatetime } from '@ionic/angular/standalone';
 
@@ -8,50 +8,47 @@ import { IonDatetime } from '@ionic/angular/standalone';
   imports: [IonDatetime],
   templateUrl: './datetime-plus.component.html',
 })
-export class DatetimePlusComponent implements OnChanges {
-  @Input() value: string | string[] | null | undefined;
-  @Output() valueChange = new EventEmitter<string | string[] | null | undefined>();
+export class DatetimePlusComponent {
+  value = model<string | string[] | null | undefined>();
 
-  @Input() presentation: DatetimePresentation | 'week' = 'date-time';
-  @Input() multiple = false;
-  @Input() min = '';
-  @Input() max = '';
-  @Input() disabled = false;
-  @Input() readonly = false;
-  @Input() preferWheel = false;
-  @Input() hourCycle?: DatetimeHourCycle;
-  @Input() showDefaultButtons = false;
-  @Input() showClearButton = false;
-  @Input() showDefaultTimeLabel = true;
-  @Input() size: 'cover' | 'fixed' = 'cover';
-  @Input() firstDayOfWeek?: number;
-  @Input() locale = 'en-US';
-  @Input() color: Color = 'primary';
+  presentation = input<DatetimePresentation | 'week'>('date-time');
+  multiple = input(false);
+  min = input('');
+  max = input('');
+  disabled = input(false);
+  readonly = input(false);
+  preferWheel = input(false);
+  hourCycle = input<DatetimeHourCycle | undefined>(undefined);
+  showDefaultButtons = input(false);
+  showClearButton = input(false);
+  showDefaultTimeLabel = input(true);
+  size = input<'cover' | 'fixed'>('cover');
+  firstDayOfWeek = input(0);
+  locale = input('en-US');
+  color = input<Color>('primary');
 
   private previousWeekValue: string[] = [];
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['value']) {
-      const v = changes['value'].currentValue;
+  constructor() {
+    effect(() => {
+      const v = this.value();
       if (!v || (Array.isArray(v) && v.length === 0)) {
         this.previousWeekValue = [];
       }
-    }
+    });
   }
 
   onDatetimeChange(event: CustomEvent) {
     const rawValue = event.detail.value;
 
-    if (this.presentation !== 'week') {
-      this.value = rawValue;
-      this.valueChange.emit(rawValue);
+    if (this.presentation() !== 'week') {
+      this.value.set(rawValue);
       this.previousWeekValue = [];
       return;
     }
 
     if (!rawValue || (Array.isArray(rawValue) && rawValue.length === 0)) {
-      this.value = undefined;
-      this.valueChange.emit(undefined);
+      this.value.set(undefined);
       this.previousWeekValue = [];
       return;
     }
@@ -64,33 +61,28 @@ export class DatetimePlusComponent implements OnChanges {
 
       if (removed.length > 0) {
         this.previousWeekValue = [];
-        setTimeout(() => {
-          this.value = [];
-          this.valueChange.emit([]);
-        });
+        setTimeout(() => this.value.set([]));
         return;
       }
 
       const clicked = arr.find(v => !prevSet.has(v));
       if (clicked) {
         const weekDates = this.getWeekDates(clicked);
-        this.value = weekDates;
-        this.valueChange.emit(weekDates);
+        this.value.set(weekDates);
         this.previousWeekValue = weekDates;
       }
       return;
     }
 
     const weekDates = this.getWeekDates(arr[0]);
-    this.value = weekDates;
-    this.valueChange.emit(weekDates);
+    this.value.set(weekDates);
     this.previousWeekValue = weekDates;
   }
 
   getWeekDates(picked: string): string[] {
     const d = new Date(picked);
     const day = d.getDay();
-    const firstDay = this.firstDayOfWeek ?? 0;
+    const firstDay = this.firstDayOfWeek();
     const diffToFirst = (day - firstDay + 7) % 7;
     const weekStart = new Date(d);
     weekStart.setDate(d.getDate() - diffToFirst);
@@ -104,8 +96,7 @@ export class DatetimePlusComponent implements OnChanges {
   }
 
   clearValue() {
-    this.value = undefined;
-    this.valueChange.emit(undefined);
+    this.value.set(undefined);
     this.previousWeekValue = [];
   }
 }
