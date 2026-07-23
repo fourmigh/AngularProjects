@@ -1,0 +1,315 @@
+<ion-header>
+  <ion-toolbar [color]="color()">
+    <ion-title>Ion Datetime Demo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearValue()">Clear</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="demo-wrapper" [class.layout-landscape]="isLandscape()" [class.layout-portrait]="!isLandscape()">
+
+    <!-- ==================== PREVIEW PANEL ==================== -->
+    <div class="preview-panel">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Live Preview</ion-card-title>
+          <ion-card-subtitle>
+            presentation: <ion-badge [color]="color()">{{ presentation() }}</ion-badge>
+          </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="datetime-container">
+            <ion-datetime
+              [presentation]="presentation()"
+              [value]="value()"
+              [min]="minValue() || undefined"
+              [max]="maxValue() || undefined"
+              [disabled]="disabled()"
+              [readonly]="readonly()"
+              [preferWheel]="hasTime() ? preferWheel() : false"
+              [hourCycle]="hasTime() ? hourCycle() : undefined"
+              [showDefaultButtons]="showDefaultButtons()"
+              [showClearButton]="showClearButton()"
+              [showDefaultTimeLabel]="showDefaultTimeLabel()"
+              [size]="hasDate() ? size() : 'cover'"
+              [multiple]="hasDate() ? multiple() : false"
+              [firstDayOfWeek]="hasDate() ? firstDayOfWeek() : undefined"
+              [locale]="locale()"
+              [color]="color()"
+              (ionChange)="onDatetimeChange($event)"
+            ></ion-datetime>
+          </div>
+
+          <div class="value-display">
+            <ion-text color="medium">
+              <strong>Current Value:</strong>
+            </ion-text>
+            @if (value()) {
+              <ion-chip [color]="color()" [outline]="true">
+                <ion-label>{{ value() }}</ion-label>
+              </ion-chip>
+            } @else {
+              <ion-note color="medium">No value selected</ion-note>
+            }
+          </div>
+
+          @if (multiple()) {
+            <ion-note color="warning">
+              Multiple selection enabled. Values: {{ value() || '[]' }}
+            </ion-note>
+          }
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- ==================== CONTROLS PANEL ==================== -->
+    <div class="controls-panel">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Property Controls</ion-card-title>
+          <ion-card-subtitle>
+            Adjust each property to see changes in real-time
+          </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content class="controls-content">
+          <ion-list [inset]="true">
+
+            <!-- Presentation -->
+            <ion-item-divider>
+              <ion-label color="primary">Presentation</ion-label>
+            </ion-item-divider>
+            <ion-item lines="none">
+              <ion-segment
+                [value]="presentation()"
+                (ionChange)="presentation.set($any($event.detail.value))"
+                [scrollable]="true"
+              >
+                @for (p of presentations; track p.value) {
+                  <ion-segment-button [value]="p.value">
+                    <ion-label>{{ p.label }}</ion-label>
+                  </ion-segment-button>
+                }
+              </ion-segment>
+            </ion-item>
+
+            <!-- Color -->
+            <ion-item-divider>
+              <ion-label color="primary">Color</ion-label>
+            </ion-item-divider>
+            <ion-item>
+              <ion-select
+                label="Color"
+                [value]="color()"
+                (ionChange)="color.set($event.detail.value)"
+                interface="popover"
+              >
+                @for (c of colors; track c) {
+                  <ion-select-option [value]="c">{{ c }}</ion-select-option>
+                }
+              </ion-select>
+            </ion-item>
+
+            <!-- Locale -->
+            <ion-item>
+              <ion-select
+                label="Locale"
+                [value]="locale()"
+                (ionChange)="locale.set($event.detail.value)"
+                interface="popover"
+              >
+                @for (l of locales; track l.value) {
+                  <ion-select-option [value]="l.value">{{ l.label }}</ion-select-option>
+                }
+              </ion-select>
+            </ion-item>
+
+            <!-- Size (only for date presentations) -->
+            @if (hasDate()) {
+              <ion-item>
+                <ion-segment
+                  [value]="size()"
+                  (ionChange)="size.set($any($event.detail.value))"
+                >
+                  @for (s of sizes; track s.value) {
+                    <ion-segment-button [value]="s.value">
+                      <ion-label>{{ s.label }}</ion-label>
+                    </ion-segment-button>
+                  }
+                </ion-segment>
+                <ion-label slot="start">Size</ion-label>
+              </ion-item>
+            }
+
+            <!-- Constraints -->
+            <ion-item-divider>
+              <ion-label color="primary">Constraints</ion-label>
+            </ion-item-divider>
+
+            <!-- Min -->
+            <ion-item>
+              <ion-input
+                label="Min"
+                [type]="minInputType()"
+                [value]="minValue()"
+                placeholder="e.g. 2024-01-01"
+                (ionInput)="onMinChange($event)"
+              ></ion-input>
+            </ion-item>
+
+            <!-- Max -->
+            <ion-item>
+              <ion-input
+                label="Max"
+                [type]="maxInputType()"
+                [value]="maxValue()"
+                placeholder="e.g. 2025-12-31"
+                (ionInput)="onMaxChange($event)"
+              ></ion-input>
+            </ion-item>
+
+            <!-- Disabled -->
+            <ion-item>
+              <ion-toggle
+                [checked]="disabled()"
+                (ionChange)="disabled.set($event.detail.checked)"
+                justify="space-between"
+              >
+                Disabled
+              </ion-toggle>
+            </ion-item>
+
+            <!-- Readonly -->
+            <ion-item>
+              <ion-toggle
+                [checked]="readonly()"
+                (ionChange)="readonly.set($event.detail.checked)"
+                justify="space-between"
+              >
+                Readonly
+              </ion-toggle>
+            </ion-item>
+
+            <!-- Display -->
+            <ion-item-divider>
+              <ion-label color="primary">Display</ion-label>
+            </ion-item-divider>
+
+            <!-- Hour Cycle (only for time presentations) -->
+            @if (hasTime()) {
+              <ion-item>
+                <ion-segment
+                  [value]="hourCycle()"
+                  (ionChange)="hourCycle.set($any($event.detail.value))"
+                >
+                  @for (h of hourCycles; track h.value) {
+                    <ion-segment-button [value]="h.value">
+                      <ion-label>{{ h.label }}</ion-label>
+                    </ion-segment-button>
+                  }
+                </ion-segment>
+                <ion-label slot="start">Hour Cycle</ion-label>
+              </ion-item>
+            } @else {
+              <ion-item>
+                <ion-note color="medium" slot="end">
+                  Hour cycle only applies to time presentations
+                </ion-note>
+              </ion-item>
+            }
+
+            <!-- Prefer Wheel (only for time) -->
+            @if (hasTime()) {
+              <ion-item>
+                <ion-toggle
+                  [checked]="preferWheel()"
+                  (ionChange)="preferWheel.set($event.detail.checked)"
+                  justify="space-between"
+                >
+                  Prefer Wheel
+                </ion-toggle>
+              </ion-item>
+            }
+
+            <!-- First Day of Week (only for date) -->
+            @if (hasDate()) {
+              <ion-item>
+                <ion-select
+                  label="First Day"
+                  [value]="firstDayOfWeek()"
+                  (ionChange)="firstDayOfWeek.set($event.detail.value)"
+                  interface="popover"
+                >
+                  @for (d of weekDays; track d.value) {
+                    <ion-select-option [value]="d.value">{{ d.label }}</ion-select-option>
+                  }
+                </ion-select>
+              </ion-item>
+            }
+
+            <!-- Multiple (only for date) -->
+            @if (hasDate()) {
+              <ion-item>
+                <ion-toggle
+                  [checked]="multiple()"
+                  (ionChange)="multiple.set($event.detail.checked)"
+                  justify="space-between"
+                >
+                  Multiple Selection
+                </ion-toggle>
+              </ion-item>
+            }
+
+            <!-- Buttons & Labels -->
+            <ion-item-divider>
+              <ion-label color="primary">Buttons &amp; Labels</ion-label>
+            </ion-item-divider>
+
+            <ion-item>
+              <ion-toggle
+                [checked]="showDefaultButtons()"
+                (ionChange)="showDefaultButtons.set($event.detail.checked)"
+                justify="space-between"
+              >
+                Show Default Buttons
+              </ion-toggle>
+            </ion-item>
+
+            <ion-item>
+              <ion-toggle
+                [checked]="showClearButton()"
+                (ionChange)="showClearButton.set($event.detail.checked)"
+                justify="space-between"
+              >
+                Show Clear Button
+              </ion-toggle>
+            </ion-item>
+
+            <ion-item>
+              <ion-toggle
+                [checked]="showDefaultTimeLabel()"
+                (ionChange)="showDefaultTimeLabel.set($event.detail.checked)"
+                justify="space-between"
+              >
+                Show Time Label
+              </ion-toggle>
+            </ion-item>
+
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-text color="medium" class="footer-text">
+      Aspect: {{ isLandscape() ? 'Landscape (Side-by-Side)' : 'Portrait (Stacked)' }}
+      &nbsp;|&nbsp; {{ presentation() }} &nbsp;|&nbsp; {{ color() }}
+    </ion-text>
+  </ion-toolbar>
+</ion-footer>
