@@ -1,0 +1,202 @@
+<div class="native-picker" [class]="'platform-' + platform()" [class.is-disabled]="disabled()" [style.--picker-color]="color()">
+
+  <!-- ==================== DATE-TIME: date first, then time ==================== -->
+  @if (showDateFirst() || presentation() === 'date') {
+    <div class="picker-section">
+      @if (hasCalendar()) {
+        <ng-container *ngTemplateOutlet="calendarTemplate" />
+      }
+      @if (isDateTime()) {
+        <ng-container *ngTemplateOutlet="timeTemplate" />
+      }
+    </div>
+  }
+
+  <!-- ==================== TIME only ==================== -->
+  @if (presentation() === 'time') {
+    <div class="picker-section">
+      <ng-container *ngTemplateOutlet="timeTemplate" />
+    </div>
+  }
+
+  <!-- ==================== TIME-DATE: time first, then date ==================== -->
+  @if (isTimeDate()) {
+    <div class="picker-section">
+      <ng-container *ngTemplateOutlet="timeTemplate" />
+      <ng-container *ngTemplateOutlet="calendarTemplate" />
+    </div>
+  }
+
+  <!-- ==================== WEEK ==================== -->
+  @if (isWeek()) {
+    <div class="picker-section">
+      <ng-container *ngTemplateOutlet="calendarTemplate" />
+    </div>
+  }
+
+  <!-- ==================== MONTH ==================== -->
+  @if (presentation() === 'month') {
+    <div class="picker-section">
+      <ng-container *ngTemplateOutlet="monthTemplate" />
+    </div>
+  }
+
+  <!-- ==================== YEAR ==================== -->
+  @if (presentation() === 'year') {
+    <div class="picker-section">
+      <ng-container *ngTemplateOutlet="yearWheelTemplate" />
+    </div>
+  }
+
+  <!-- ==================== MONTH-YEAR ==================== -->
+  @if (presentation() === 'month-year') {
+    <div class="picker-section picker-section--side-by-side">
+      <ng-container *ngTemplateOutlet="monthTemplate" />
+      <ng-container *ngTemplateOutlet="yearWheelTemplate" />
+    </div>
+  }
+
+  <!-- ==================== Value display ==================== -->
+  @if (value(); as v) {
+    <div class="value-badge">{{ formatDisplayValue(v) }}</div>
+  }
+
+  <!-- ==================== Buttons ==================== -->
+  @if (showClearButton()) {
+    <button class="picker-btn picker-btn-clear" (click)="clearValue()">Clear</button>
+  }
+</div>
+
+<!-- ===================== CALENDAR TEMPLATE ===================== -->
+<ng-template #calendarTemplate>
+  <div class="calendar-view">
+    <div class="calendar-header">
+      <button class="cal-nav-btn" (click)="goToPrevMonth()">&#8249;</button>
+      <span class="cal-title" (click)="viewMonth.set(-1)">
+        {{ monthNames()[viewMonth()] }} {{ viewYear() }}
+      </span>
+      <button class="cal-nav-btn" (click)="goToNextMonth()">&#8250;</button>
+    </div>
+
+    <div class="cal-day-names">
+      @for (name of dayNames(); track name) {
+        <span class="cal-day-name">{{ name }}</span>
+      }
+    </div>
+
+    <div class="cal-grid">
+      @for (week of calendarDays(); track $index) {
+        <div class="cal-week">
+          @for (cell of week; track $index + '-' + cell.day) {
+            <button class="cal-cell"
+              [ngClass]="getDayClass(cell.day, cell.isCurrentMonth)"
+              [disabled]="cell.isCurrentMonth && !isDayInRange(viewYear(), viewMonth(), cell.day)"
+              (click)="onDayClick(cell.day, cell.isCurrentMonth)">
+              {{ cell.day }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</ng-template>
+
+<!-- ===================== TIME WHEEL TEMPLATE ===================== -->
+<ng-template #timeTemplate>
+  <div class="time-wheels">
+    <div class="wheel-mask-top"></div>
+    <div class="wheel-mask-bottom"></div>
+    <div class="wheel-highlight"></div>
+
+    <div class="wheel-col" #hourCol
+      (scroll)="onHourScroll(hourCol)"
+      (click)="onWheelTap(hourCol, $event)"
+      [style.height.px]="ITEM_HEIGHT * VISIBLE_ITEMS">
+      <div class="wheel-scroll" [style.height.px]="columnHeight()">
+        @for (h of hours(); track h) {
+          <div class="wheel-item"
+            [class.selected]="h === selectedHour()"
+            [style.height.px]="ITEM_HEIGHT">
+            {{ hourCycle() === 'h12' ? h : pad(h) }}
+          </div>
+        }
+      </div>
+    </div>
+
+    <span class="wheel-colon">:</span>
+
+    <div class="wheel-col" #minuteCol
+      (scroll)="onMinuteScroll(minuteCol)"
+      (click)="onWheelTap(minuteCol, $event)"
+      [style.height.px]="ITEM_HEIGHT * VISIBLE_ITEMS">
+      <div class="wheel-scroll" [style.height.px]="columnHeight()">
+        @for (m of minutes(); track m) {
+          <div class="wheel-item"
+            [class.selected]="m === selectedMinute()"
+            [style.height.px]="ITEM_HEIGHT">
+            {{ pad(m) }}
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (hourCycle() === 'h12') {
+      <div class="wheel-col wheel-col--ampm" #ampmCol
+        (scroll)="onAmPmScroll(ampmCol)"
+        (click)="onWheelTap(ampmCol, $event)"
+        [style.height.px]="ITEM_HEIGHT * VISIBLE_ITEMS">
+        <div class="wheel-scroll" [style.height.px]="2 * ITEM_HEIGHT">
+          <div class="wheel-item"
+            [class.selected]="selectedPeriod() === 'AM'"
+            [style.height.px]="ITEM_HEIGHT">AM</div>
+          <div class="wheel-item"
+            [class.selected]="selectedPeriod() === 'PM'"
+            [style.height.px]="ITEM_HEIGHT">PM</div>
+        </div>
+      </div>
+    }
+  </div>
+</ng-template>
+
+<!-- ===================== MONTH GRID TEMPLATE ===================== -->
+<ng-template #monthTemplate>
+  <div class="month-view">
+    <div class="calendar-header">
+      <button class="cal-nav-btn" (click)="goToPrevYear()">&#8249;</button>
+      <span class="cal-title">{{ viewYear() }}</span>
+      <button class="cal-nav-btn" (click)="goToNextYear()">&#8250;</button>
+    </div>
+    <div class="month-grid">
+      @for (m of monthNames(); track m; let i = $index) {
+        <button class="month-cell"
+          [class.is-selected]="i === selectedMonth() && viewYear() === selectedYear()"
+          (click)="onMonthClick(i)">
+          {{ m }}
+        </button>
+      }
+    </div>
+  </div>
+</ng-template>
+
+<!-- ===================== YEAR WHEEL TEMPLATE ===================== -->
+<ng-template #yearWheelTemplate>
+  <div class="year-wheel">
+    <div class="wheel-mask-top"></div>
+    <div class="wheel-mask-bottom"></div>
+    <div class="wheel-highlight"></div>
+    <div class="wheel-col wheel-col--year" #yearCol
+      (scroll)="onYearScroll(yearCol)"
+      (click)="onYearTap(yearCol, $event)"
+      [style.height.px]="ITEM_HEIGHT * VISIBLE_ITEMS">
+      <div class="wheel-scroll" [style.height.px]="yearRange().length * ITEM_HEIGHT">
+        @for (y of yearRange(); track y) {
+          <div class="wheel-item"
+            [class.selected]="y === selectedYearList()"
+            [style.height.px]="ITEM_HEIGHT">
+            {{ y }}
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</ng-template>
