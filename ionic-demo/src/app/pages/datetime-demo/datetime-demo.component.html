@@ -30,8 +30,10 @@
               (valueChange)="value.set($event)"
               [presentation]="presentation()"
               [multiple]="multiple()"
-              [min]="minValue()"
-              [max]="maxValue()"
+              [min]="minValue() || undefined"
+              [max]="maxValue() || undefined"
+              [hourValues]="hourValues() || undefined"
+              [minuteValues]="minuteValues() || undefined"
               [disabled]="disabled()"
               [readonly]="readonly()"
               [preferWheel]="hasTime() ? preferWheel() : false"
@@ -181,6 +183,38 @@
                 (ionInput)="onMaxChange($event)"
               ></ion-input>
             </ion-item>
+
+            <!-- Hour Values (time-only) -->
+            @if (hasTime()) {
+              <ion-item>
+                <ion-select
+                  label="Hour Values"
+                  [value]="hourValues()"
+                  (ionChange)="hourValues.set($event.detail.value)"
+                  interface="popover"
+                >
+                  @for (h of HOUR_VALUE_PRESETS; track h.value) {
+                    <ion-select-option [value]="h.value">{{ h.label }}</ion-select-option>
+                  }
+                </ion-select>
+              </ion-item>
+            }
+
+            <!-- Minute Values (time-only) -->
+            @if (hasTime()) {
+              <ion-item>
+                <ion-select
+                  label="Minute Values"
+                  [value]="minuteValues()"
+                  (ionChange)="minuteValues.set($event.detail.value)"
+                  interface="popover"
+                >
+                  @for (m of MINUTE_VALUE_PRESETS; track m.value) {
+                    <ion-select-option [value]="m.value">{{ m.label }}</ion-select-option>
+                  }
+                </ion-select>
+              </ion-item>
+            }
 
             <!-- Disabled -->
             <ion-item>

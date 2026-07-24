@@ -13,6 +13,7 @@ import { DatetimePlusComponent } from '../../components/datetime-plus/datetime-p
 import {
   Presentation, HourCycle, DatetimeSize, Color,
   PRESENTATIONS, HOUR_CYCLES, SIZES, WEEK_DAYS, LOCALES, COLORS,
+  HOUR_VALUE_PRESETS, MINUTE_VALUE_PRESETS,
 } from '../../components/datetime-plus/datetime-plus.constants';
 
 @Component({
@@ -45,6 +46,8 @@ export class DatetimeDemoComponent {
   value = signal<string | string[] | null | undefined>(undefined);
   minValue = signal('');
   maxValue = signal('');
+  hourValues = signal('');
+  minuteValues = signal('');
   disabled = signal(false);
   readonly = signal(false);
   preferWheel = signal(false);
@@ -64,6 +67,8 @@ export class DatetimeDemoComponent {
   WEEK_DAYS = WEEK_DAYS;
   LOCALES = LOCALES;
   COLORS = COLORS;
+  HOUR_VALUE_PRESETS = HOUR_VALUE_PRESETS;
+  MINUTE_VALUE_PRESETS = MINUTE_VALUE_PRESETS;
 
   hasTime = computed(() =>
     ['time', 'date-time', 'time-date'].includes(this.presentation())
@@ -103,25 +108,15 @@ export class DatetimeDemoComponent {
     return `${fmt(weekStart)} \u2013 ${fmt(weekEnd)}, ${weekEnd.getFullYear()}`;
   });
 
-  onMinChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.minValue.set(input.value);
+  onMinChange(event: CustomEvent) {
+    this.minValue.set(event.detail.value ?? '');
   }
 
-  onMaxChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.maxValue.set(input.value);
+  onMaxChange(event: CustomEvent) {
+    this.maxValue.set(event.detail.value ?? '');
   }
 
   clearValue() {
     this.value.set(undefined);
-  }
-
-  clearMin() {
-    this.minValue.set('');
-  }
-
-  clearMax() {
-    this.maxValue.set('');
   }
 }

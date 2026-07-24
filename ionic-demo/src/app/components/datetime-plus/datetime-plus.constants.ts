@@ -55,3 +55,20 @@ export const LOCALES: Option<string>[] = [
 export const COLORS: Color[] = [
   'primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'light', 'medium', 'dark',
 ];
+
+export const HOUR_VALUE_PRESETS: Option<string>[] = [
+  { value: '', label: 'All Hours' },
+  { value: '9,10,11,12,13,14,15,16,17', label: 'Business Hours (9-17)' },
+  { value: '6,7,8,9,10,11,12', label: 'Morning (6-12)' },
+  { value: '12,13,14,15,16,17,18', label: 'Afternoon (12-18)' },
+  { value: '18,19,20,21,22,23', label: 'Evening (18-24)' },
+  { value: '0,1,2,3,4,5,6', label: 'Night (0-6)' },
+];
+
+export const MINUTE_VALUE_PRESETS: Option<string>[] = [
+  { value: '', label: 'All Minutes' },
+  { value: '0,5,10,15,20,25,30,35,40,45,50,55', label: 'Every 5 min' },
+  { value: '0,10,20,30,40,50', label: 'Every 10 min' },
+  { value: '0,15,30,45', label: 'Every 15 min' },
+  { value: '0,30', label: 'Every 30 min' },
+];

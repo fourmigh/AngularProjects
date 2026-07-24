@@ -13,10 +13,12 @@ export class DatetimePlusComponent {
 
   presentation = input<DatetimePresentation | 'week'>('date-time');
   multiple = input(false);
-  min = input('');
-  max = input('');
+  min = input<string | undefined>(undefined);
+  max = input<string | undefined>(undefined);
   disabled = input(false);
   readonly = input(false);
+  hourValues = input<number[] | string | undefined>();
+  minuteValues = input<number[] | string | undefined>();
   preferWheel = input(false);
   hourCycle = input<DatetimeHourCycle | undefined>(undefined);
   showDefaultButtons = input(false);
