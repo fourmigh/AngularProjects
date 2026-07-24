@@ -9,12 +9,11 @@ import {
   IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
   IonBadge, IonChip, IonButton, IonButtons, IonFooter,
 } from '@ionic/angular/standalone';
-import type { DatetimePresentation, DatetimeHourCycle, Color } from '@ionic/core/components';
 import { DatetimePlusComponent } from '../../components/datetime-plus/datetime-plus.component';
-
-type Presentation = DatetimePresentation | 'week';
-type HourCycle = DatetimeHourCycle;
-type DatetimeSize = 'cover' | 'fixed';
+import {
+  Presentation, HourCycle, DatetimeSize, Color,
+  PRESENTATIONS, HOUR_CYCLES, SIZES, WEEK_DAYS, LOCALES, COLORS,
+} from '../../components/datetime-plus/datetime-plus.constants';
 
 @Component({
   selector: 'app-datetime-demo',
@@ -59,49 +58,12 @@ export class DatetimeDemoComponent {
   locale = signal('en-US');
   color = signal<Color>('primary');
 
-  presentations: { value: Presentation; label: string }[] = [
-    { value: 'time', label: 'Time' },
-    { value: 'date', label: 'Date' },
-    { value: 'date-time', label: 'Date-Time' },
-    { value: 'time-date', label: 'Time-Date' },
-    { value: 'week', label: 'Week' },
-    { value: 'month', label: 'Month' },
-    { value: 'month-year', label: 'Month-Year' },
-    { value: 'year', label: 'Year' },
-  ];
-
-  hourCycles: { value: HourCycle; label: string }[] = [
-    { value: 'h12', label: '12 Hour' },
-    { value: 'h24', label: '24 Hour' },
-  ];
-
-  sizes: { value: DatetimeSize; label: string }[] = [
-    { value: 'cover', label: 'Cover' },
-    { value: 'fixed', label: 'Fixed' },
-  ];
-
-  weekDays: { value: number; label: string }[] = [
-    { value: 0, label: 'Sunday' },
-    { value: 1, label: 'Monday' },
-    { value: 2, label: 'Tuesday' },
-    { value: 3, label: 'Wednesday' },
-    { value: 4, label: 'Thursday' },
-    { value: 5, label: 'Friday' },
-    { value: 6, label: 'Saturday' },
-  ];
-
-  locales: { value: string; label: string }[] = [
-    { value: 'en-US', label: 'English (US)' },
-    { value: 'zh-CN', label: '中文 (中国)' },
-    { value: 'ja-JP', label: '日本語' },
-    { value: 'es-ES', label: 'Espa\u00F1ol' },
-    { value: 'fr-FR', label: 'Fran\u00E7ais' },
-    { value: 'de-DE', label: 'Deutsch' },
-    { value: 'ko-KR', label: '\uD55C\uAD6D\uC5B4' },
-    { value: 'ar-SA', label: '\u0627\u0644\u0639\u0631\u0628\u064A\u0629' },
-  ];
-
-  colors: Color[] = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'light', 'medium', 'dark'];
+  PRESENTATIONS = PRESENTATIONS;
+  HOUR_CYCLES = HOUR_CYCLES;
+  SIZES = SIZES;
+  WEEK_DAYS = WEEK_DAYS;
+  LOCALES = LOCALES;
+  COLORS = COLORS;
 
   hasTime = computed(() =>
     ['time', 'date-time', 'time-date'].includes(this.presentation())

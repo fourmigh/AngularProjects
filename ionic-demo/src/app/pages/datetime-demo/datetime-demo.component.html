@@ -99,7 +99,7 @@
                 (ionChange)="presentation.set($any($event.detail.value))"
                 [scrollable]="true"
               >
-                @for (p of presentations; track p.value) {
+                @for (p of PRESENTATIONS; track p.value) {
                   <ion-segment-button [value]="p.value">
                     <ion-label>{{ p.label }}</ion-label>
                   </ion-segment-button>
@@ -118,7 +118,7 @@
                 (ionChange)="color.set($event.detail.value)"
                 interface="popover"
               >
-                @for (c of colors; track c) {
+                @for (c of COLORS; track c) {
                   <ion-select-option [value]="c">{{ c }}</ion-select-option>
                 }
               </ion-select>
@@ -132,7 +132,7 @@
                 (ionChange)="locale.set($event.detail.value)"
                 interface="popover"
               >
-                @for (l of locales; track l.value) {
+                @for (l of LOCALES; track l.value) {
                   <ion-select-option [value]="l.value">{{ l.label }}</ion-select-option>
                 }
               </ion-select>
@@ -145,7 +145,7 @@
                   [value]="size()"
                   (ionChange)="size.set($any($event.detail.value))"
                 >
-                  @for (s of sizes; track s.value) {
+                  @for (s of SIZES; track s.value) {
                     <ion-segment-button [value]="s.value">
                       <ion-label>{{ s.label }}</ion-label>
                     </ion-segment-button>
@@ -216,7 +216,7 @@
                   [value]="hourCycle()"
                   (ionChange)="hourCycle.set($any($event.detail.value))"
                 >
-                  @for (h of hourCycles; track h.value) {
+                  @for (h of HOUR_CYCLES; track h.value) {
                     <ion-segment-button [value]="h.value">
                       <ion-label>{{ h.label }}</ion-label>
                     </ion-segment-button>
@@ -254,7 +254,7 @@
                   (ionChange)="firstDayOfWeek.set($event.detail.value)"
                   interface="popover"
                 >
-                  @for (d of weekDays; track d.value) {
+                  @for (d of WEEK_DAYS; track d.value) {
                     <ion-select-option [value]="d.value">{{ d.label }}</ion-select-option>
                   }
                 </ion-select>

@@ -23,7 +23,7 @@ export class DatetimePlusComponent {
   showClearButton = input(false);
   showDefaultTimeLabel = input(true);
   size = input<'cover' | 'fixed'>('cover');
-  firstDayOfWeek = input(0);
+  firstDayOfWeek = input<number | undefined>(0);
   locale = input('en-US');
   color = input<Color>('primary');
 
@@ -82,7 +82,7 @@ export class DatetimePlusComponent {
   getWeekDates(picked: string): string[] {
     const d = new Date(picked);
     const day = d.getDay();
-    const firstDay = this.firstDayOfWeek();
+    const firstDay = this.firstDayOfWeek() ?? 0;
     const diffToFirst = (day - firstDay + 7) % 7;
     const weekStart = new Date(d);
     weekStart.setDate(d.getDate() - diffToFirst);
