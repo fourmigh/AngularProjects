@@ -121,8 +121,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 72px;
-  padding-bottom: 72px;
+}
+
+.wheel-spacer {
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 .wheel-item {

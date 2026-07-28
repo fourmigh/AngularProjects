@@ -241,7 +241,7 @@ export function getWeekRange(year: number, month: number, day: number): { year: 
 
 export function generateMinutes(interval: number): number[] {
   if (interval < 1) interval = 1;
-  if (interval > 30) interval = 30;
+  if (interval > 60) interval = 60;
   const minutes: number[] = [];
   for (let m = 0; m < 60; m += interval) minutes.push(m);
   return minutes;

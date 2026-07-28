@@ -10,6 +10,10 @@ import {
 
 const ITEM_HEIGHT = 36;
 const VISIBLE_ITEMS = 5;
+const SPACER_COUNT = 3;
+// scroll-snap-align:center snaps item i to scrollTop = (i + offset) * ITEM_HEIGHT
+// offset = SPACER_COUNT + 0.5 - VISIBLE_ITEMS / 2 = 1
+const SCROLL_IDX_OFFSET = SPACER_COUNT + 0.5 - VISIBLE_ITEMS / 2;
 
 @Component({
   selector: 'app-native-time-picker',
@@ -38,6 +42,7 @@ export class NativeTimePickerComponent implements AfterViewInit {
   // ---- Visual constants ----
   readonly ITEM_HEIGHT = ITEM_HEIGHT;
   readonly VISIBLE_ITEMS = VISIBLE_ITEMS;
+  readonly SPACER_COUNT = SPACER_COUNT;
 
   // ---- Derived state ----
   hours = computed(() => generateHours(this.hourCycle()));
@@ -57,11 +62,6 @@ export class NativeTimePickerComponent implements AfterViewInit {
   isWeek = computed(() => this.presentation() === 'week');
 
   showDateFirst = computed(() => this.isDateTime() || this.presentation() === 'date');
-
-  columnHeight = computed(() => {
-    const maxItems = Math.max(this.hours().length, this.minutes().length, 2);
-    return maxItems * ITEM_HEIGHT;
-  });
 
   selectedDates = signal<Set<string>>(new Set());
   weekDates = signal<string[]>([]);
@@ -247,7 +247,7 @@ export class NativeTimePickerComponent implements AfterViewInit {
   });
 
   onYearScroll(container: HTMLElement) {
-    const idx = Math.round(container.scrollTop / ITEM_HEIGHT);
+    const idx = Math.round(container.scrollTop / ITEM_HEIGHT) - SCROLL_IDX_OFFSET;
     const y = this.yearRange()[idx];
     if (y !== undefined) {
       this.selectedYearList.set(y);
@@ -263,15 +263,15 @@ export class NativeTimePickerComponent implements AfterViewInit {
     const offsetY = clientY - rect.top;
     const centerY = rect.height / 2;
     const idxOffset = Math.round((offsetY - centerY) / ITEM_HEIGHT);
-    const currentIdx = Math.round(container.scrollTop / ITEM_HEIGHT);
+    const currentIdx = Math.round(container.scrollTop / ITEM_HEIGHT) - SCROLL_IDX_OFFSET;
     const targetIdx = Math.max(0, currentIdx + idxOffset);
-    container.scrollTo({ top: targetIdx * ITEM_HEIGHT, behavior: 'smooth' });
+    container.scrollTo({ top: (targetIdx + SCROLL_IDX_OFFSET) * ITEM_HEIGHT, behavior: 'smooth' });
   }
 
   // ===================== Time wheels =====================
 
   onHourScroll(container: HTMLElement) {
-    const idx = Math.round(container.scrollTop / ITEM_HEIGHT);
+    const idx = Math.round(container.scrollTop / ITEM_HEIGHT) - SCROLL_IDX_OFFSET;
     const h = this.hours()[idx];
     if (h !== undefined) {
       this.selectedHour.set(h);
@@ -280,7 +280,7 @@ export class NativeTimePickerComponent implements AfterViewInit {
   }
 
   onMinuteScroll(container: HTMLElement) {
-    const idx = Math.round(container.scrollTop / ITEM_HEIGHT);
+    const idx = Math.round(container.scrollTop / ITEM_HEIGHT) - SCROLL_IDX_OFFSET;
     const m = this.minutes()[idx];
     if (m !== undefined) {
       this.selectedMinute.set(m);
@@ -289,7 +289,7 @@ export class NativeTimePickerComponent implements AfterViewInit {
   }
 
   onAmPmScroll(container: HTMLElement) {
-    const idx = Math.round(container.scrollTop / ITEM_HEIGHT);
+    const idx = Math.round(container.scrollTop / ITEM_HEIGHT) - SCROLL_IDX_OFFSET;
     this.selectedPeriod.set(idx === 0 ? 'AM' : 'PM');
     this.emitValue();
   }
@@ -300,10 +300,9 @@ export class NativeTimePickerComponent implements AfterViewInit {
     const offsetY = clientY - rect.top;
     const centerY = rect.height / 2;
     const idxOffset = Math.round((offsetY - centerY) / ITEM_HEIGHT);
-    const currentIdx = Math.round(container.scrollTop / ITEM_HEIGHT);
-    const totalItems = Math.round(this.columnHeight() / ITEM_HEIGHT);
-    const targetIdx = Math.max(0, Math.min(currentIdx + idxOffset, totalItems - 1));
-    container.scrollTo({ top: targetIdx * ITEM_HEIGHT, behavior: 'smooth' });
+    const currentIdx = Math.round(container.scrollTop / ITEM_HEIGHT) - SCROLL_IDX_OFFSET;
+    const targetIdx = Math.max(0, currentIdx + idxOffset);
+    container.scrollTo({ top: (targetIdx + SCROLL_IDX_OFFSET) * ITEM_HEIGHT, behavior: 'smooth' });
   }
 
   pad(n: number): string {
@@ -374,10 +373,14 @@ export class NativeTimePickerComponent implements AfterViewInit {
     };
     const el = map[column]();
     if (!el) return;
-    el.nativeElement.scrollTop = index * ITEM_HEIGHT;
+    el.nativeElement.scrollTop = (index + SCROLL_IDX_OFFSET) * ITEM_HEIGHT;
   }
 
   // ===================== Template helpers =====================
+
+  range(n: number): number[] {
+    return Array.from({ length: n }, (_, i) => i);
+  }
 
   isValueArray(val: string | string[] | null | undefined): val is string[] {
     return Array.isArray(val);

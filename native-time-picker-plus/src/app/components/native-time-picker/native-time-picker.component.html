@@ -112,13 +112,19 @@
       (scroll)="onHourScroll(hourCol)"
       (click)="onWheelTap(hourCol, $event)"
       [style.height.px]="ITEM_HEIGHT * VISIBLE_ITEMS">
-      <div class="wheel-scroll" [style.height.px]="columnHeight()">
+      <div class="wheel-scroll">
+        @for (_ of range(SPACER_COUNT); track $index) {
+          <div class="wheel-spacer" [style.height.px]="ITEM_HEIGHT"></div>
+        }
         @for (h of hours(); track h) {
           <div class="wheel-item"
             [class.selected]="h === selectedHour()"
             [style.height.px]="ITEM_HEIGHT">
             {{ hourCycle() === 'h12' ? h : pad(h) }}
           </div>
+        }
+        @for (_ of range(SPACER_COUNT); track $index) {
+          <div class="wheel-spacer" [style.height.px]="ITEM_HEIGHT"></div>
         }
       </div>
     </div>
@@ -129,13 +135,19 @@
       (scroll)="onMinuteScroll(minuteCol)"
       (click)="onWheelTap(minuteCol, $event)"
       [style.height.px]="ITEM_HEIGHT * VISIBLE_ITEMS">
-      <div class="wheel-scroll" [style.height.px]="columnHeight()">
+      <div class="wheel-scroll">
+        @for (_ of range(SPACER_COUNT); track $index) {
+          <div class="wheel-spacer" [style.height.px]="ITEM_HEIGHT"></div>
+        }
         @for (m of minutes(); track m) {
           <div class="wheel-item"
             [class.selected]="m === selectedMinute()"
             [style.height.px]="ITEM_HEIGHT">
             {{ pad(m) }}
           </div>
+        }
+        @for (_ of range(SPACER_COUNT); track $index) {
+          <div class="wheel-spacer" [style.height.px]="ITEM_HEIGHT"></div>
         }
       </div>
     </div>
@@ -145,13 +157,19 @@
         (scroll)="onAmPmScroll(ampmCol)"
         (click)="onWheelTap(ampmCol, $event)"
         [style.height.px]="ITEM_HEIGHT * VISIBLE_ITEMS">
-        <div class="wheel-scroll" [style.height.px]="2 * ITEM_HEIGHT">
+        <div class="wheel-scroll">
+          @for (_ of range(SPACER_COUNT); track $index) {
+            <div class="wheel-spacer" [style.height.px]="ITEM_HEIGHT"></div>
+          }
           <div class="wheel-item"
             [class.selected]="selectedPeriod() === 'AM'"
             [style.height.px]="ITEM_HEIGHT">AM</div>
           <div class="wheel-item"
             [class.selected]="selectedPeriod() === 'PM'"
             [style.height.px]="ITEM_HEIGHT">PM</div>
+          @for (_ of range(SPACER_COUNT); track $index) {
+            <div class="wheel-spacer" [style.height.px]="ITEM_HEIGHT"></div>
+          }
         </div>
       </div>
     }
@@ -188,13 +206,19 @@
       (scroll)="onYearScroll(yearCol)"
       (click)="onYearTap(yearCol, $event)"
       [style.height.px]="ITEM_HEIGHT * VISIBLE_ITEMS">
-      <div class="wheel-scroll" [style.height.px]="yearRange().length * ITEM_HEIGHT">
+      <div class="wheel-scroll">
+        @for (_ of range(SPACER_COUNT); track $index) {
+          <div class="wheel-spacer" [style.height.px]="ITEM_HEIGHT"></div>
+        }
         @for (y of yearRange(); track y) {
           <div class="wheel-item"
             [class.selected]="y === selectedYearList()"
             [style.height.px]="ITEM_HEIGHT">
             {{ y }}
           </div>
+        }
+        @for (_ of range(SPACER_COUNT); track $index) {
+          <div class="wheel-spacer" [style.height.px]="ITEM_HEIGHT"></div>
         }
       </div>
     </div>

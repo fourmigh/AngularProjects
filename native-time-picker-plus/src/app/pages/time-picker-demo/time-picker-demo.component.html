@@ -146,6 +146,7 @@
                 <ion-segment
                   [value]="minuteInterval()"
                   (ionChange)="minuteInterval.set($any($event.detail.value))"
+                  [scrollable]="true"
                 >
                   @for (iv of intervals; track iv) {
                     <ion-segment-button [value]="iv">

@@ -54,7 +54,7 @@ export class TimePickerDemoComponent {
   firstDayOfWeek = signal(0);
   showClearButton = signal(false);
 
-  readonly intervals: number[] = [1, 5, 10, 15, 30];
+  readonly intervals: number[] = [1, 5, 10, 15, 30, 60];
   readonly presentations = PRESENTATIONS;
   readonly platforms = PLATFORMS;
   readonly colors = COLORS;
