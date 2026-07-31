@@ -1,0 +1,101 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.editor-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #1e1e1e;
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-bottom: 1px solid #333;
+  background: #252526;
+}
+
+.editor-title {
+  color: #e6e6e6;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.file-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #9d9d9d;
+  font-size: 12px;
+}
+
+.file-picker select {
+  padding: 5px 8px;
+  border: 1px solid #3c3c3c;
+  border-radius: 6px;
+  background: #333;
+  color: #e6e6e6;
+  font-size: 12px;
+  font-family: 'Cascadia Code', Consolas, monospace;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.btn {
+  padding: 6px 14px;
+  border: 1px solid #3c3c3c;
+  border-radius: 6px;
+  background: #333;
+  color: #e6e6e6;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn:hover {
+  background: #404040;
+}
+
+.btn.primary {
+  border-color: #4f6ef7;
+  background: #4f6ef7;
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: #3f5af0;
+}
+
+.editor-hint {
+  padding: 8px 16px;
+  border-bottom: 1px solid #333;
+  background: #2b2b2b;
+  color: #9d9d9d;
+  font-size: 12px;
+}
+
+.monaco-container {
+  flex: 1;
+  min-height: 0;
+}
+
+.editor-status {
+  padding: 8px 16px;
+  border-top: 1px solid #333;
+  background: #252526;
+  color: #6a9955;
+  font-size: 12px;
+}
+
+.editor-status.error {
+  color: #f48771;
+}

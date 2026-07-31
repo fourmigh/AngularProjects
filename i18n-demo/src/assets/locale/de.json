@@ -1,0 +1,21 @@
+{
+  "demo.title": "Angular natives i18n-Demo",
+  "demo.subtitle": "Mit @angular/localize · Laufzeit-$localize + loadTranslations",
+  "demo.welcome": "Hallo, {$USER}!",
+  "demo.intro": "Live-Demo der eingebauten Angular-i18n. Klicken Sie links auf eine Sprache, um sofort ohne Neubuild zu wechseln, oder bearbeiten Sie die JSON-Konfiguration rechts und klicken Sie auf Anwenden.",
+  "demo.items": "Sie haben {$COUNT} Artikel im Warenkorb",
+  "demo.currentLanguage": "Aktuelle Sprache",
+  "demo.date": "Lokalisiertes Datum",
+  "demo.number": "Lokalisierte Zahl",
+  "demo.tip": "Tipp: $localize in TS und i18n-Attribute in Templates unterstützen beide die Laufzeit-Übersetzung per loadTranslations.",
+  "demo.renders": "Komponenten-Neuaufbauten",
+  "demo.editor.title": "Sprachkonfiguration bearbeiten",
+  "demo.editor.file": "Konfigurationsdatei",
+  "demo.editor.hint": "JSON bearbeiten und auf Anwenden klicken; Zurücksetzen stellt die Standardkonfiguration wieder her.",
+  "demo.editor.apply": "Anwenden",
+  "demo.editor.reset": "Zurücksetzen",
+  "demo.editor.download": "Herunterladen",
+  "demo.editor.valid": "Angewendet · {N} Schlüssel",
+  "demo.editor.invalid": "JSON-Parsefehler:",
+  "demo.editor.keys": "{N} Übersetzungsschlüssel"
+}

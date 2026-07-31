@@ -1,0 +1,21 @@
+{
+  "demo.title": "Angular Native i18n Demo",
+  "demo.subtitle": "Built with @angular/localize · runtime $localize + loadTranslations",
+  "demo.welcome": "Hello, {$USER}!",
+  "demo.intro": "This is a live demo of Angular's built-in i18n. Click a language button on the left to switch instantly without rebuilding, or edit the JSON config in the editor and press Apply.",
+  "demo.items": "You have {$COUNT} items in your cart",
+  "demo.currentLanguage": "Current language",
+  "demo.date": "Localized date",
+  "demo.number": "Localized number",
+  "demo.tip": "Tip: $localize in TS and i18n attributes in templates both support runtime translation via loadTranslations.",
+  "demo.renders": "Component rebuilds",
+  "demo.editor.title": "Edit Language Config",
+  "demo.editor.file": "Config file",
+  "demo.editor.hint": "Edit the JSON then click Apply; Reset restores the default config.",
+  "demo.editor.apply": "Apply",
+  "demo.editor.reset": "Reset",
+  "demo.editor.download": "Download",
+  "demo.editor.valid": "Applied · {N} keys",
+  "demo.editor.invalid": "JSON parse error:",
+  "demo.editor.keys": "{N} translation keys"
+}

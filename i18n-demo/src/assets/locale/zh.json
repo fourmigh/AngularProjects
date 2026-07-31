@@ -1,0 +1,21 @@
+{
+  "demo.title": "Angular 原生 i18n 演示",
+  "demo.subtitle": "基于 @angular/localize · 运行时 $localize + loadTranslations",
+  "demo.welcome": "你好，{$USER}！",
+  "demo.intro": "这是 Angular 内置 i18n（@angular/localize）的在线演示：点击左侧语言按钮即可即时切换，无需重新构建；也可以在右侧编辑器中修改 JSON 配置文件，点击“应用”后左侧立即生效。",
+  "demo.items": "你的购物车中有 {$COUNT} 件商品",
+  "demo.currentLanguage": "当前语言",
+  "demo.date": "本地化日期",
+  "demo.number": "本地化数字",
+  "demo.tip": "提示：TS 中的 $localize 与模板中的 i18n 属性，都可以通过 loadTranslations 在运行时动态翻译。",
+  "demo.renders": "组件重建次数",
+  "demo.editor.title": "编辑语言配置文件",
+  "demo.editor.file": "配置文件",
+  "demo.editor.hint": "修改 JSON 后点击“应用”即时生效；“重置”恢复默认配置。",
+  "demo.editor.apply": "应用",
+  "demo.editor.reset": "重置",
+  "demo.editor.download": "下载",
+  "demo.editor.valid": "已应用 · 共 {N} 条",
+  "demo.editor.invalid": "JSON 解析错误：",
+  "demo.editor.keys": "共 {N} 条翻译键"
+}

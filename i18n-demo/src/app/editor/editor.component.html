@@ -1,0 +1,30 @@
+<section class="editor-shell">
+  <header class="editor-toolbar">
+    <span class="editor-title">{{ label('demo.editor.title') }}</span>
+    <label class="file-picker">
+      <span class="file-picker-label">{{ label('demo.editor.file') }}</span>
+      <select [value]="selected()" (change)="onSelect($event)">
+        @for (lang of languages; track lang.id) {
+          <option [value]="lang.id">{{ lang.file }}</option>
+        }
+      </select>
+    </label>
+    <div class="editor-actions">
+      <button class="btn primary" (click)="apply()">{{ label('demo.editor.apply') }}</button>
+      <button class="btn" (click)="reset()">{{ label('demo.editor.reset') }}</button>
+      <button class="btn" (click)="download()">{{ label('demo.editor.download') }}</button>
+    </div>
+  </header>
+
+  <div class="editor-hint">{{ label('demo.editor.hint') }}</div>
+
+  <div #monacoContainer class="monaco-container"></div>
+
+  <footer class="editor-status" [class.error]="isError()">
+    @if (status()) {
+      <span>{{ status() }}</span>
+    } @else {
+      <span>{{ fileStats() }}</span>
+    }
+  </footer>
+</section>
