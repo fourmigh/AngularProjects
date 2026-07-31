@@ -382,6 +382,13 @@ export class NativeTimePickerComponent implements AfterViewInit {
     return Array.from({ length: n }, (_, i) => i);
   }
 
+  private static readonly IONIC_COLORS = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'light', 'medium', 'dark'];
+
+  resolvedColor(): string {
+    const c = this.color();
+    return NativeTimePickerComponent.IONIC_COLORS.includes(c) ? `var(--ion-color-${c})` : c;
+  }
+
   isValueArray(val: string | string[] | null | undefined): val is string[] {
     return Array.isArray(val);
   }

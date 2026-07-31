@@ -241,6 +241,7 @@
     background: var(--picker-color);
     color: #fff;
     font-weight: 600;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--picker-color) 35%, transparent);
   }
 
   &.in-week {

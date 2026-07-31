@@ -1,4 +1,4 @@
-<div class="native-picker" [class]="'platform-' + platform()" [class.is-disabled]="disabled()" [style.--picker-color]="color()">
+<div class="native-picker" [class]="'platform-' + platform()" [class.is-disabled]="disabled()" [style.--picker-color]="resolvedColor()">
 
   <!-- ==================== DATE-TIME: date first, then time ==================== -->
   @if (showDateFirst() || presentation() === 'date') {
