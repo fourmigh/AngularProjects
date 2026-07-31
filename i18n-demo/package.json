@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0 --poll 2000",
+    "start": "npm run i18n:split && ng serve --host 0.0.0.0 --poll 2000",
+    "i18n:split": "node scripts/split-i18n.mjs",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

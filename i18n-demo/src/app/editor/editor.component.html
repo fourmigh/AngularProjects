@@ -1,14 +1,14 @@
 <section class="editor-shell">
   <header class="editor-toolbar">
     <span class="editor-title">{{ label('demo.editor.title') }}</span>
-    <label class="file-picker">
-      <span class="file-picker-label">{{ label('demo.editor.file') }}</span>
-      <select [value]="selected()" (change)="onSelect($event)">
-        @for (lang of languages; track lang.id) {
-          <option [value]="lang.id">{{ lang.file }}</option>
-        }
-      </select>
-    </label>
+    <div class="lang-checks">
+      @for (lang of languages; track lang.id) {
+        <label class="lang-check">
+          <input type="checkbox" [checked]="checked()[lang.id]" (change)="onToggle(lang.id)" />
+          <span>{{ lang.label }}</span>
+        </label>
+      }
+    </div>
     <div class="editor-actions">
       <button class="btn primary" (click)="apply()">{{ label('demo.editor.apply') }}</button>
       <button class="btn" (click)="reset()">{{ label('demo.editor.reset') }}</button>

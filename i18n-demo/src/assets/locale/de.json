@@ -11,7 +11,7 @@
   "demo.renders": "Komponenten-Neuaufbauten",
   "demo.editor.title": "Sprachkonfiguration bearbeiten",
   "demo.editor.file": "Konfigurationsdatei",
-  "demo.editor.hint": "JSON bearbeiten und auf Anwenden klicken; Zurücksetzen stellt die Standardkonfiguration wieder her.",
+  "demo.editor.hint": "translations.json bearbeiten, Sprachen auswählen und auf Anwenden klicken; die Auswahl wird beim Download für das lokale Split-Skript exportiert.",
   "demo.editor.apply": "Anwenden",
   "demo.editor.reset": "Zurücksetzen",
   "demo.editor.download": "Herunterladen",

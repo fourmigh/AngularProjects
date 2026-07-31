@@ -26,22 +26,24 @@
   font-weight: 600;
 }
 
-.file-picker {
+.lang-checks {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #9d9d9d;
-  font-size: 12px;
+  gap: 12px;
+  color: #e6e6e6;
+  font-size: 13px;
 }
 
-.file-picker select {
-  padding: 5px 8px;
-  border: 1px solid #3c3c3c;
-  border-radius: 6px;
-  background: #333;
-  color: #e6e6e6;
-  font-size: 12px;
-  font-family: 'Cascadia Code', Consolas, monospace;
+.lang-check {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.lang-check input {
+  cursor: pointer;
+  accent-color: #4f6ef7;
 }
 
 .editor-actions {

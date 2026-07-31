@@ -58,6 +58,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "/assets"
+              },
+              {
+                "glob": "translations.json",
+                "input": "src/i18n",
+                "output": "/i18n"
               }
             ],
             "styles": [

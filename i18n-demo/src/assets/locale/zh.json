@@ -11,7 +11,7 @@
   "demo.renders": "组件重建次数",
   "demo.editor.title": "编辑语言配置文件",
   "demo.editor.file": "配置文件",
-  "demo.editor.hint": "修改 JSON 后点击“应用”即时生效；“重置”恢复默认配置。",
+  "demo.editor.hint": "编辑合并的 translations.json，勾选语言后点击“应用”即时生效；勾选会随“下载”导出，供本地拆分使用。",
   "demo.editor.apply": "应用",
   "demo.editor.reset": "重置",
   "demo.editor.download": "下载",

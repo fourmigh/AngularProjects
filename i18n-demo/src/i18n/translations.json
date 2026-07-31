@@ -1,0 +1,102 @@
+{
+  "$languages": [
+    "zh",
+    "en",
+    "de"
+  ],
+  "demo.title": {
+    "zh": "Angular 原生 i18n 演示",
+    "en": "Angular Native i18n Demo",
+    "de": "Angular natives i18n-Demo"
+  },
+  "demo.subtitle": {
+    "zh": "基于 @angular/localize · 运行时 $localize + loadTranslations",
+    "en": "Built with @angular/localize · runtime $localize + loadTranslations",
+    "de": "Mit @angular/localize · Laufzeit-$localize + loadTranslations"
+  },
+  "demo.welcome": {
+    "zh": "你好，{$USER}！",
+    "en": "Hello, {$USER}!",
+    "de": "Hallo, {$USER}!"
+  },
+  "demo.intro": {
+    "zh": "这是 Angular 内置 i18n（@angular/localize）的在线演示：点击左侧语言按钮即可即时切换，无需重新构建；也可以在右侧编辑器中修改 JSON 配置文件，点击“应用”后左侧立即生效。",
+    "en": "This is a live demo of Angular's built-in i18n. Click a language button on the left to switch instantly without rebuilding, or edit the JSON config in the editor and press Apply.",
+    "de": "Live-Demo der eingebauten Angular-i18n. Klicken Sie links auf eine Sprache, um sofort ohne Neubuild zu wechseln, oder bearbeiten Sie die JSON-Konfiguration rechts und klicken Sie auf Anwenden."
+  },
+  "demo.items": {
+    "zh": "你的购物车中有 {$COUNT} 件商品",
+    "en": "You have {$COUNT} items in your cart",
+    "de": "Sie haben {$COUNT} Artikel im Warenkorb"
+  },
+  "demo.currentLanguage": {
+    "zh": "当前语言",
+    "en": "Current language",
+    "de": "Aktuelle Sprache"
+  },
+  "demo.date": {
+    "zh": "本地化日期",
+    "en": "Localized date",
+    "de": "Lokalisiertes Datum"
+  },
+  "demo.number": {
+    "zh": "本地化数字",
+    "en": "Localized number",
+    "de": "Lokalisierte Zahl"
+  },
+  "demo.tip": {
+    "zh": "提示：TS 中的 $localize 与模板中的 i18n 属性，都可以通过 loadTranslations 在运行时动态翻译。",
+    "en": "Tip: $localize in TS and i18n attributes in templates both support runtime translation via loadTranslations.",
+    "de": "Tipp: $localize in TS und i18n-Attribute in Templates unterstützen beide die Laufzeit-Übersetzung per loadTranslations."
+  },
+  "demo.renders": {
+    "zh": "组件重建次数",
+    "en": "Component rebuilds",
+    "de": "Komponenten-Neuaufbauten"
+  },
+  "demo.editor.title": {
+    "zh": "编辑语言配置文件",
+    "en": "Edit Language Config",
+    "de": "Sprachkonfiguration bearbeiten"
+  },
+  "demo.editor.file": {
+    "zh": "配置文件",
+    "en": "Config file",
+    "de": "Konfigurationsdatei"
+  },
+  "demo.editor.hint": {
+    "zh": "编辑合并的 translations.json，勾选语言后点击“应用”即时生效；勾选会随“下载”导出，供本地拆分使用。",
+    "en": "Edit the merged translations.json, check the languages and click Apply; the selection is exported on Download for the local split script.",
+    "de": "translations.json bearbeiten, Sprachen auswählen und auf Anwenden klicken; die Auswahl wird beim Download für das lokale Split-Skript exportiert."
+  },
+  "demo.editor.apply": {
+    "zh": "应用",
+    "en": "Apply",
+    "de": "Anwenden"
+  },
+  "demo.editor.reset": {
+    "zh": "重置",
+    "en": "Reset",
+    "de": "Zurücksetzen"
+  },
+  "demo.editor.download": {
+    "zh": "下载",
+    "en": "Download",
+    "de": "Herunterladen"
+  },
+  "demo.editor.valid": {
+    "zh": "已应用 · 共 {N} 条",
+    "en": "Applied · {N} keys",
+    "de": "Angewendet · {N} Schlüssel"
+  },
+  "demo.editor.invalid": {
+    "zh": "JSON 解析错误：",
+    "en": "JSON parse error:",
+    "de": "JSON-Parsefehler:"
+  },
+  "demo.editor.keys": {
+    "zh": "共 {N} 条翻译键",
+    "en": "{N} translation keys",
+    "de": "{N} Übersetzungsschlüssel"
+  }
+}

@@ -11,7 +11,7 @@
   "demo.renders": "Component rebuilds",
   "demo.editor.title": "Edit Language Config",
   "demo.editor.file": "Config file",
-  "demo.editor.hint": "Edit the JSON then click Apply; Reset restores the default config.",
+  "demo.editor.hint": "Edit the merged translations.json, check the languages and click Apply; the selection is exported on Download for the local split script.",
   "demo.editor.apply": "Apply",
   "demo.editor.reset": "Reset",
   "demo.editor.download": "Download",

@@ -9,7 +9,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import * as monaco from 'monaco-editor';
-import { I18nService, LocaleId, TranslationMap } from '../i18n.service';
+import { I18nService, LocaleId } from '../i18n.service';
 
 (globalThis as { MonacoEnvironment?: { getWorker: (moduleId: string, label: string) => Worker } }).MonacoEnvironment = {
   getWorker(_moduleId: string, label: string) {
@@ -39,12 +39,16 @@ export class EditorComponent implements AfterViewInit {
   private editor: monaco.editor.IStandaloneCodeEditor | undefined;
 
   readonly languages = this.i18n.languages;
-  readonly selected = signal<LocaleId>('zh');
+  readonly checked = signal<Record<LocaleId, boolean>>({
+    zh: true,
+    en: true,
+    de: true,
+  });
   readonly status = signal('');
   readonly isError = signal(false);
 
   readonly fileStats = computed(() => {
-    const n = Object.keys(this.i18n.activeMap()).length;
+    const n = this.i18n.keyCount();
     return this.i18n.label('demo.editor.keys').replace('{N}', String(n));
   });
 
@@ -52,7 +56,7 @@ export class EditorComponent implements AfterViewInit {
     const el = this.container()?.nativeElement;
     if (!el) return;
     this.editor = monaco.editor.create(el, {
-      value: this.i18n.getContent(this.selected()),
+      value: this.i18n.getMergedContent(),
       language: 'json',
       theme: 'vs-dark',
       automaticLayout: true,
@@ -61,56 +65,75 @@ export class EditorComponent implements AfterViewInit {
       tabSize: 2,
       scrollBeyondLastLine: false,
     });
-    this.editor.onDidChangeModelContent(() => this.status.set(''));
+    this.syncCheckedFromText(this.i18n.getMergedContent());
+    this.editor.onDidChangeModelContent(() => {
+      this.status.set('');
+      const text = this.editor?.getValue() ?? '';
+      this.i18n.saveDraft(text);
+      this.syncCheckedFromText(text);
+    });
   }
 
   label(key: string): string {
     return this.i18n.label(key);
   }
 
-  onSelect(event: Event): void {
-    this.selected.set((event.target as HTMLSelectElement).value as LocaleId);
-    this.status.set('');
-    this.editor?.setValue(this.i18n.getContent(this.selected()));
+  onToggle(lang: LocaleId): void {
+    const next: Record<LocaleId, boolean> = { ...this.checked(), [lang]: !this.checked()[lang] };
+    this.checked.set(next);
+    const selected = this.languages.filter((l) => next[l.id]).map((l) => l.id);
+    this.updateLanguagesInEditor(selected);
   }
 
   apply(): void {
     const text = this.editor?.getValue() ?? '';
-    try {
-      const map = this.validateMap(JSON.parse(text));
-      this.i18n.setConfig(this.selected(), map);
+    const err = this.i18n.applyEdited(text);
+    if (err) {
+      this.status.set(this.i18n.label('demo.editor.invalid') + ' ' + err);
+      this.isError.set(true);
+    } else {
       this.status.set(
-        this.i18n.label('demo.editor.valid').replace('{N}', String(Object.keys(map).length)),
+        this.i18n.label('demo.editor.valid').replace('{N}', String(this.i18n.keyCount())),
       );
       this.isError.set(false);
-    } catch (err) {
-      this.status.set(this.i18n.label('demo.editor.invalid') + ' ' + (err as Error).message);
-      this.isError.set(true);
     }
   }
 
   reset(): void {
-    this.i18n.resetConfig(this.selected());
+    this.i18n.resetMerged();
     this.status.set('');
     this.isError.set(false);
-    this.editor?.setValue(this.i18n.getContent(this.selected()));
+    this.editor?.setValue(this.i18n.getMergedContent());
+    this.syncCheckedFromText(this.i18n.getMergedContent());
   }
 
   download(): void {
-    this.i18n.download(this.selected());
+    this.i18n.downloadMerged();
   }
 
-  private validateMap(parsed: unknown): TranslationMap {
-    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
-      throw new Error('expected a flat object of string values');
+  private updateLanguagesInEditor(selected: LocaleId[]): void {
+    const text = this.editor?.getValue() ?? this.i18n.getMergedContent();
+    try {
+      const merged = JSON.parse(text) as Record<string, unknown>;
+      merged['$languages'] = selected;
+      this.editor?.setValue(JSON.stringify(merged, null, 2) + '\n');
+    } catch {
+      // 非法 JSON 时仅更新勾选，不改动编辑内容
     }
-    const map: TranslationMap = {};
-    for (const [key, value] of Object.entries(parsed)) {
-      if (typeof value !== 'string') {
-        throw new Error(`value of "${key}" must be a string`);
+  }
+
+  private syncCheckedFromText(text: string): void {
+    try {
+      const langs = (JSON.parse(text) as { $languages?: unknown }).$languages;
+      if (!Array.isArray(langs)) return;
+      const next = Object.fromEntries(
+        this.languages.map((l) => [l.id, langs.includes(l.id)]),
+      ) as Record<LocaleId, boolean>;
+      if (JSON.stringify(next) !== JSON.stringify(this.checked())) {
+        this.checked.set(next);
       }
-      map[key] = value;
+    } catch {
+      // 忽略非法 JSON
     }
-    return map;
   }
 }
