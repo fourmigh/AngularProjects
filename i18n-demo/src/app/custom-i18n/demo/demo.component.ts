@@ -50,8 +50,8 @@ export class DemoComponent {
   // localize 切换语言链路:
   // 1) switchLanguage(id): current.set(id) + applyLocale(id)
   // 2) applyLocale: buildMap(id) 抽取当前语言 → clearTranslations() 清旧消息 → loadTranslations(map) 载入新语言映射
-  // 3) renderTick++ → app.component.html 的 @for track 触发 <app-demo> 重建
-  // 4) demo 字段重新执行 this.i18n.t(...) → 读 activeMap 新语言，界面即时切换
+  // 3) renderTick++ → custom-page.component.html 的 @for track 触发 <app-demo> 重建
+  // 4) demo 字段重新执行 this.i18n.t(...) → $localize 按消息 id 读官方 registry 新语言，界面即时切换
   switchLanguage(id: LocaleId): void {
     this.i18n.switchLanguage(id);
   }

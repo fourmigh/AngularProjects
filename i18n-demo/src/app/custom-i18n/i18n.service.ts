@@ -1,6 +1,7 @@
 import { Inject, Injectable, InjectionToken, Optional, signal } from '@angular/core';
 import { clearTranslations, loadTranslations } from '@angular/localize';
 import { LocaleId, MergedTranslations, TranslationKey, TranslationMap } from './i18n-keys';
+import { SOURCE_MESSAGES } from './source-messages';
 
 export interface LanguageInfo {
   id: LocaleId;
@@ -37,7 +38,6 @@ export class I18nService {
   private readonly renderTickSignal = signal(0);
   readonly renderTick = this.renderTickSignal.asReadonly();
 
-  readonly activeMap = signal<TranslationMap>({});
   readonly keyCount = signal(0);
 
   private readonly rebuildCount = signal(0);
@@ -62,15 +62,15 @@ export class I18nService {
   }
 
   label(key: TranslationKey): string {
-    return this.activeMap()[key] ?? key;
+    return SOURCE_MESSAGES[key]();
   }
 
-  lookup(key: TranslationKey): string | undefined {
-    return this.activeMap()[key];
+  lookup(key: TranslationKey): string {
+    return SOURCE_MESSAGES[key]();
   }
 
   t(key: TranslationKey, params?: Record<string, string | number>): string {
-    const text = this.lookup(key) ?? key;
+    const text = SOURCE_MESSAGES[key]();
     if (!params) return text;
     return text.replace(/\{\$(\w+)\}/g, (_, n) => String(params[n] ?? `{$${n}}`));
   }
@@ -207,7 +207,6 @@ export class I18nService {
     const map = this.buildMap(id);
     clearTranslations();
     loadTranslations(map);
-    this.activeMap.set(map);
     this.keyCount.set(this.translationKeyCount());
     if (bounce) {
       this.renderTickSignal.update((n) => n + 1);
