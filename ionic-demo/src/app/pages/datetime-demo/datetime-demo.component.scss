@@ -62,7 +62,18 @@
   .datetime-container {
     display: flex;
     justify-content: center;
-    padding: 16px 0;
+    padding: 20px 8px 8px;
+    position: relative;
+    border: 2px dashed var(--ion-color-primary);
+    border-radius: 8px;
+    background: var(--ion-color-step-50, #f7f7f7);
+
+    .component-label {
+      position: absolute;
+      top: -12px;
+      left: 16px;
+      z-index: 1;
+    }
 
     ion-datetime {
       width: 100%;
@@ -78,6 +89,10 @@
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+  }
+
+  .week-range {
+    margin-top: 8px;
   }
 }
 

@@ -1,0 +1,37 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>{{ title() }}</span>
+  <span class="toolbar-subtitle">OpenCode SDK 接口示例</span>
+</mat-toolbar>
+
+<mat-drawer-container>
+  <mat-drawer #drawer mode="side" opened>
+    <mat-nav-list>
+      <mat-list-item routerLink="/" routerLinkActive="active-link"
+                     [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>首页</span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+      <div class="nav-section-title">示例列表</div>
+
+      @for (demo of demos; track demo.id) {
+        <mat-list-item [routerLink]="'/demo/' + demo.id"
+                       routerLinkActive="active-link">
+          <mat-icon matListItemIcon>{{ demo.icon }}</mat-icon>
+          <span matListItemTitle>{{ demo.title }}</span>
+          <span matListItemLine>{{ demo.subtitle }}</span>
+        </mat-list-item>
+      }
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="content-wrapper">
+      <router-outlet />
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

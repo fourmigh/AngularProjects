@@ -1,28 +1,29 @@
-import { Injectable, signal } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional, signal } from '@angular/core';
 import { clearTranslations, loadTranslations } from '@angular/localize';
-
-export type LocaleId = 'zh' | 'en' | 'de';
+import { LocaleId, MergedTranslations, TranslationKey, TranslationMap } from './i18n-keys';
 
 export interface LanguageInfo {
   id: LocaleId;
   label: string;
 }
 
-export interface TranslationMap {
-  [key: string]: string;
-}
-
-export interface MergedTranslations {
-  $languages?: LocaleId[];
-  [key: string]: TranslationMap | LocaleId[] | undefined;
-}
+export const I18N_SCOPE = new InjectionToken<string>('I18N_SCOPE');
 
 const ALL_LANGUAGES: LocaleId[] = ['zh', 'en', 'de'];
 const KEY_ACTIVE = 'i18n-demo.active';
 const KEY_DRAFT = 'i18n-demo.draft';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class I18nService {
+  private readonly keyActive: string;
+  private readonly keyDraft: string;
+
+  constructor(@Optional() @Inject(I18N_SCOPE) scope: string | null = null) {
+    const suffix = scope ? `:${scope}` : '';
+    this.keyActive = KEY_ACTIVE + suffix;
+    this.keyDraft = KEY_DRAFT + suffix;
+  }
+
   readonly languages: LanguageInfo[] = [
     { id: 'zh', label: '中文' },
     { id: 'en', label: 'English' },
@@ -60,8 +61,18 @@ export class I18nService {
     this.applyLocale(id);
   }
 
-  label(key: string): string {
+  label(key: TranslationKey): string {
     return this.activeMap()[key] ?? key;
+  }
+
+  lookup(key: TranslationKey): string | undefined {
+    return this.activeMap()[key];
+  }
+
+  t(key: TranslationKey, params?: Record<string, string | number>): string {
+    const text = this.lookup(key) ?? key;
+    if (!params) return text;
+    return text.replace(/\{\$(\w+)\}/g, (_, n) => String(params[n] ?? `{$${n}}`));
   }
 
   getMergedContent(): string {
@@ -71,7 +82,7 @@ export class I18nService {
 
   saveDraft(text: string): void {
     this.draftMerged = text;
-    localStorage.setItem(KEY_DRAFT, text);
+    localStorage.setItem(this.keyDraft, text);
   }
 
   applyEdited(text: string): string | null {
@@ -88,8 +99,8 @@ export class I18nService {
   resetMerged(): void {
     this.activeMerged = null;
     this.draftMerged = null;
-    localStorage.removeItem(KEY_ACTIVE);
-    localStorage.removeItem(KEY_DRAFT);
+    localStorage.removeItem(this.keyActive);
+    localStorage.removeItem(this.keyDraft);
     this.applyLocale(this.current());
   }
 
@@ -118,7 +129,7 @@ export class I18nService {
       return null;
     }
     const raw = parsed as Record<string, unknown>;
-    const merged: MergedTranslations = {};
+    const merged: Record<string, unknown> = {};
 
     if (raw['$languages'] !== undefined) {
       if (
@@ -137,7 +148,7 @@ export class I18nService {
         this.lastParseError = `翻译键 "${key}" 的值必须是对象（{ 语言: 文本 }）`;
         return null;
       }
-      const entry: TranslationMap = {};
+      const entry: Partial<Record<LocaleId, string>> = {};
       for (const [lang, text] of Object.entries(value)) {
         if (!ALL_LANGUAGES.includes(lang as LocaleId)) {
           this.lastParseError = `翻译键 "${key}" 含未知语言 "${lang}"`;
@@ -147,11 +158,11 @@ export class I18nService {
           this.lastParseError = `翻译键 "${key}" 的语言 "${lang}" 的值必须是字符串`;
           return null;
         }
-        entry[lang] = text;
+        entry[lang as LocaleId] = text;
       }
       merged[key] = entry;
     }
-    return merged;
+    return merged as MergedTranslations;
   }
 
   private async loadDefault(): Promise<void> {
@@ -162,33 +173,33 @@ export class I18nService {
 
   private restoreActive(): void {
     try {
-      const raw = localStorage.getItem(KEY_ACTIVE);
+      const raw = localStorage.getItem(this.keyActive);
       if (!raw) return;
       const parsed = this.parseMerged(raw);
       if (parsed !== null) this.activeMerged = parsed;
     } catch {
-      localStorage.removeItem(KEY_ACTIVE);
+      localStorage.removeItem(this.keyActive);
     }
   }
 
   private restoreDraft(): void {
     try {
-      const raw = localStorage.getItem(KEY_DRAFT);
+      const raw = localStorage.getItem(this.keyDraft);
       if (raw && raw.trim().length > 0) this.draftMerged = raw;
     } catch {
-      localStorage.removeItem(KEY_DRAFT);
+      localStorage.removeItem(this.keyDraft);
     }
   }
 
   private persistActive(): void {
     if (this.activeMerged !== null) {
-      localStorage.setItem(KEY_ACTIVE, JSON.stringify(this.activeMerged));
+      localStorage.setItem(this.keyActive, JSON.stringify(this.activeMerged));
     }
   }
 
   private persistDraft(): void {
     if (this.draftMerged !== null) {
-      localStorage.setItem(KEY_DRAFT, this.draftMerged);
+      localStorage.setItem(this.keyDraft, this.draftMerged);
     }
   }
 
@@ -209,9 +220,9 @@ export class I18nService {
     const map: TranslationMap = {};
     for (const [key, value] of Object.entries(merged)) {
       if (key === '$languages') continue;
-      const entry = value as TranslationMap;
+      const entry = value as Partial<Record<LocaleId, string>>;
       const text = entry[id];
-      if (typeof text === 'string') map[key] = text;
+      if (typeof text === 'string') map[key as TranslationKey] = text;
     }
     return map;
   }

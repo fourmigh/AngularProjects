@@ -1,0 +1,164 @@
+<mat-toolbar [color]="color()">
+  <span>Time Picker Demo</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-button (click)="onClear()">Clear</button>
+</mat-toolbar>
+
+<div
+  class="demo-wrapper"
+  [class.layout-landscape]="isLandscape()"
+  [class.layout-portrait]="!isLandscape()"
+>
+  <!-- ==================== PREVIEW PANEL ==================== -->
+  <div class="preview-panel">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Live Preview</mat-card-title>
+        <mat-card-subtitle>
+          appearance: <code>{{ appearance() }}</code> &middot;
+          color: <code>{{ color() }}</code> &middot;
+          interval: <code>{{ interval() }}</code>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="time-container">
+          <div class="component-label">
+            <code>app-time-plus</code>
+          </div>
+          <app-time-plus
+            [(value)]="value"
+            [label]="label()"
+            [placeholder]="placeholder()"
+            [appearance]="appearance()"
+            [color]="color()"
+            [interval]="interval()"
+            [min]="min()"
+            [max]="max()"
+            [disabled]="disabled()"
+            [readonly]="readonly()"
+            [required]="required()"
+          />
+        </div>
+
+        @if (value()) {
+          <div class="value-display">
+            <span class="value-label">Selected:</span>
+            <mat-chip [color]="color()" highlighted="true">
+              {{ formattedValue }}
+            </mat-chip>
+          </div>
+        } @else {
+          <p class="no-value">No time selected</p>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- ==================== CONTROLS PANEL ==================== -->
+  <div class="controls-panel">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Property Controls</mat-card-title>
+        <mat-card-subtitle>Adjust each property in real-time</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content class="controls-content">
+
+        <!-- Basic -->
+        <h3 class="section-title">Basic</h3>
+        <mat-divider />
+
+        <mat-form-field [appearance]="'outline'" subscriptSizing="dynamic">
+          <mat-label>Label</mat-label>
+          <input matInput [value]="label()" (input)="label.set($any($event.target).value)" />
+        </mat-form-field>
+
+        <mat-form-field [appearance]="'outline'" subscriptSizing="dynamic">
+          <mat-label>Placeholder</mat-label>
+          <input matInput [value]="placeholder()" (input)="placeholder.set($any($event.target).value)" />
+        </mat-form-field>
+
+        <mat-form-field [appearance]="'outline'" subscriptSizing="dynamic">
+          <mat-label>Default Value</mat-label>
+          <input matInput type="time" [value]="nowStr()" (input)="onNowChange($any($event.target).value)" />
+        </mat-form-field>
+
+        <!-- Appearance & Color -->
+        <h3 class="section-title">Style</h3>
+        <mat-divider />
+
+        <mat-form-field [appearance]="'outline'" subscriptSizing="dynamic">
+          <mat-label>Appearance</mat-label>
+          <mat-select [value]="appearance()" (valueChange)="appearance.set($event)">
+            @for (a of APPEARANCES; track a.value) {
+              <mat-option [value]="a.value">{{ a.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field [appearance]="'outline'" subscriptSizing="dynamic">
+          <mat-label>Color</mat-label>
+          <mat-select [value]="color()" (valueChange)="color.set($event)">
+            @for (c of COLORS; track c.value) {
+              <mat-option [value]="c.value">{{ c.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field [appearance]="'outline'" subscriptSizing="dynamic">
+          <mat-label>Locale</mat-label>
+          <mat-select [value]="locale()" (valueChange)="locale.set($event)">
+            @for (l of LOCALES; track l.value) {
+              <mat-option [value]="l.value">{{ l.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Interval -->
+        <h3 class="section-title">Interval</h3>
+        <mat-divider />
+
+        <mat-form-field [appearance]="'outline'" subscriptSizing="dynamic">
+          <mat-label>Interval</mat-label>
+          <mat-select [value]="interval()" (valueChange)="interval.set($event)">
+            @for (i of INTERVAL_PRESETS; track i.value) {
+              <mat-option [value]="i.value">{{ i.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Constraints -->
+        <h3 class="section-title">Constraints</h3>
+        <mat-divider />
+
+        <mat-form-field [appearance]="'outline'" subscriptSizing="dynamic">
+          <mat-label>Min Time</mat-label>
+          <input matInput type="time" [value]="minStr()" (input)="onMinChange($any($event.target).value)" />
+        </mat-form-field>
+
+        <mat-form-field [appearance]="'outline'" subscriptSizing="dynamic">
+          <mat-label>Max Time</mat-label>
+          <input matInput type="time" [value]="maxStr()" (input)="onMaxChange($any($event.target).value)" />
+        </mat-form-field>
+
+        <!-- States -->
+        <h3 class="section-title">States</h3>
+        <mat-divider />
+
+        <mat-slide-toggle [checked]="disabled()" (change)="disabled.set($event.checked)">
+          Disabled
+        </mat-slide-toggle>
+
+        <mat-slide-toggle [checked]="readonly()" (change)="readonly.set($event.checked)">
+          Readonly
+        </mat-slide-toggle>
+
+        <mat-slide-toggle [checked]="required()" (change)="required.set($event.checked)">
+          Required
+        </mat-slide-toggle>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

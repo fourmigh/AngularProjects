@@ -1,0 +1,11 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.official {
+  height: 100%;
+  padding: 28px;
+  overflow: auto;
+  background: #f5f6fa;
+}

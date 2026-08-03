@@ -1,0 +1,20 @@
+<div class="home-container">
+  <mat-card class="hero-card">
+    <mat-card-header>
+      <mat-card-title>OpenCode SDK 接口示例</mat-card-title>
+      <mat-card-subtitle>就像 Android 的 ApiDemos，每个示例展示一个核心接口用法</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        <strong>OpenCode SDK</strong> 提供了一套完整的 Agent 开发框架，
+        封装了 LLM 通信、工具调用、会话管理等底层细节，让你能专注于业务逻辑。
+      </p>
+      <p>本工程包含 <strong>{{ totalDemos }}</strong> 个示例，从基础到进阶，循序渐进。</p>
+      <div class="quick-links">
+        <a mat-stroked-button routerLink="/demo/01-create-client" color="primary">
+          <mat-icon>play_arrow</mat-icon> 从第一个示例开始
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

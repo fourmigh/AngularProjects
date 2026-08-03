@@ -1,0 +1,13 @@
+diff --git a/node_modules/monaco-editor/esm/vs/base/common/worker/simpleWorker.js b/node_modules/monaco-editor/esm/vs/base/common/worker/simpleWorker.js
+index 85005f72fa8f356259711355424370f4b52acb8f..e44af47f0b76c9591ea091920e02aaed76130a51 100644
+--- a/node_modules/monaco-editor/esm/vs/base/common/worker/simpleWorker.js
++++ b/node_modules/monaco-editor/esm/vs/base/common/worker/simpleWorker.js
+@@ -429,7 +429,7 @@
+         }
+         if (isESM) {
+             const url = FileAccess.asBrowserUri(`${moduleId}.js`).toString(true);
+-            return import(`${url}`).then((module) => {
++            return import(/* @vite-ignore */ `${url}`).then((module) => {
+                 this._requestHandler = module.create(this);
+                 if (!this._requestHandler) {
+                     throw new Error(`No RequestHandler!`);

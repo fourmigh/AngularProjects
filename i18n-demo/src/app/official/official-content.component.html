@@ -1,0 +1,43 @@
+<header class="demo-header">
+  <h1>{{ title }}</h1>
+  <p class="subtitle">{{ subtitle }}</p>
+</header>
+
+<section class="lang-switcher">
+  <span class="lang-label">{{ currentLanguageLabel }}</span>
+  <div class="lang-buttons">
+    @for (lang of languages; track lang.id) {
+      <button
+        class="lang-btn"
+        [class.active]="current() === lang.id"
+        (click)="switchLanguage(lang.id)">
+        {{ lang.label }}
+      </button>
+    }
+  </div>
+  <code class="locale-code">{{ current() }}</code>
+</section>
+
+<section class="cards">
+  <div class="card highlight">
+    <h2>{{ welcome }}</h2>
+    <p>{{ itemLabel }}</p>
+  </div>
+  <div class="card grid">
+    <div>
+      <span class="muted">{{ dateLabel }}</span>
+      <p class="value">{{ date() }}</p>
+    </div>
+    <div>
+      <span class="muted">{{ numberLabel }}</span>
+      <p class="value">{{ price() }}</p>
+    </div>
+  </div>
+</section>
+
+<p class="tip">{{ intro }}</p>
+<p class="tip accent">{{ tip }}</p>
+
+<footer class="demo-footer">
+  <span>{{ rendersLabel }}: {{ rebuilds() }}</span>
+</footer>

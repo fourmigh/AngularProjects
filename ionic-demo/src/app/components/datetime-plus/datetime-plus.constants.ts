@@ -67,8 +67,8 @@ export const HOUR_VALUE_PRESETS: Option<string>[] = [
 
 export const MINUTE_VALUE_PRESETS: Option<string>[] = [
   { value: '', label: 'All Minutes' },
-  { value: '0,5,10,15,20,25,30,35,40,45,50,55', label: 'Every 5 min' },
-  { value: '0,10,20,30,40,50', label: 'Every 10 min' },
   { value: '0,15,30,45', label: 'Every 15 min' },
+  { value: '0,10,20,30,40,50', label: 'Every 10 min' },
+  { value: '0,5,10,15,20,25,30,35,40,45,50,55', label: 'Every 5 min' },
   { value: '0,30', label: 'Every 30 min' },
 ];

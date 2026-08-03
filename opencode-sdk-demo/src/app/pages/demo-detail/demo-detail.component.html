@@ -1,0 +1,57 @@
+@if (demo(); as d) {
+  <div class="demo-header">
+    <a mat-button routerLink="/" class="back-link">
+      <mat-icon>arrow_back</mat-icon> 返回首页
+    </a>
+  </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-icon mat-card-avatar>{{ d.icon }}</mat-icon>
+      <mat-card-title>{{ d.title }}</mat-card-title>
+      <mat-card-subtitle>{{ d.subtitle }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="demo-description">{{ d.description }}</p>
+
+      <h3 class="section-title">完整代码（带详细注释）</h3>
+      <div class="code-block">
+        <div class="code-line-header">
+          <span class="code-lang">TypeScript</span>
+          <button mat-icon-button class="copy-btn" (click)="copyCode()" title="复制代码">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </div>
+        <pre><code>
+@for (line of lines(); track $index) {
+  <span class="line-number">{{ $index + 1 }}</span>{{ line }}
+  <br />
+}
+        </code></pre>
+      </div>
+
+      <h3 class="section-title">运行说明</h3>
+      <div class="notes" [innerHTML]="d.notes"></div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="nav-buttons">
+    @if (prevDemo(); as prev) {
+      <a mat-stroked-button [routerLink]="'/demo/' + prev.id">
+        <mat-icon>navigate_before</mat-icon> {{ prev.title }}
+      </a>
+    }
+    <span class="spacer"></span>
+    @if (nextDemo(); as next) {
+      <a mat-stroked-button [routerLink]="'/demo/' + next.id">
+        {{ next.title }} <mat-icon>navigate_next</mat-icon>
+      </a>
+    }
+  </div>
+} @else {
+  <div class="not-found">
+    <mat-icon>error_outline</mat-icon>
+    <p>未找到该示例</p>
+    <a mat-button routerLink="/">返回首页</a>
+  </div>
+}

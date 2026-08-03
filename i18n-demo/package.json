@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run i18n:split && ng serve --host 0.0.0.0 --poll 2000",
-    "i18n:split": "node scripts/split-i18n.mjs",
-    "build": "ng build",
+    "start": "npm run i18n:check && npm run i18n:split && ng serve --host 0.0.0.0 --poll 2000",
+    "i18n:split": "node src/app/custom-i18n/scripts/split-i18n.mjs",
+    "i18n:check": "node src/app/custom-i18n/scripts/check-i18n-keys.mjs",
+    "build": "npm run i18n:check && npm run i18n:split && ng build",
     "watch": "ng build --watch --configuration development",
+    "postinstall": "patch-package",
     "test": "ng test"
   },
   "private": true,
@@ -35,6 +37,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "patch-package": "^8.0.1",
     "typescript": "~5.7.2"
   }
 }

@@ -56,12 +56,12 @@
               },
               {
                 "glob": "**/*",
-                "input": "src/assets",
+                "input": "src/app/custom-i18n/assets",
                 "output": "/assets"
               },
               {
                 "glob": "translations.json",
-                "input": "src/i18n",
+                "input": "src/app/custom-i18n/i18n",
                 "output": "/i18n"
               }
             ],

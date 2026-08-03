@@ -22,11 +22,18 @@
 
         <ion-card-content>
           <div class="datetime-container">
-            <ion-datetime
-              [presentation]="presentation()"
+            <div class="component-label">
+              <ion-badge color="primary">ion-datetime</ion-badge>
+            </div>
+            <app-datetime-plus
               [value]="value()"
+              (valueChange)="value.set($event)"
+              [presentation]="presentation()"
+              [multiple]="multiple()"
               [min]="minValue() || undefined"
               [max]="maxValue() || undefined"
+              [hourValues]="hourValues() || undefined"
+              [minuteValues]="minuteValues() || undefined"
               [disabled]="disabled()"
               [readonly]="readonly()"
               [preferWheel]="hasTime() ? preferWheel() : false"
@@ -35,12 +42,10 @@
               [showClearButton]="showClearButton()"
               [showDefaultTimeLabel]="showDefaultTimeLabel()"
               [size]="hasDate() ? size() : 'cover'"
-              [multiple]="hasDate() ? multiple() : false"
               [firstDayOfWeek]="hasDate() ? firstDayOfWeek() : undefined"
               [locale]="locale()"
               [color]="color()"
-              (ionChange)="onDatetimeChange($event)"
-            ></ion-datetime>
+            ></app-datetime-plus>
           </div>
 
           <div class="value-display">
@@ -56,7 +61,15 @@
             }
           </div>
 
-          @if (multiple()) {
+          @if (weekRangeLabel()) {
+            <div class="week-range">
+              <ion-chip color="success">
+                <ion-label>Week: {{ weekRangeLabel() }}</ion-label>
+              </ion-chip>
+            </div>
+          }
+
+          @if (multiple() && presentation() !== 'week') {
             <ion-note color="warning">
               Multiple selection enabled. Values: {{ value() || '[]' }}
             </ion-note>
@@ -88,7 +101,7 @@
                 (ionChange)="presentation.set($any($event.detail.value))"
                 [scrollable]="true"
               >
-                @for (p of presentations; track p.value) {
+                @for (p of PRESENTATIONS; track p.value) {
                   <ion-segment-button [value]="p.value">
                     <ion-label>{{ p.label }}</ion-label>
                   </ion-segment-button>
@@ -107,7 +120,7 @@
                 (ionChange)="color.set($event.detail.value)"
                 interface="popover"
               >
-                @for (c of colors; track c) {
+                @for (c of COLORS; track c) {
                   <ion-select-option [value]="c">{{ c }}</ion-select-option>
                 }
               </ion-select>
@@ -121,20 +134,20 @@
                 (ionChange)="locale.set($event.detail.value)"
                 interface="popover"
               >
-                @for (l of locales; track l.value) {
+                @for (l of LOCALES; track l.value) {
                   <ion-select-option [value]="l.value">{{ l.label }}</ion-select-option>
                 }
               </ion-select>
             </ion-item>
 
-            <!-- Size (only for date presentations) -->
-            @if (hasDate()) {
+            <!-- Size (only for date presentations, not week) -->
+            @if (hasDate() && presentation() !== 'week') {
               <ion-item>
                 <ion-segment
                   [value]="size()"
                   (ionChange)="size.set($any($event.detail.value))"
                 >
-                  @for (s of sizes; track s.value) {
+                  @for (s of SIZES; track s.value) {
                     <ion-segment-button [value]="s.value">
                       <ion-label>{{ s.label }}</ion-label>
                     </ion-segment-button>
@@ -171,6 +184,38 @@
               ></ion-input>
             </ion-item>
 
+            <!-- Hour Values (time-only) -->
+            @if (hasTime()) {
+              <ion-item>
+                <ion-select
+                  label="Hour Values"
+                  [value]="hourValues()"
+                  (ionChange)="hourValues.set($event.detail.value)"
+                  interface="popover"
+                >
+                  @for (h of HOUR_VALUE_PRESETS; track h.value) {
+                    <ion-select-option [value]="h.value">{{ h.label }}</ion-select-option>
+                  }
+                </ion-select>
+              </ion-item>
+            }
+
+            <!-- Minute Values (time-only) -->
+            @if (hasTime()) {
+              <ion-item>
+                <ion-select
+                  label="Minute Values"
+                  [value]="minuteValues()"
+                  (ionChange)="minuteValues.set($event.detail.value)"
+                  interface="popover"
+                >
+                  @for (m of MINUTE_VALUE_PRESETS; track m.value) {
+                    <ion-select-option [value]="m.value">{{ m.label }}</ion-select-option>
+                  }
+                </ion-select>
+              </ion-item>
+            }
+
             <!-- Disabled -->
             <ion-item>
               <ion-toggle
@@ -205,7 +250,7 @@
                   [value]="hourCycle()"
                   (ionChange)="hourCycle.set($any($event.detail.value))"
                 >
-                  @for (h of hourCycles; track h.value) {
+                  @for (h of HOUR_CYCLES; track h.value) {
                     <ion-segment-button [value]="h.value">
                       <ion-label>{{ h.label }}</ion-label>
                     </ion-segment-button>
@@ -243,15 +288,15 @@
                   (ionChange)="firstDayOfWeek.set($event.detail.value)"
                   interface="popover"
                 >
-                  @for (d of weekDays; track d.value) {
+                  @for (d of WEEK_DAYS; track d.value) {
                     <ion-select-option [value]="d.value">{{ d.label }}</ion-select-option>
                   }
                 </ion-select>
               </ion-item>
             }
 
-            <!-- Multiple (only for date) -->
-            @if (hasDate()) {
+            <!-- Multiple (only for date, not week) -->
+            @if (hasDate() && presentation() !== 'week') {
               <ion-item>
                 <ion-toggle
                   [checked]="multiple()"

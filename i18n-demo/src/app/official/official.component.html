@@ -1,0 +1,7 @@
+<main class="official">
+  @if (i18n.ready()) {
+    @for (bounce of [i18n.renderTick()]; track bounce) {
+      <app-official-content />
+    }
+  }
+</main>

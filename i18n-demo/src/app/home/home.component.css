@@ -1,0 +1,47 @@
+.home {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-decoration: none;
+  color: #fff;
+  transition: filter 0.15s ease;
+}
+
+.card:hover {
+  filter: brightness(1.08);
+}
+
+.card.official {
+  background: linear-gradient(135deg, #3f5af0, #6a4ff0);
+}
+
+.card.custom {
+  background: linear-gradient(135deg, #0f172a, #334155);
+}
+
+.tag {
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.word {
+  font-size: 88px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.sub {
+  font-size: 16px;
+  opacity: 0.85;
+}

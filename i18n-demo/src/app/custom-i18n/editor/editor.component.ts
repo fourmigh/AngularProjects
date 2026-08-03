@@ -9,18 +9,19 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import * as monaco from 'monaco-editor';
-import { I18nService, LocaleId } from '../i18n.service';
+import { I18nService } from '../i18n.service';
+import type { LocaleId, TranslationKey } from '../i18n-keys';
 
 (globalThis as { MonacoEnvironment?: { getWorker: (moduleId: string, label: string) => Worker } }).MonacoEnvironment = {
   getWorker(_moduleId: string, label: string) {
     if (label === 'json') {
       return new Worker(
-        new URL('../../../node_modules/monaco-editor/esm/vs/language/json/json.worker.js', import.meta.url),
+        new URL('../../../../node_modules/monaco-editor/esm/vs/language/json/json.worker.js', import.meta.url),
         { type: 'module' },
       );
     }
     return new Worker(
-      new URL('../../../node_modules/monaco-editor/esm/vs/editor/editor.worker.js', import.meta.url),
+      new URL('../../../../node_modules/monaco-editor/esm/vs/editor/editor.worker.js', import.meta.url),
       { type: 'module' },
     );
   },
@@ -74,7 +75,7 @@ export class EditorComponent implements AfterViewInit {
     });
   }
 
-  label(key: string): string {
+  label(key: TranslationKey): string {
     return this.i18n.label(key);
   }
 

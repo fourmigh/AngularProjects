@@ -1,0 +1,14 @@
+<main class="layout">
+  <section class="pane left">
+    @if (i18n.ready()) {
+      @for (bounce of [i18n.renderTick()]; track bounce) {
+        <app-demo />
+      }
+    }
+  </section>
+  <section class="pane right">
+    @if (i18n.ready()) {
+      <app-editor />
+    }
+  </section>
+</main>

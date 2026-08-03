@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { I18nService, LocaleId } from '../i18n.service';
+import { I18nService } from '../custom-i18n/i18n.service';
+import type { LocaleId } from '../custom-i18n/i18n-keys';
 
 @Component({
-  selector: 'app-demo',
+  selector: 'app-official-content',
   imports: [],
-  templateUrl: './demo.component.html',
-  styleUrl: './demo.component.css',
+  templateUrl: './official-content.component.html',
+  styleUrl: './official-content.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DemoComponent {
+export class OfficialContentComponent {
   private readonly i18n = inject(I18nService);
 
   readonly userName = 'Developer';
@@ -17,7 +18,7 @@ export class DemoComponent {
   readonly title = $localize`:@@demo.title:Angular Native i18n Demo`;
   readonly subtitle = $localize`:@@demo.subtitle:Built with @angular/localize - runtime $localize + loadTranslations`;
   readonly welcome = $localize`:@@demo.welcome:Hello, ${this.userName}:USER:!`;
-  readonly intro = $localize`:@@demo.intro:This is a live demo of Angular's built-in i18n. Click a language button on the left to switch instantly without rebuilding, or edit the JSON config in the editor and press Apply.`;
+  readonly intro = $localize`:@@demo.intro:This is a live demo of Angular's built-in i18n. Click a language button to switch instantly without rebuilding, or edit the JSON config in the editor and press Apply.`;
   readonly itemLabel = $localize`:@@demo.items:You have ${this.itemCount}:COUNT: items in your cart`;
   readonly currentLanguageLabel = $localize`:@@demo.currentLanguage:Current language`;
   readonly dateLabel = $localize`:@@demo.date:Localized date`;

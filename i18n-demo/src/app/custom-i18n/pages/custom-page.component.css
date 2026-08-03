@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+}
+
+.pane {
+  min-width: 0;
+  overflow: auto;
+}
+
+.pane.left {
+  padding: 28px;
+  background: #f5f6fa;
+}
+
+.pane.right {
+  overflow: hidden;
+  background: #1e1e1e;
+}
