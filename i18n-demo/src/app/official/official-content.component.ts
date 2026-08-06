@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { I18nService } from '../custom-i18n/i18n.service';
+import { LocaleService } from '../locale.service';
 import type { LocaleId } from '../custom-i18n/i18n-keys';
 
 @Component({
@@ -11,14 +12,15 @@ import type { LocaleId } from '../custom-i18n/i18n-keys';
 })
 export class OfficialContentComponent {
   private readonly i18n = inject(I18nService);
+  private readonly localeService = inject(LocaleService);
 
   readonly userName = 'Developer';
   readonly itemCount = 3;
 
   readonly title = $localize`:@@demo.title:Angular Native i18n Demo`;
-  readonly subtitle = $localize`:@@demo.subtitle:Built with @angular/localize - runtime $localize + loadTranslations`;
+  readonly subtitle = $localize`:@@demo.subtitle:Built with @angular/localize · runtime $localize + loadTranslations`;
   readonly welcome = $localize`:@@demo.welcome:Hello, ${this.userName}:USER:!`;
-  readonly intro = $localize`:@@demo.intro:This is a live demo of Angular's built-in i18n. Click a language button to switch instantly without rebuilding, or edit the JSON config in the editor and press Apply.`;
+  readonly intro = $localize`:@@demo.intro:This is a live demo of Angular's built-in i18n. Click a language button on the left to switch instantly without rebuilding, or edit the JSON config in the editor and press Apply.`;
   readonly itemLabel = $localize`:@@demo.items:You have ${this.itemCount}:COUNT: items in your cart`;
   readonly currentLanguageLabel = $localize`:@@demo.currentLanguage:Current language`;
   readonly dateLabel = $localize`:@@demo.date:Localized date`;
@@ -38,6 +40,6 @@ export class OfficialContentComponent {
   );
 
   switchLanguage(id: LocaleId): void {
-    this.i18n.switchLanguage(id);
+    this.localeService.setLocale(id);
   }
 }

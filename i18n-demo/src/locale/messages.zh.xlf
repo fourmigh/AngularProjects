@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-US">
+  <file id="ngi18n" original="ng.template">
+    <unit id="shell.nav.home">
+      <notes>
+        <note category="location">src/app/app.component.ts:54</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:40</note>
+      </notes>
+      <segment>
+        <source>Home</source><target>首页</target>
+      </segment>
+    </unit>
+    <unit id="shell.nav.official">
+      <notes>
+        <note category="location">src/app/app.component.ts:57</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:41</note>
+      </notes>
+      <segment>
+        <source>Official $localize</source><target>官方 $localize</target>
+      </segment>
+    </unit>
+    <unit id="shell.nav.compile">
+      <notes>
+        <note category="location">src/app/app.component.ts:60</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:42</note>
+      </notes>
+      <segment>
+        <source>Compile-time</source><target>编译时</target>
+      </segment>
+    </unit>
+    <unit id="shell.nav.custom">
+      <notes>
+        <note category="location">src/app/app.component.ts:63</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:43</note>
+      </notes>
+      <segment>
+        <source>Custom t()</source><target>自定义 t()</target>
+      </segment>
+    </unit>
+    <unit id="shell.lang.label">
+      <notes>
+        <note category="location">src/app/app.component.ts:66</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:44</note>
+      </notes>
+      <segment>
+        <source>Language:</source><target>语言：</target>
+      </segment>
+    </unit>
+    <unit id="ct.hero.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:23</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:24</note>
+      </notes>
+      <segment>
+        <source>Official compile-time: extract-i18n + --localize</source><target>官方编译时方案：extract-i18n + --localize</target>
+      </segment>
+    </unit>
+    <unit id="ct.hero.sub">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:26</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:25</note>
+      </notes>
+      <segment>
+        <source>One build per language, the runtime language is fixed per site. It reuses the same message marking as the $localize runtime approach.</source><target>每种语言独立构建、运行时语言固定。与 $localize 运行时方案共用同一套消息标记。</target>
+      </segment>
+    </unit>
+    <unit id="ct.extract.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:29</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:36</note>
+      </notes>
+      <segment>
+        <source>Real extracted output · locale/messages.xlf</source><target>真实提取产物 · locale/messages.xlf</target>
+      </segment>
+    </unit>
+    <unit id="ct.translated.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:32</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:37</note>
+      </notes>
+      <segment>
+        <source>Translated XLIFF (sample)</source><target>翻译后的 XLIFF（示意）</target>
+      </segment>
+    </unit>
+    <unit id="ct.translated.note">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:35</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:38</note>
+      </notes>
+      <segment>
+        <source>extract only produces source messages; translators fill the &lt;target&gt; in each language copy, then hand it to the --localize build.</source><target>extract 只产出源消息；译文由翻译人员在各语言副本的 &lt;target&gt; 中填写，再交给 --localize 构建。</target>
+      </segment>
+    </unit>
+    <unit id="ct.step1.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:41</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:26</note>
+      </notes>
+      <segment>
+        <source>Mark the messages</source><target>标记消息</target>
+      </segment>
+    </unit>
+    <unit id="ct.step1.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:42</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:27</note>
+      </notes>
+      <segment>
+        <source>Use $localize in TS or i18n attributes in templates, always with a custom message id. These source marks are also reusable by the runtime approach.</source><target>TS 用 $localize 标注消息 id，模板用 i18n 属性，均带自定义消息 id。这份源码标记同时也能被运行时方案复用。</target>
+      </segment>
+    </unit>
+    <unit id="ct.step2.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:46</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:28</note>
+      </notes>
+      <segment>
+        <source>ng extract-i18n</source><target>ng extract-i18n</target>
+      </segment>
+    </unit>
+    <unit id="ct.step2.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:47</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:29</note>
+      </notes>
+      <segment>
+        <source>The Angular compiler scans the source and extracts all messages into one messages.xlf (XLIFF 2). Below is the real extracted output.</source><target>Angular 编译器扫描源码，把所有消息提取到一份 messages.xlf（XLIFF 2）。下方为真实提取产物。</target>
+      </segment>
+    </unit>
+    <unit id="ct.step3.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:51</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:30</note>
+      </notes>
+      <segment>
+        <source>Translate the XLIFF</source><target>翻译 XLIFF</target>
+      </segment>
+    </unit>
+    <unit id="ct.step3.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:52</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:31</note>
+      </notes>
+      <segment>
+        <source>Translators keep a copy of the xlf per language and fill in the &lt;target&gt;. This is human work, not part of the automated build.</source><target>翻译同学为每种语言同步一份 xlf，在 &lt;target&gt; 中补译文。这是人工产物，不参与自动构建。</target>
+      </segment>
+    </unit>
+    <unit id="ct.step4.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:56</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:32</note>
+      </notes>
+      <segment>
+        <source>ng build --localize</source><target>ng build --localize</target>
+      </segment>
+    </unit>
+    <unit id="ct.step4.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:57</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:33</note>
+      </notes>
+      <segment>
+        <source>Configure localizations in angular.json; the CLI builds once per locale and inlines each message to the target language at compile time.</source><target>angular.json 配置 localizations，CLI 为每种语言单独构建一次，编译期把消息内联成目标语言。</target>
+      </segment>
+    </unit>
+    <unit id="ct.step5.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:61</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:34</note>
+      </notes>
+      <segment>
+        <source>Deploy per-language sites</source><target>多站点部署</target>
+      </segment>
+    </unit>
+    <unit id="ct.step5.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:62</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:35</note>
+      </notes>
+      <segment>
+        <source>The output contains separate per-locale directories, each a fixed-language, tree-shakable site, distinguished by URL or hosting.</source><target>产物包含独立目录 dist/zh、dist/de……每个都是固定语言、可 tree-shake 的站点，靠 URL/部署区分。</target>
+      </segment>
+    </unit>
+    <unit id="ct.xlf.error">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:98</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:39</note>
+      </notes>
+      <segment>
+        <source>Could not load locale/messages.xlf (<ph id="0" equiv="ERR" disp="message"/>). Run `npm run i18n:extract` first.</source><target>无法加载 locale/messages.xlf（<ph id="0" equiv="ERR"/>）。请先运行 npm run i18n:extract。</target>
+      </segment>
+    </unit>
+    <unit id="demo.title">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:5</note>
+      </notes>
+      <segment>
+        <source>Angular Native i18n Demo</source><target>Angular 原生 i18n 演示</target>
+      </segment>
+    </unit>
+    <unit id="demo.subtitle">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:6</note>
+      </notes>
+      <segment>
+        <source>Built with @angular/localize · runtime $localize + loadTranslations</source><target>基于 @angular/localize · 运行时 $localize + loadTranslations</target>
+      </segment>
+    </unit>
+    <unit id="demo.welcome">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:7</note>
+      </notes>
+      <segment>
+        <source>Hello, <ph id="0" equiv="USER" disp="&apos;{$USER}&apos;"/>!</source><target>你好，<ph id="0" equiv="USER"/>！</target>
+      </segment>
+    </unit>
+    <unit id="demo.intro">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:8</note>
+      </notes>
+      <segment>
+        <source>This is a live demo of Angular&apos;s built-in i18n. Click a language button on the left to switch instantly without rebuilding, or edit the JSON config in the editor and press Apply.</source><target>这是 Angular 内置 i18n（@angular/localize）的在线演示：点击左侧语言按钮即可即时切换，无需重新构建；也可以在右侧编辑器中修改 JSON 配置文件，点击“应用”后左侧立即生效。</target>
+      </segment>
+    </unit>
+    <unit id="demo.items">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:9</note>
+      </notes>
+      <segment>
+        <source>You have <ph id="0" equiv="COUNT" disp="&apos;{$COUNT}&apos;"/> items in your cart</source><target>你的购物车中有 <ph id="0" equiv="COUNT"/> 件商品</target>
+      </segment>
+    </unit>
+    <unit id="demo.currentLanguage">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:10</note>
+      </notes>
+      <segment>
+        <source>Current language</source><target>当前语言</target>
+      </segment>
+    </unit>
+    <unit id="demo.date">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:11</note>
+      </notes>
+      <segment>
+        <source>Localized date</source><target>本地化日期</target>
+      </segment>
+    </unit>
+    <unit id="demo.number">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:12</note>
+      </notes>
+      <segment>
+        <source>Localized number</source><target>本地化数字</target>
+      </segment>
+    </unit>
+    <unit id="demo.tip">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:13</note>
+      </notes>
+      <segment>
+        <source>Tip: $localize in TS and i18n attributes in templates both support runtime translation via loadTranslations.</source><target>提示：TS 中的 $localize 与模板中的 i18n 属性，都可以通过 loadTranslations 在运行时动态翻译。</target>
+      </segment>
+    </unit>
+    <unit id="demo.renders">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:14</note>
+      </notes>
+      <segment>
+        <source>Component rebuilds</source><target>组件重建次数</target>
+      </segment>
+    </unit>
+    <unit id="demo.editor.title">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:15</note>
+      </notes>
+      <segment>
+        <source>Edit Language Config</source><target>编辑语言配置文件</target>
+      </segment>
+    </unit>
+    <unit id="demo.editor.file">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:16</note>
+      </notes>
+      <segment>
+        <source>Config file</source><target>配置文件</target>
+      </segment>
+    </unit>
+    <unit id="demo.editor.hint">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:17</note>
+      </notes>
+      <segment>
+        <source>Edit the merged translations.json, check the languages and click Apply; the selection is exported on Download for the local split script.</source><target>编辑合并的 translations.json，勾选语言后点击“应用”即时生效；勾选会随“下载”导出，供本地拆分使用。</target>
+      </segment>
+    </unit>
+    <unit id="demo.editor.apply">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:18</note>
+      </notes>
+      <segment>
+        <source>Apply</source><target>应用</target>
+      </segment>
+    </unit>
+    <unit id="demo.editor.reset">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:19</note>
+      </notes>
+      <segment>
+        <source>Reset</source><target>重置</target>
+      </segment>
+    </unit>
+    <unit id="demo.editor.download">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:20</note>
+      </notes>
+      <segment>
+        <source>Download</source><target>下载</target>
+      </segment>
+    </unit>
+    <unit id="demo.editor.valid">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:21</note>
+      </notes>
+      <segment>
+        <source>Applied · {N} keys</source><target>已应用 · 共 {N} 条</target>
+      </segment>
+    </unit>
+    <unit id="demo.editor.invalid">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:22</note>
+      </notes>
+      <segment>
+        <source>JSON parse error:</source><target>JSON 解析错误：</target>
+      </segment>
+    </unit>
+    <unit id="demo.editor.keys">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:23</note>
+      </notes>
+      <segment>
+        <source>{N} translation keys</source><target>共 {N} 条翻译键</target>
+      </segment>
+    </unit>
+    <unit id="home.official.tag">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:45</note>
+      </notes>
+      <segment>
+        <source>Official API, runtime</source><target>官方 API 运行时</target>
+      </segment>
+    </unit>
+    <unit id="home.official.sub">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:46</note>
+      </notes>
+      <segment>
+        <source>+ loadTranslations runtime switch</source><target>+ loadTranslations 运行时切换</target>
+      </segment>
+    </unit>
+    <unit id="home.compile.tag">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:47</note>
+      </notes>
+      <segment>
+        <source>Official compile-time</source><target>官方编译时</target>
+      </segment>
+    </unit>
+    <unit id="home.compile.sub">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:48</note>
+      </notes>
+      <segment>
+        <source>+ ng build --localize multi-site</source><target>+ ng build --localize 多站点</target>
+      </segment>
+    </unit>
+    <unit id="home.custom.tag">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:49</note>
+      </notes>
+      <segment>
+        <source>Custom solution</source><target>自研方案</target>
+      </segment>
+    </unit>
+    <unit id="home.custom.sub">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:50</note>
+      </notes>
+      <segment>
+        <source>+ merged JSON + typed codegen</source><target>+ 合并 JSON + 强类型 codegen</target>
+      </segment>
+    </unit>
+  </file>
+</xliff>

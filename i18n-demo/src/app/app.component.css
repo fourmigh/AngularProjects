@@ -44,6 +44,40 @@
   color: #fff;
 }
 
+.lang {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lang-label {
+  font-size: 13px;
+  color: #888;
+}
+
+.lang-btn {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #d8dbe3;
+  background: #fff;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lang-btn:hover {
+  border-color: #4f6ef7;
+  color: #4f6ef7;
+}
+
+.lang-btn.active {
+  background: #4f6ef7;
+  border-color: #4f6ef7;
+  color: #fff;
+}
+
 .stage {
   height: calc(100% - 52px);
 }

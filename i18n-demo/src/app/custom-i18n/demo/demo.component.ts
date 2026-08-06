@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { I18nService } from '../i18n.service';
+import { LocaleService } from '../../locale.service';
 import type { LocaleId } from '../i18n-keys';
 
 @Component({
@@ -11,6 +12,7 @@ import type { LocaleId } from '../i18n-keys';
 })
 export class DemoComponent {
   private readonly i18n = inject(I18nService);
+  private readonly localeService = inject(LocaleService);
 
   readonly userName = 'Developer';
   readonly itemCount = 3;
@@ -52,7 +54,8 @@ export class DemoComponent {
   // 2) applyLocale: buildMap(id) 抽取当前语言 → clearTranslations() 清旧消息 → loadTranslations(map) 载入新语言映射
   // 3) renderTick++ → custom-page.component.html 的 @for track 触发 <app-demo> 重建
   // 4) demo 字段重新执行 this.i18n.t(...) → $localize 按消息 id 读官方 registry 新语言，界面即时切换
+  // 语言为内存状态（localStorage 记住上次选择）：setLocale 不改变 URL
   switchLanguage(id: LocaleId): void {
-    this.i18n.switchLanguage(id);
+    this.localeService.setLocale(id);
   }
 }

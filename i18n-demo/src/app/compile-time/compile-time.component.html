@@ -1,0 +1,37 @@
+<main class="page">
+  @for (bounce of [localeTick()]; track bounce) {
+  <header class="hero">
+    <h1>{{ heroTitle }}</h1>
+    <p class="sub">{{ heroSub }}</p>
+  </header>
+
+  <section class="steps">
+    @for (step of steps; track step.no) {
+      <article class="step">
+        <span class="no">{{ step.no }}</span>
+        <div>
+          <h2>{{ step.title }}</h2>
+          <p>{{ step.desc }}</p>
+        </div>
+      </article>
+    }
+  </section>
+
+  <section class="block">
+    <h2>{{ extractTitle }}</h2>
+    @if (xlfError()) {
+      <p class="error">{{ xlfError() }}</p>
+    } @else if (!xlf()) {
+      <p class="muted">…</p>
+    } @else {
+      <pre class="xlf"><code>{{ xlf() }}</code></pre>
+    }
+  </section>
+
+  <section class="block">
+    <h2>{{ translatedTitle }}</h2>
+    <p class="note">{{ translatedNote }}</p>
+    <pre class="xlf"><code>{{ translatedSample }}</code></pre>
+  </section>
+  }
+</main>

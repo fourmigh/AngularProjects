@@ -37,6 +37,26 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": {
+          "code": "en-US",
+          "subPath": ""
+        },
+        "locales": {
+          "zh": {
+            "translation": [
+              "src/locale/messages.zh.xlf"
+            ],
+            "subPath": "zh"
+          },
+          "de": {
+            "translation": [
+              "src/locale/messages.de.xlf"
+            ],
+            "subPath": "de"
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -63,6 +83,11 @@
                 "glob": "translations.json",
                 "input": "src/app/custom-i18n/i18n",
                 "output": "/i18n"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/locale",
+                "output": "/locale"
               }
             ],
             "styles": [
@@ -73,28 +98,45 @@
               ".ttf": "file"
             }
           },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "4MB",
-                  "maximumError": "6MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
-              "outputHashing": "all"
+"configurations": {
+              "production": {
+                "budgets": [
+                  {
+                    "type": "initial",
+                    "maximumWarning": "4MB",
+                    "maximumError": "6MB"
+                  },
+                  {
+                    "type": "anyComponentStyle",
+                    "maximumWarning": "4kB",
+                    "maximumError": "8kB"
+                  }
+                ],
+                "outputHashing": "all"
+              },
+              "development": {
+                "optimization": false,
+                "extractLicenses": false,
+                "sourceMap": true
+              },
+              "compile": {
+                "optimization": true,
+                "extractLicenses": false,
+                "sourceMap": false,
+                "outputHashing": "all",
+                "localize": true,
+                "fileReplacements": [
+                  {
+                    "replace": "src/app/app.routes.ts",
+                    "with": "src/app/app.routes.compile.ts"
+                  },
+                  {
+                    "replace": "src/app/features.ts",
+                    "with": "src/app/features.compile.ts"
+                  }
+                ]
+              }
             },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            }
-          },
           "defaultConfiguration": "production"
         },
         "serve": {
@@ -110,7 +152,12 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "i18n-demo:build:compile",
+            "outputPath": "src/locale",
+            "format": "xlf2"
+          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

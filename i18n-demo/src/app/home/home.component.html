@@ -1,12 +1,19 @@
 <main class="home">
-  <a class="card official" routerLink="/official">
-    <span class="tag">官方 API 运行时</span>
-    <span class="word">$localize</span>
-    <span class="sub">+ loadTranslations 运行时切换</span>
-  </a>
-  <a class="card custom" routerLink="/custom">
-    <span class="tag">自研方案</span>
-    <span class="word">t()</span>
-    <span class="sub">+ 合并 JSON + 强类型 codegen</span>
-  </a>
+  @for (bounce of [i18n.renderTick()]; track bounce) {
+    <a class="card official" routerLink="/official">
+      <span class="tag">{{ i18n.t('home.official.tag') }}</span>
+      <span class="word">$localize</span>
+      <span class="sub">{{ i18n.t('home.official.sub') }}</span>
+    </a>
+    <a class="card compile" [routerLink]="['/', localeService.locale(), 'compile-time']">
+      <span class="tag">{{ i18n.t('home.compile.tag') }}</span>
+      <span class="word">extract-i18n</span>
+      <span class="sub">{{ i18n.t('home.compile.sub') }}</span>
+    </a>
+    <a class="card custom" routerLink="/custom">
+      <span class="tag">{{ i18n.t('home.custom.tag') }}</span>
+      <span class="word">t()</span>
+      <span class="sub">{{ i18n.t('home.custom.sub') }}</span>
+    </a>
+  }
 </main>

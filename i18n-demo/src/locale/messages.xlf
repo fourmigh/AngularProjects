@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-US">
+  <file id="ngi18n" original="ng.template">
+    <unit id="shell.nav.home">
+      <notes>
+        <note category="location">src/app/app.component.ts:54</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:40</note>
+      </notes>
+      <segment>
+        <source>Home</source>
+      </segment>
+    </unit>
+    <unit id="shell.nav.official">
+      <notes>
+        <note category="location">src/app/app.component.ts:57</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:41</note>
+      </notes>
+      <segment>
+        <source>Official $localize</source>
+      </segment>
+    </unit>
+    <unit id="shell.nav.compile">
+      <notes>
+        <note category="location">src/app/app.component.ts:60</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:42</note>
+      </notes>
+      <segment>
+        <source>Compile-time</source>
+      </segment>
+    </unit>
+    <unit id="shell.nav.custom">
+      <notes>
+        <note category="location">src/app/app.component.ts:63</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:43</note>
+      </notes>
+      <segment>
+        <source>Custom t()</source>
+      </segment>
+    </unit>
+    <unit id="shell.lang.label">
+      <notes>
+        <note category="location">src/app/app.component.ts:66</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:44</note>
+      </notes>
+      <segment>
+        <source>Language:</source>
+      </segment>
+    </unit>
+    <unit id="ct.hero.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:23</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:24</note>
+      </notes>
+      <segment>
+        <source>Official compile-time: extract-i18n + --localize</source>
+      </segment>
+    </unit>
+    <unit id="ct.hero.sub">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:26</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:25</note>
+      </notes>
+      <segment>
+        <source>One build per language, the runtime language is fixed per site. It reuses the same message marking as the $localize runtime approach.</source>
+      </segment>
+    </unit>
+    <unit id="ct.extract.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:29</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:36</note>
+      </notes>
+      <segment>
+        <source>Real extracted output · locale/messages.xlf</source>
+      </segment>
+    </unit>
+    <unit id="ct.translated.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:32</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:37</note>
+      </notes>
+      <segment>
+        <source>Translated XLIFF (sample)</source>
+      </segment>
+    </unit>
+    <unit id="ct.translated.note">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:35</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:38</note>
+      </notes>
+      <segment>
+        <source>extract only produces source messages; translators fill the &lt;target&gt; in each language copy, then hand it to the --localize build.</source>
+      </segment>
+    </unit>
+    <unit id="ct.step1.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:41</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:26</note>
+      </notes>
+      <segment>
+        <source>Mark the messages</source>
+      </segment>
+    </unit>
+    <unit id="ct.step1.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:42</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:27</note>
+      </notes>
+      <segment>
+        <source>Use $localize in TS or i18n attributes in templates, always with a custom message id. These source marks are also reusable by the runtime approach.</source>
+      </segment>
+    </unit>
+    <unit id="ct.step2.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:46</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:28</note>
+      </notes>
+      <segment>
+        <source>ng extract-i18n</source>
+      </segment>
+    </unit>
+    <unit id="ct.step2.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:47</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:29</note>
+      </notes>
+      <segment>
+        <source>The Angular compiler scans the source and extracts all messages into one messages.xlf (XLIFF 2). Below is the real extracted output.</source>
+      </segment>
+    </unit>
+    <unit id="ct.step3.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:51</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:30</note>
+      </notes>
+      <segment>
+        <source>Translate the XLIFF</source>
+      </segment>
+    </unit>
+    <unit id="ct.step3.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:52</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:31</note>
+      </notes>
+      <segment>
+        <source>Translators keep a copy of the xlf per language and fill in the &lt;target&gt;. This is human work, not part of the automated build.</source>
+      </segment>
+    </unit>
+    <unit id="ct.step4.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:56</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:32</note>
+      </notes>
+      <segment>
+        <source>ng build --localize</source>
+      </segment>
+    </unit>
+    <unit id="ct.step4.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:57</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:33</note>
+      </notes>
+      <segment>
+        <source>Configure localizations in angular.json; the CLI builds once per locale and inlines each message to the target language at compile time.</source>
+      </segment>
+    </unit>
+    <unit id="ct.step5.title">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:61</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:34</note>
+      </notes>
+      <segment>
+        <source>Deploy per-language sites</source>
+      </segment>
+    </unit>
+    <unit id="ct.step5.desc">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:62</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:35</note>
+      </notes>
+      <segment>
+        <source>The output contains separate per-locale directories, each a fixed-language, tree-shakable site, distinguished by URL or hosting.</source>
+      </segment>
+    </unit>
+    <unit id="ct.xlf.error">
+      <notes>
+        <note category="location">src/app/compile-time/compile-time.component.ts:98</note>
+        <note category="location">src/app/custom-i18n/source-messages.ts:39</note>
+      </notes>
+      <segment>
+        <source>Could not load locale/messages.xlf (<ph id="0" equiv="ERR" disp="message"/>). Run `npm run i18n:extract` first.</source>
+      </segment>
+    </unit>
+    <unit id="demo.title">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:5</note>
+      </notes>
+      <segment>
+        <source>Angular Native i18n Demo</source>
+      </segment>
+    </unit>
+    <unit id="demo.subtitle">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:6</note>
+      </notes>
+      <segment>
+        <source>Built with @angular/localize · runtime $localize + loadTranslations</source>
+      </segment>
+    </unit>
+    <unit id="demo.welcome">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:7</note>
+      </notes>
+      <segment>
+        <source>Hello, <ph id="0" equiv="USER" disp="&apos;{$USER}&apos;"/>!</source>
+      </segment>
+    </unit>
+    <unit id="demo.intro">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:8</note>
+      </notes>
+      <segment>
+        <source>This is a live demo of Angular&apos;s built-in i18n. Click a language button on the left to switch instantly without rebuilding, or edit the JSON config in the editor and press Apply.</source>
+      </segment>
+    </unit>
+    <unit id="demo.items">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:9</note>
+      </notes>
+      <segment>
+        <source>You have <ph id="0" equiv="COUNT" disp="&apos;{$COUNT}&apos;"/> items in your cart</source>
+      </segment>
+    </unit>
+    <unit id="demo.currentLanguage">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:10</note>
+      </notes>
+      <segment>
+        <source>Current language</source>
+      </segment>
+    </unit>
+    <unit id="demo.date">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:11</note>
+      </notes>
+      <segment>
+        <source>Localized date</source>
+      </segment>
+    </unit>
+    <unit id="demo.number">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:12</note>
+      </notes>
+      <segment>
+        <source>Localized number</source>
+      </segment>
+    </unit>
+    <unit id="demo.tip">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:13</note>
+      </notes>
+      <segment>
+        <source>Tip: $localize in TS and i18n attributes in templates both support runtime translation via loadTranslations.</source>
+      </segment>
+    </unit>
+    <unit id="demo.renders">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:14</note>
+      </notes>
+      <segment>
+        <source>Component rebuilds</source>
+      </segment>
+    </unit>
+    <unit id="demo.editor.title">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:15</note>
+      </notes>
+      <segment>
+        <source>Edit Language Config</source>
+      </segment>
+    </unit>
+    <unit id="demo.editor.file">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:16</note>
+      </notes>
+      <segment>
+        <source>Config file</source>
+      </segment>
+    </unit>
+    <unit id="demo.editor.hint">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:17</note>
+      </notes>
+      <segment>
+        <source>Edit the merged translations.json, check the languages and click Apply; the selection is exported on Download for the local split script.</source>
+      </segment>
+    </unit>
+    <unit id="demo.editor.apply">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:18</note>
+      </notes>
+      <segment>
+        <source>Apply</source>
+      </segment>
+    </unit>
+    <unit id="demo.editor.reset">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:19</note>
+      </notes>
+      <segment>
+        <source>Reset</source>
+      </segment>
+    </unit>
+    <unit id="demo.editor.download">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:20</note>
+      </notes>
+      <segment>
+        <source>Download</source>
+      </segment>
+    </unit>
+    <unit id="demo.editor.valid">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:21</note>
+      </notes>
+      <segment>
+        <source>Applied · {N} keys</source>
+      </segment>
+    </unit>
+    <unit id="demo.editor.invalid">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:22</note>
+      </notes>
+      <segment>
+        <source>JSON parse error:</source>
+      </segment>
+    </unit>
+    <unit id="demo.editor.keys">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:23</note>
+      </notes>
+      <segment>
+        <source>{N} translation keys</source>
+      </segment>
+    </unit>
+    <unit id="home.official.tag">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:45</note>
+      </notes>
+      <segment>
+        <source>Official API, runtime</source>
+      </segment>
+    </unit>
+    <unit id="home.official.sub">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:46</note>
+      </notes>
+      <segment>
+        <source>+ loadTranslations runtime switch</source>
+      </segment>
+    </unit>
+    <unit id="home.compile.tag">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:47</note>
+      </notes>
+      <segment>
+        <source>Official compile-time</source>
+      </segment>
+    </unit>
+    <unit id="home.compile.sub">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:48</note>
+      </notes>
+      <segment>
+        <source>+ ng build --localize multi-site</source>
+      </segment>
+    </unit>
+    <unit id="home.custom.tag">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:49</note>
+      </notes>
+      <segment>
+        <source>Custom solution</source>
+      </segment>
+    </unit>
+    <unit id="home.custom.sub">
+      <notes>
+        <note category="location">src/app/custom-i18n/source-messages.ts:50</note>
+      </notes>
+      <segment>
+        <source>+ merged JSON + typed codegen</source>
+      </segment>
+    </unit>
+  </file>
+</xliff>

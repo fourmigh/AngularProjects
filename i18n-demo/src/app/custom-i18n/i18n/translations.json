@@ -98,5 +98,140 @@
     "zh": "共 {N} 条翻译键",
     "en": "{N} translation keys",
     "de": "{N} Übersetzungsschlüssel"
+  },
+  "ct.hero.title": {
+    "zh": "官方编译时方案：extract-i18n + --localize",
+    "en": "Official compile-time: extract-i18n + --localize",
+    "de": "Offizielle Kompilierzeit: extract-i18n + --localize"
+  },
+  "ct.hero.sub": {
+    "zh": "每种语言独立构建、运行时语言固定。与 $localize 运行时方案共用同一套消息标记。",
+    "en": "One build per language, the runtime language is fixed per site. It reuses the same message marking as the $localize runtime approach.",
+    "de": "Ein Build pro Sprache, die Laufzeitsprache pro Site ist fest. Er nutzt dieselbe Markierung wie der $localize-Laufzeitansatz."
+  },
+  "ct.step1.title": {
+    "zh": "标记消息",
+    "en": "Mark the messages",
+    "de": "Nachrichten markieren"
+  },
+  "ct.step1.desc": {
+    "zh": "TS 用 $localize 标注消息 id，模板用 i18n 属性，均带自定义消息 id。这份源码标记同时也能被运行时方案复用。",
+    "en": "Use $localize in TS or i18n attributes in templates, always with a custom message id. These source marks are also reusable by the runtime approach.",
+    "de": "$localize in TS oder i18n-Attribute im Template verwenden, immer mit eigener Nachrichten-ID. Diese Markierungen sind auch im Laufzeitansatz nutzbar."
+  },
+  "ct.step2.title": {
+    "zh": "ng extract-i18n",
+    "en": "ng extract-i18n",
+    "de": "ng extract-i18n"
+  },
+  "ct.step2.desc": {
+    "zh": "Angular 编译器扫描源码，把所有消息提取到一份 messages.xlf（XLIFF 2）。下方为真实提取产物。",
+    "en": "The Angular compiler scans the source and extracts all messages into one messages.xlf (XLIFF 2). Below is the real extracted output.",
+    "de": "Der Angular-Compiler scannt den Quellcode und extrahiert alle Nachrichten in eine messages.xlf (XLIFF 2). Unten ist die echte Extraktion."
+  },
+  "ct.step3.title": {
+    "zh": "翻译 XLIFF",
+    "en": "Translate the XLIFF",
+    "de": "XLIFF übersetzen"
+  },
+  "ct.step3.desc": {
+    "zh": "翻译同学为每种语言同步一份 xlf，在 <target> 中补译文。这是人工产物，不参与自动构建。",
+    "en": "Translators keep a copy of the xlf per language and fill in the <target>. This is human work, not part of the automated build.",
+    "de": "Übersetzer pflegen eine Kopie der xlf pro Sprache und füllen das <target>. Das ist Handarbeit, nicht Teil des automatischen Builds."
+  },
+  "ct.step4.title": {
+    "zh": "ng build --localize",
+    "en": "ng build --localize",
+    "de": "ng build --localize"
+  },
+  "ct.step4.desc": {
+    "zh": "angular.json 配置 localizations，CLI 为每种语言单独构建一次，编译期把消息内联成目标语言。",
+    "en": "Configure localizations in angular.json; the CLI builds once per locale and inlines each message to the target language at compile time.",
+    "de": "Localizations in angular.json konfigurieren; der CLI baut einmal pro Locale und setzt jede Nachricht zur Kompilierzeit in die Zielsprache um."
+  },
+  "ct.step5.title": {
+    "zh": "多站点部署",
+    "en": "Deploy per-language sites",
+    "de": "Pro-Sprache bereitstellen"
+  },
+  "ct.step5.desc": {
+    "zh": "产物包含独立目录 dist/zh、dist/de……每个都是固定语言、可 tree-shake 的站点，靠 URL/部署区分。",
+    "en": "The output contains separate per-locale directories, each a fixed-language, tree-shakable site, distinguished by URL or hosting.",
+    "de": "Der Output enthält getrennte Verzeichnisse pro Sprache, jeweils eine feste, tree-shakbare Site, per URL oder Hosting unterscheidbar."
+  },
+  "ct.extract.title": {
+    "zh": "真实提取产物 · locale/messages.xlf",
+    "en": "Real extracted output · locale/messages.xlf",
+    "de": "Echte Extraktion · locale/messages.xlf"
+  },
+  "ct.translated.title": {
+    "zh": "翻译后的 XLIFF（示意）",
+    "en": "Translated XLIFF (sample)",
+    "de": "Übersetztes XLIFF (Beispiel)"
+  },
+  "ct.translated.note": {
+    "zh": "extract 只产出源消息；译文由翻译人员在各语言副本的 <target> 中填写，再交给 --localize 构建。",
+    "en": "extract only produces source messages; translators fill the <target> in each language copy, then hand it to the --localize build.",
+    "de": "extract liefert nur Quellnachrichten; Übersetzer füllen das <target> in jeder Sprachkopie und übergeben sie an den --localize-Build."
+  },
+"ct.xlf.error": {
+    "zh": "无法加载 locale/messages.xlf（{$ERR}）。请先运行 npm run i18n:extract。",
+    "en": "Could not load locale/messages.xlf ({$ERR}). Run `npm run i18n:extract` first.",
+    "de": "locale/messages.xlf nicht ladbar ({$ERR}). Führen Sie zuerst `npm run i18n:extract` aus."
+  },
+  "shell.nav.home": {
+    "zh": "首页",
+    "en": "Home",
+    "de": "Startseite"
+  },
+  "shell.nav.official": {
+    "zh": "官方 $localize",
+    "en": "Official $localize",
+    "de": "Offizielles $localize"
+  },
+  "shell.nav.compile": {
+    "zh": "编译时",
+    "en": "Compile-time",
+    "de": "Kompilierzeit"
+  },
+  "shell.nav.custom": {
+    "zh": "自定义 t()",
+    "en": "Custom t()",
+    "de": "Eigenes t()"
+  },
+  "shell.lang.label": {
+    "zh": "语言：",
+    "en": "Language:",
+    "de": "Sprache:"
+  },
+  "home.official.tag": {
+    "zh": "官方 API 运行时",
+    "en": "Official API, runtime",
+    "de": "Offizielle API, Laufzeit"
+  },
+  "home.official.sub": {
+    "zh": "+ loadTranslations 运行时切换",
+    "en": "+ loadTranslations runtime switch",
+    "de": "+ loadTranslations Laufzeitumschaltung"
+  },
+  "home.compile.tag": {
+    "zh": "官方编译时",
+    "en": "Official compile-time",
+    "de": "Offizielle Kompilierzeit"
+  },
+  "home.compile.sub": {
+    "zh": "+ ng build --localize 多站点",
+    "en": "+ ng build --localize multi-site",
+    "de": "+ ng build --localize Mehr-Site"
+  },
+  "home.custom.tag": {
+    "zh": "自研方案",
+    "en": "Custom solution",
+    "de": "Eigene Lösung"
+  },
+  "home.custom.sub": {
+    "zh": "+ 合并 JSON + 强类型 codegen",
+    "en": "+ merged JSON + typed codegen",
+"de": "+ Merge-JSON + typisierter Codegen"
   }
 }

@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  height: 100%;
+  overflow: auto;
+  background: #f5f6fa;
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 36px 28px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -0.02em;
+}
+
+.hero .sub {
+  margin: 10px 0 0;
+  color: #555;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+code {
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: #eef1f6;
+  color: #4f6ef7;
+  font-size: 13px;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.step .no {
+  font-size: 22px;
+  font-weight: 800;
+  color: #4f6ef7;
+  letter-spacing: -0.02em;
+}
+
+.step h2 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.step p {
+  margin: 0;
+  color: #555;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.block h2 {
+  margin: 8px 0 0;
+  font-size: 17px;
+}
+
+.block .note {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.xlf {
+  margin: 0;
+  padding: 16px;
+  max-height: 420px;
+  overflow: auto;
+  border-radius: 10px;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  font-family: 'JetBrains Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.loading,
+.error {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #eef1f6;
+  color: #555;
+  font-size: 14px;
+}
+
+.error {
+  border: 1px solid #f0c2bc;
+  background: #fdf0ee;
+  color: #b42318;
+}

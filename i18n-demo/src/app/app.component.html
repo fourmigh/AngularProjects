@@ -1,10 +1,25 @@
 <header class="topbar">
-  <a routerLink="/" class="brand">i18n demo</a>
-  <nav class="nav">
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">首页</a>
-    <a routerLink="/official" routerLinkActive="active">官方 $localize</a>
-    <a routerLink="/custom" routerLinkActive="active">自定义 t()</a>
-  </nav>
+  @for (bounce of [i18n.renderTick()]; track bounce) {
+    <a [routerLink]="['/', locale()]" class="brand">i18n demo</a>
+    <nav class="nav">
+      <a [routerLink]="['/', locale()]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ homeLabel }}</a>
+      @if (runtimePages) {
+        <a routerLink="/official" routerLinkActive="active">{{ officialLabel }}</a>
+      }
+      <a [routerLink]="['/', locale(), 'compile-time']" routerLinkActive="active">{{ compileLabel }}</a>
+      @if (runtimePages) {
+        <a routerLink="/custom" routerLinkActive="active">{{ customLabel }}</a>
+      }
+    </nav>
+    @if (runtimePages) {
+      <div class="lang">
+        <span class="lang-label">{{ langLabel }}</span>
+        @for (l of langs; track l.id) {
+          <button type="button" class="lang-btn" [class.active]="l.id === locale()" (click)="go(l.id)">{{ l.label }}</button>
+        }
+      </div>
+    }
+  }
 </header>
 <main class="stage">
   <router-outlet />

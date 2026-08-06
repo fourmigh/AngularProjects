@@ -1,6 +1,6 @@
 .home {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   height: 100%;
 }
 
@@ -21,6 +21,10 @@
 
 .card.official {
   background: linear-gradient(135deg, #3f5af0, #6a4ff0);
+}
+
+.card.compile {
+  background: linear-gradient(135deg, #0e7490, #0891b2);
 }
 
 .card.custom {
