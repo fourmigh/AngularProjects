@@ -166,9 +166,30 @@ export class I18nService {
   }
 
   private async loadDefault(): Promise<void> {
-    const res = await fetch('i18n/translations.json');
-    if (!res.ok) throw new Error(`Failed to load i18n/translations.json`);
-    this.mergedDefault = (await res.json()) as MergedTranslations;
+    // 标准运行时 i18n：按 locale 加载各自独立的 json（assets/locale/{zh,en,de}.json），
+    // 这些文件由 split-i18n.mjs 从主文件 translations.json 拆分生成，格式即 loadTranslations 所需的 { 消息id: 译文 }。
+    // translations.json 仅作为脚本（check / make-xlf / split）的主文件，运行时不再直接加载；
+    // 若拆分文件缺失（如未跑 i18n:split），则回退到 translations.json 以保证开发可用。
+    try {
+      const merged: Record<string, unknown> = { $languages: [...ALL_LANGUAGES] };
+      for (const lang of ALL_LANGUAGES) {
+        const res = await fetch(`assets/locale/${lang}.json`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = (await res.json()) as Record<string, string>;
+        for (const [key, text] of Object.entries(data)) {
+          const entry = (merged[key] as Partial<Record<LocaleId, string>> | undefined) ?? {};
+          entry[lang] = text;
+          merged[key] = entry;
+        }
+      }
+      this.mergedDefault = merged as MergedTranslations;
+    } catch (err) {
+      const message = (err as Error).message;
+      console.warn(`[i18n] 未能加载 assets/locale/*.json（${message}），回退到 i18n/translations.json`);
+      const res = await fetch('i18n/translations.json');
+      if (!res.ok) throw new Error(`Failed to load i18n/translations.json`);
+      this.mergedDefault = (await res.json()) as MergedTranslations;
+    }
   }
 
   private restoreActive(): void {

@@ -1,6 +1,8 @@
 # I18nDemo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.6.
+
+> 新手先看这份大白话教程：[docs/教程-小白版.md](docs/教程-小白版.md)（三种国际化方案对比 + 文件结构 + 上手命令）。深度原理见同目录 `i18n方案对比.docx` / `i18n方案对比.xlsx`。
 
 ## Development server
 
