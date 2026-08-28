@@ -5,8 +5,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --poll 2000",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "watch": "ng build --watch --configuration development"
   },
   "private": true,
   "dependencies": {
@@ -17,8 +16,8 @@
     "@angular/platform-browser": "^22.1.4",
     "@angular/platform-browser-dynamic": "^22.1.4",
     "@angular/router": "^22.1.4",
-    "@ionic/angular": "^8.8.15",
-    "@ionic/core": "^8.8.15",
+    "@ionic/angular": "^9.0.0",
+    "@ionic/core": "^9.0.0",
     "ionicons": "^8.0.13",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
@@ -28,13 +27,6 @@
     "@angular-devkit/build-angular": "^22.1.6",
     "@angular/cli": "^22.1.6",
     "@angular/compiler-cli": "^22.1.4",
-    "@types/jasmine": "~5.1.0",
-    "jasmine-core": "~5.6.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~6.0.3"
   }
 }

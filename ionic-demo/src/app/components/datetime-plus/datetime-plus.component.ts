@@ -1,6 +1,6 @@
 import { Component, model, input, effect } from '@angular/core';
 import type { DatetimePresentation, DatetimeHourCycle, Color } from '@ionic/core/components';
-import { IonDatetime } from '@ionic/angular/standalone';
+import { IonDatetime } from '@ionic/angular';
 
 @Component({
   selector: 'app-datetime-plus',

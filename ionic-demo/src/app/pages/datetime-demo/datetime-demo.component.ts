@@ -8,7 +8,7 @@ import {
   IonList, IonNote, IonText,
   IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
   IonBadge, IonChip, IonButton, IonButtons, IonFooter,
-} from '@ionic/angular/standalone';
+} from '@ionic/angular';
 import { DatetimePlusComponent } from '../../components/datetime-plus/datetime-plus.component';
 import {
   Presentation, HourCycle, DatetimeSize, Color,
