@@ -44,7 +44,7 @@ try {
   fail(`未找到提取产物 ${XLF}，请先运行 npm run i18n:extract`);
 }
 
-const keys = Object.keys(data).filter((k) => k !== '$languages');
+const keys = Object.keys(data).filter((k) => k !== '$languages' && k !== '$languageLabels');
 for (const locale of LOCALES) {
   let out = sourceXlf;
   let injected = 0;

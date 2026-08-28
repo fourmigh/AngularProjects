@@ -30,7 +30,7 @@ try {
   process.exit(1);
 }
 
-const validKeys = new Set(Object.keys(data).filter((k) => k !== '$languages'));
+const validKeys = new Set(Object.keys(data).filter((k) => k !== '$languages' && k !== '$languageLabels'));
 
 const idRegex = /@@([A-Za-z0-9._-]+)/g;
 const labelRegex = /\b(?:label|t)\s*\(\s*['"`]([^'"`]+)['"`]/g;
@@ -69,7 +69,7 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-const LANGUAGES = ['zh', 'en', 'de'];
+const LANGUAGES = Array.isArray(data.$languages) ? data.$languages : [];
 const missingErrors = [];
 for (const key of usedKeys) {
   const entry = data[key];

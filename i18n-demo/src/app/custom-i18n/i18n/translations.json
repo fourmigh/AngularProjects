@@ -4,6 +4,11 @@
     "en",
     "de"
   ],
+  "$languageLabels": {
+    "zh": "中文",
+    "en": "English",
+    "de": "Deutsch"
+  },
   "demo.title": {
     "zh": "Angular 原生 i18n 演示",
     "en": "Angular Native i18n Demo",

@@ -10,7 +10,6 @@ export interface LanguageInfo {
 
 export const I18N_SCOPE = new InjectionToken<string>('I18N_SCOPE');
 
-const ALL_LANGUAGES: LocaleId[] = ['zh', 'en', 'de'];
 const KEY_ACTIVE = 'i18n-demo.active';
 const KEY_DRAFT = 'i18n-demo.draft';
 
@@ -25,11 +24,12 @@ export class I18nService {
     this.keyDraft = KEY_DRAFT + suffix;
   }
 
-  readonly languages: LanguageInfo[] = [
-    { id: 'zh', label: '中文' },
-    { id: 'en', label: 'English' },
-    { id: 'de', label: 'Deutsch' },
-  ];
+  private availableLanguages: LocaleId[] = [];
+  private languageLabels: Record<string, string> = {};
+
+  get languages(): LanguageInfo[] {
+    return this.availableLanguages.map((id) => ({ id, label: this.languageLabels[id] ?? id }));
+  }
 
   readonly current = signal<LocaleId>('zh');
 
@@ -133,24 +133,25 @@ export class I18nService {
 
     if (raw['$languages'] !== undefined) {
       if (
-        !Array.isArray(raw['$languages']) ||
-        raw['$languages'].some((l) => !ALL_LANGUAGES.includes(l as LocaleId))
+        this.availableLanguages.length > 0 &&
+        (!Array.isArray(raw['$languages']) ||
+        raw['$languages'].some((l) => !this.availableLanguages.includes(l as LocaleId)))
       ) {
-        this.lastParseError = `"$languages" 必须是 ${ALL_LANGUAGES.join('/')} 的子集数组`;
+        this.lastParseError = `"$languages" 必须是 ${this.availableLanguages.join('/')} 的子集数组`;
         return null;
       }
       merged['$languages'] = raw['$languages'] as LocaleId[];
     }
 
     for (const [key, value] of Object.entries(raw)) {
-      if (key === '$languages') continue;
+      if (key === '$languages' || key === '$languageLabels') continue;
       if (typeof value !== 'object' || value === null || Array.isArray(value)) {
         this.lastParseError = `翻译键 "${key}" 的值必须是对象（{ 语言: 文本 }）`;
         return null;
       }
       const entry: Partial<Record<LocaleId, string>> = {};
       for (const [lang, text] of Object.entries(value)) {
-        if (!ALL_LANGUAGES.includes(lang as LocaleId)) {
+        if (this.availableLanguages.length > 0 && !this.availableLanguages.includes(lang as LocaleId)) {
           this.lastParseError = `翻译键 "${key}" 含未知语言 "${lang}"`;
           return null;
         }
@@ -166,13 +167,29 @@ export class I18nService {
   }
 
   private async loadDefault(): Promise<void> {
-    // 标准运行时 i18n：按 locale 加载各自独立的 json（assets/locale/{zh,en,de}.json），
+    // 先从 translations.json 获取 $languages 和 $languageLabels
+    try {
+      const res = await fetch('i18n/translations.json');
+      if (res.ok) {
+        const raw = (await res.json()) as Record<string, unknown>;
+        if (Array.isArray(raw['$languages']) && raw['$languages'].length > 0) {
+          this.availableLanguages = raw['$languages'] as LocaleId[];
+        }
+        if (raw['$languageLabels'] && typeof raw['$languageLabels'] === 'object') {
+          this.languageLabels = raw['$languageLabels'] as Record<string, string>;
+        }
+      }
+    } catch {
+      // 网络不可用或文件不存在，保持空列表
+    }
+
+    // 按 availableLanguages 加载各自独立的 locale json（assets/locale/{lang}.json），
     // 这些文件由 split-i18n.mjs 从主文件 translations.json 拆分生成，格式即 loadTranslations 所需的 { 消息id: 译文 }。
     // translations.json 仅作为脚本（check / make-xlf / split）的主文件，运行时不再直接加载；
     // 若拆分文件缺失（如未跑 i18n:split），则回退到 translations.json 以保证开发可用。
     try {
-      const merged: Record<string, unknown> = { $languages: [...ALL_LANGUAGES] };
-      for (const lang of ALL_LANGUAGES) {
+      const merged: Record<string, unknown> = { $languages: [...this.availableLanguages] };
+      for (const lang of this.availableLanguages) {
         const res = await fetch(`assets/locale/${lang}.json`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = (await res.json()) as Record<string, string>;
@@ -239,7 +256,7 @@ export class I18nService {
     const merged = this.activeMerged ?? this.mergedDefault;
     const map: TranslationMap = {};
     for (const [key, value] of Object.entries(merged)) {
-      if (key === '$languages') continue;
+      if (key === '$languages' || key === '$languageLabels') continue;
       const entry = value as Partial<Record<LocaleId, string>>;
       const text = entry[id];
       if (typeof text === 'string') map[key as TranslationKey] = text;
@@ -249,6 +266,6 @@ export class I18nService {
 
   private translationKeyCount(): number {
     const merged = this.activeMerged ?? this.mergedDefault;
-    return Object.keys(merged).filter((k) => k !== '$languages').length;
+    return Object.keys(merged).filter((k) => k !== '$languages' && k !== '$languageLabels').length;
   }
 }

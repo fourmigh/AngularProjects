@@ -14,7 +14,7 @@
     @if (runtimePages) {
       <div class="lang">
         <span class="lang-label">{{ langLabel }}</span>
-        @for (l of langs; track l.id) {
+        @for (l of langs(); track l.id) {
           <button type="button" class="lang-btn" [class.active]="l.id === locale()" (click)="go(l.id)">{{ l.label }}</button>
         }
       </div>
