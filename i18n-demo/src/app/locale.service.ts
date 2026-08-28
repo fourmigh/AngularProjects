@@ -8,9 +8,7 @@ export class LocaleService {
   readonly availableLanguages = signal<LocaleId[]>([]);
   readonly locale = signal<LocaleId>(this.restore());
 
-  constructor() {
-    this.fetchLanguages();
-  }
+  constructor() {}
 
   isRouteLang(value: string | null | undefined): value is LocaleId {
     const langs = this.availableLanguages();
@@ -24,7 +22,7 @@ export class LocaleService {
     }
   }
 
-  private async fetchLanguages(): Promise<void> {
+  async fetchLanguages(): Promise<void> {
     try {
       const res = await fetch('i18n/translations.json');
       if (res.ok) {

@@ -7,7 +7,7 @@ const PROJECT_ROOT = join(MODULE, '..', '..', '..');
 const SOURCE = join(MODULE, 'i18n', 'translations.json');
 const XLF_DIR = join(PROJECT_ROOT, 'src', 'locale');
 const XLF = join(XLF_DIR, 'messages.xlf');
-const LOCALES = ['zh', 'de'];
+const SOURCE_LOCALE = 'en';
 
 function fail(message) {
   console.error(`[i18n:make:xl] ${message}`);
@@ -45,6 +45,10 @@ try {
 }
 
 const keys = Object.keys(data).filter((k) => k !== '$languages' && k !== '$languageLabels');
+const LOCALES = Array.isArray(data.$languages)
+  ? data.$languages.filter((l) => l !== SOURCE_LOCALE)
+  : [];
+if (LOCALES.length === 0) fail('$languages 中无 target locale');
 for (const locale of LOCALES) {
   let out = sourceXlf;
   let injected = 0;

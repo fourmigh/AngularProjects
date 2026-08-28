@@ -40,11 +40,9 @@ export class EditorComponent implements AfterViewInit {
   private editor: monaco.editor.IStandaloneCodeEditor | undefined;
 
   readonly languages = this.i18n.languages;
-  readonly checked = signal<Record<LocaleId, boolean>>({
-    zh: true,
-    en: true,
-    de: true,
-  });
+  readonly checked = signal<Record<LocaleId, boolean>>(
+    Object.fromEntries(this.i18n.languages.map((l) => [l.id, true])) as Record<LocaleId, boolean>,
+  );
   readonly status = signal('');
   readonly isError = signal(false);
 
