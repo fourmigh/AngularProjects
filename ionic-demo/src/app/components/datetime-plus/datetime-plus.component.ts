@@ -2,6 +2,13 @@ import { Component, model, input, effect } from '@angular/core';
 import type { DatetimePresentation, DatetimeHourCycle, Color } from '@ionic/core/components';
 import { IonDatetime } from '@ionic/angular';
 
+export interface DurationParts {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 @Component({
   selector: 'app-datetime-plus',
   standalone: true,
@@ -281,5 +288,72 @@ export class DatetimePlusComponent {
   clearValue() {
     this.value.set(undefined);
     this.previousSelected = [];
+  }
+
+  private getSelectedValues(): string[] {
+    const v = this.value();
+    if (!v) return [];
+    return Array.isArray(v) ? v : [v];
+  }
+
+  private isTimeLikePresentation(): boolean {
+    const p = this.presentation();
+    return p === 'time' || p === 'date-time' || p === 'time-date';
+  }
+
+  startDate(): Date | undefined {
+    const values = this.getSelectedValues();
+    if (values.length === 0) return undefined;
+
+    const first = values[0];
+    if (this.isTimeLikePresentation()) {
+      return new Date(first);
+    }
+    const d = new Date(first);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  endDate(): Date | undefined {
+    const values = this.getSelectedValues();
+    if (values.length === 0) return undefined;
+
+    const last = values[values.length - 1];
+    if (this.isTimeLikePresentation()) {
+      return new Date(last);
+    }
+    const d = new Date(last);
+    d.setHours(23, 59, 59, 999);
+    return d;
+  }
+
+  range(): DurationParts | null {
+    const values = this.getSelectedValues();
+    if (values.length === 0) return null;
+
+    const first = values[0];
+    const last = values[values.length - 1];
+    if (!first || !last) return null;
+
+    if (!this.isTimeLikePresentation()) {
+      const start = new Date(first.slice(0, 10));
+      const end = new Date(last.slice(0, 10));
+      const diffDays = Math.round((end.getTime() - start.getTime()) / 86400000) + 1;
+      if (diffDays <= 0) return null;
+      return { days: diffDays, hours: 0, minutes: 0, seconds: 0 };
+    }
+
+    const start = new Date(first);
+    const end = new Date(last);
+    const diffMs = end.getTime() - start.getTime();
+    if (diffMs < 0) return null;
+
+    const totalSeconds = Math.floor(diffMs / 1000);
+    return {
+      days: Math.floor(totalSeconds / 86400),
+      hours: Math.floor((totalSeconds % 86400) / 3600),
+      minutes: Math.floor((totalSeconds % 3600) / 60),
+      seconds: totalSeconds % 60,
+    };
   }
 }

@@ -8,15 +8,19 @@
 </ion-header>
 
 <ion-content>
-  <div class="demo-wrapper" [class.layout-landscape]="isLandscape()" [class.layout-portrait]="!isLandscape()">
-
+  <div
+    class="demo-wrapper"
+    [class.layout-landscape]="isLandscape()"
+    [class.layout-portrait]="!isLandscape()"
+  >
     <!-- ==================== PREVIEW PANEL ==================== -->
     <div class="preview-panel">
       <ion-card>
         <ion-card-header>
           <ion-card-title>Live Preview</ion-card-title>
           <ion-card-subtitle>
-            presentation: <ion-badge [color]="color()">{{ presentation() }}</ion-badge>
+            presentation:
+            <ion-badge [color]="color()">{{ presentation() }}</ion-badge>
           </ion-card-subtitle>
         </ion-card-header>
 
@@ -26,6 +30,7 @@
               <ion-badge color="primary">ion-datetime</ion-badge>
             </div>
             <app-datetime-plus
+              #datetimePlus
               [value]="value()"
               (valueChange)="value.set($event)"
               [presentation]="presentation()"
@@ -62,19 +67,40 @@
             }
           </div>
 
-          @if (weekRangeLabel()) {
-            <div class="week-range">
-              <ion-chip color="success">
-                <ion-label>Week: {{ weekRangeLabel() }}</ion-label>
+          <div class="range-display">
+            <ion-text color="medium">
+              <strong>Start Date:</strong>
+            </ion-text>
+            @if (startDateLabel()) {
+              <ion-chip [color]="color()" [outline]="true">
+                <ion-label>{{ startDateLabel() }}</ion-label>
               </ion-chip>
-            </div>
-          }
+            } @else {
+              <ion-note color="medium">No value selected</ion-note>
+            }
 
-          @if (multiple()) {
-            <ion-note color="warning">
-              Multiple selection enabled. Values: {{ value() || '[]' }}
-            </ion-note>
-          }
+            <ion-text color="medium">
+              <strong>End Date:</strong>
+            </ion-text>
+            @if (endDateLabel()) {
+              <ion-chip [color]="color()" [outline]="true">
+                <ion-label>{{ endDateLabel() }}</ion-label>
+              </ion-chip>
+            } @else {
+              <ion-note color="medium">No value selected</ion-note>
+            }
+
+            <ion-text color="medium">
+              <strong>Date Range:</strong>
+            </ion-text>
+            @if (dateDiffLabel()) {
+              <ion-chip color="success" [outline]="true">
+                <ion-label>{{ dateDiffLabel() }}</ion-label>
+              </ion-chip>
+            } @else {
+              <ion-note color="medium">No value selected</ion-note>
+            }
+          </div>
         </ion-card-content>
       </ion-card>
     </div>
@@ -91,7 +117,6 @@
 
         <ion-card-content class="controls-content">
           <ion-list [inset]="true">
-
             <!-- Presentation -->
             <ion-item-divider>
               <ion-label color="primary">Presentation</ion-label>
@@ -136,13 +161,15 @@
                 interface="popover"
               >
                 @for (l of LOCALES; track l.value) {
-                  <ion-select-option [value]="l.value">{{ l.label }}</ion-select-option>
+                  <ion-select-option [value]="l.value">{{
+                    l.label
+                  }}</ion-select-option>
                 }
               </ion-select>
             </ion-item>
 
             <!-- Size (only for date presentations, not week) -->
-            @if (hasDate() && presentation() !== 'week') {
+            @if (hasDate() && presentation() !== "week") {
               <ion-item>
                 <ion-segment
                   [value]="size()"
@@ -195,7 +222,9 @@
                   interface="popover"
                 >
                   @for (h of HOUR_VALUE_PRESETS; track h.value) {
-                    <ion-select-option [value]="h.value">{{ h.label }}</ion-select-option>
+                    <ion-select-option [value]="h.value">{{
+                      h.label
+                    }}</ion-select-option>
                   }
                 </ion-select>
               </ion-item>
@@ -211,7 +240,9 @@
                   interface="popover"
                 >
                   @for (m of MINUTE_VALUE_PRESETS; track m.value) {
-                    <ion-select-option [value]="m.value">{{ m.label }}</ion-select-option>
+                    <ion-select-option [value]="m.value">{{
+                      m.label
+                    }}</ion-select-option>
                   }
                 </ion-select>
               </ion-item>
@@ -290,7 +321,9 @@
                   interface="popover"
                 >
                   @for (d of WEEK_DAYS; track d.value) {
-                    <ion-select-option [value]="d.value">{{ d.label }}</ion-select-option>
+                    <ion-select-option [value]="d.value">{{
+                      d.label
+                    }}</ion-select-option>
                   }
                 </ion-select>
               </ion-item>
@@ -356,7 +389,6 @@
                 Show Time Label
               </ion-toggle>
             </ion-item>
-
           </ion-list>
         </ion-card-content>
       </ion-card>
@@ -367,7 +399,10 @@
 <ion-footer>
   <ion-toolbar>
     <ion-text color="medium" class="footer-text">
-      Aspect: {{ isLandscape() ? 'Landscape (Side-by-Side)' : 'Portrait (Stacked)' }}
+      Aspect:
+      {{
+        isLandscape() ? "Landscape (Side-by-Side)" : "Portrait (Stacked)"
+      }}
       &nbsp;|&nbsp; {{ presentation() }} &nbsp;|&nbsp; {{ color() }}
     </ion-text>
   </ion-toolbar>

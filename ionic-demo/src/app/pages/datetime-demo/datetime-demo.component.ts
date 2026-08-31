@@ -1,4 +1,4 @@
-import { Component, signal, computed, HostListener } from '@angular/core';
+import { Component, signal, computed, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonToolbar, IonTitle,
@@ -36,6 +36,38 @@ import {
 })
 export class DatetimeDemoComponent {
   isLandscape = signal(window.innerWidth > window.innerHeight);
+
+  @ViewChild('datetimePlus') datetimePlus?: DatetimePlusComponent;
+
+  startDateLabel = computed(() => {
+    this.value();
+    const d = this.datetimePlus?.startDate();
+    return d ? d + '' : '';
+  });
+
+  endDateLabel = computed(() => {
+    this.value();
+    const d = this.datetimePlus?.endDate();
+    return d ? d + '' : '';
+  });
+
+  dateDiffLabel = computed(() => {
+    this.value();
+    const r = this.datetimePlus?.range();
+    if (!r) return '';
+
+    if (!this.hasTime()) {
+      if (r.days <= 0) return '';
+      return this.formatDurationUnit(r.days, 'day');
+    }
+
+    const parts: string[] = [];
+    if (r.days > 0) parts.push(this.formatDurationUnit(r.days, 'day'));
+    if (r.hours > 0) parts.push(this.formatDurationUnit(r.hours, 'hour'));
+    if (r.minutes > 0) parts.push(this.formatDurationUnit(r.minutes, 'minute'));
+    if (r.seconds > 0 || parts.length === 0) parts.push(this.formatDurationUnit(r.seconds, 'second'));
+    return parts.join(' ');
+  });
 
   @HostListener('window:resize')
   onResize() {
@@ -90,25 +122,6 @@ export class DatetimeDemoComponent {
 
   maxInputType = computed((): string => this.minInputType());
 
-  weekRangeLabel = computed(() => {
-    if (this.presentation() !== 'week') return '';
-    const val = this.value();
-    if (!val) return '';
-    const picked = Array.isArray(val) ? val[0] : (typeof val === 'string' ? val : '');
-    if (!picked) return '';
-    const d = new Date(picked);
-    const day = d.getDay();
-    const firstDay = this.firstDayOfWeek();
-    const diffToFirst = (day - firstDay + 7) % 7;
-    const weekStart = new Date(d);
-    weekStart.setDate(d.getDate() - diffToFirst);
-    const weekEnd = new Date(weekStart);
-    weekEnd.setDate(weekStart.getDate() + 6);
-    const fmt = (dt: Date) =>
-      dt.toLocaleDateString(this.locale(), { month: 'short', day: 'numeric' });
-    return `${fmt(weekStart)} \u2013 ${fmt(weekEnd)}, ${weekEnd.getFullYear()}`;
-  });
-
   onMinChange(event: CustomEvent) {
     this.minValue.set(event.detail.value ?? '');
   }
@@ -119,5 +132,26 @@ export class DatetimeDemoComponent {
 
   clearValue() {
     this.value.set(undefined);
+  }
+
+  private formatDurationUnit(value: number, unit: 'day' | 'hour' | 'minute' | 'second'): string {
+    const language = (this.locale() || 'en').split('-')[0].toLowerCase();
+    const num = new Intl.NumberFormat(this.locale()).format(value);
+    const labels = this.durationLabels(language, unit, value);
+    return `${num} ${labels}`;
+  }
+
+  private durationLabels(language: string, unit: 'day' | 'hour' | 'minute' | 'second', value: number): string {
+    if (language === 'zh') {
+      const zh: Record<string, string> = { day: '天', hour: '小时', minute: '分', second: '秒' };
+      return zh[unit];
+    }
+    const en: Record<string, string[]> = {
+      day: ['day', 'days'], hour: ['hour', 'hours'],
+      minute: ['minute', 'minutes'], second: ['second', 'seconds'],
+    };
+    const forms = en[unit];
+    const plural = new Intl.PluralRules(language).select(value);
+    return plural === 'one' ? forms[0] : forms[1];
   }
 }
