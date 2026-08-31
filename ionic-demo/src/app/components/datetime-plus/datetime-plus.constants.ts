@@ -41,16 +41,16 @@ export const WEEK_DAYS: Option<number>[] = [
   { value: 6, label: 'Saturday' },
 ];
 
-export const LOCALES: Option<string>[] = [
-  { value: 'en-US', label: 'English (US)' },
-  { value: 'zh-CN', label: '中文 (中国)' },
-  { value: 'ja-JP', label: '日本語' },
-  { value: 'es-ES', label: 'Espa\u00F1ol' },
-  { value: 'fr-FR', label: 'Fran\u00E7ais' },
-  { value: 'de-DE', label: 'Deutsch' },
-  { value: 'ko-KR', label: '\uD55C\uAD6D\uC5B4' },
-  { value: 'ar-SA', label: '\u0627\u0644\u0639\u0631\u0628\u064A\u0629' },
-];
+export const LOCALES = [
+  { value: 'en', label: 'English' },
+  { value: 'zh', label: '中文' },
+  { value: 'ja', label: '日本語' },
+  { value: 'es', label: 'Espa\u00F1ol' },
+  { value: 'fr', label: 'Fran\u00E7ais' },
+  { value: 'de', label: 'Deutsch' },
+  { value: 'ko', label: '\uD55C\uAD6D\uC5B4' },
+  { value: 'ar', label: '\u0627\u0644\u0639\u0631\u0628\u064A\u0629' },
+] as const satisfies readonly Option<string>[];
 
 export const COLORS: Color[] = [
   'primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'light', 'medium', 'dark',

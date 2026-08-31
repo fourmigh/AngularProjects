@@ -11,9 +11,13 @@ import {
 } from '@ionic/angular';
 import { DatetimePlusComponent } from '../../components/datetime-plus/datetime-plus.component';
 import {
+  formatDuration,
+  localizePresentations, localizeHourCycles, localizeSizes,
+  localizeWeekDays, localizeHourValuePresets, localizeMinuteValuePresets,
+} from '../../components/datetime-plus/datetime-plus.i18n';
+import {
   Presentation, HourCycle, DatetimeSize, Color,
-  PRESENTATIONS, HOUR_CYCLES, SIZES, WEEK_DAYS, LOCALES, COLORS,
-  HOUR_VALUE_PRESETS, MINUTE_VALUE_PRESETS,
+  LOCALES, COLORS,
 } from '../../components/datetime-plus/datetime-plus.constants';
 
 @Component({
@@ -58,14 +62,14 @@ export class DatetimeDemoComponent {
 
     if (!this.hasTime()) {
       if (r.days <= 0) return '';
-      return this.formatDurationUnit(r.days, 'day');
+      return this.formatDuration(r.days, 'day');
     }
 
     const parts: string[] = [];
-    if (r.days > 0) parts.push(this.formatDurationUnit(r.days, 'day'));
-    if (r.hours > 0) parts.push(this.formatDurationUnit(r.hours, 'hour'));
-    if (r.minutes > 0) parts.push(this.formatDurationUnit(r.minutes, 'minute'));
-    if (r.seconds > 0 || parts.length === 0) parts.push(this.formatDurationUnit(r.seconds, 'second'));
+    if (r.days > 0) parts.push(this.formatDuration(r.days, 'day'));
+    if (r.hours > 0) parts.push(this.formatDuration(r.hours, 'hour'));
+    if (r.minutes > 0) parts.push(this.formatDuration(r.minutes, 'minute'));
+    if (r.seconds > 0 || parts.length === 0) parts.push(this.formatDuration(r.seconds, 'second'));
     return parts.join(' ');
   });
 
@@ -91,17 +95,18 @@ export class DatetimeDemoComponent {
   multiple = signal(false);
   consecutive = signal(false);
   firstDayOfWeek = signal(0);
-  locale = signal('en-US');
+  locale = signal('en');
   color = signal<Color>('primary');
 
-  PRESENTATIONS = PRESENTATIONS;
-  HOUR_CYCLES = HOUR_CYCLES;
-  SIZES = SIZES;
-  WEEK_DAYS = WEEK_DAYS;
   LOCALES = LOCALES;
   COLORS = COLORS;
-  HOUR_VALUE_PRESETS = HOUR_VALUE_PRESETS;
-  MINUTE_VALUE_PRESETS = MINUTE_VALUE_PRESETS;
+
+  presentationOptions = computed(() => localizePresentations(this.locale()));
+  hourCycleOptions = computed(() => localizeHourCycles(this.locale()));
+  sizeOptions = computed(() => localizeSizes(this.locale()));
+  weekDayOptions = computed(() => localizeWeekDays(this.locale()));
+  hourValuePresetOptions = computed(() => localizeHourValuePresets(this.locale()));
+  minuteValuePresetOptions = computed(() => localizeMinuteValuePresets(this.locale()));
 
   hasTime = computed(() =>
     ['time', 'date-time', 'time-date'].includes(this.presentation())
@@ -138,24 +143,7 @@ export class DatetimeDemoComponent {
     this.value.set(undefined);
   }
 
-  private formatDurationUnit(value: number, unit: 'day' | 'hour' | 'minute' | 'second'): string {
-    const language = (this.locale() || 'en').split('-')[0].toLowerCase();
-    const num = new Intl.NumberFormat(this.locale()).format(value);
-    const labels = this.durationLabels(language, unit, value);
-    return `${num} ${labels}`;
-  }
-
-  private durationLabels(language: string, unit: 'day' | 'hour' | 'minute' | 'second', value: number): string {
-    if (language === 'zh') {
-      const zh: Record<string, string> = { day: '天', hour: '小时', minute: '分', second: '秒' };
-      return zh[unit];
-    }
-    const en: Record<string, string[]> = {
-      day: ['day', 'days'], hour: ['hour', 'hours'],
-      minute: ['minute', 'minutes'], second: ['second', 'seconds'],
-    };
-    const forms = en[unit];
-    const plural = new Intl.PluralRules(language).select(value);
-    return plural === 'one' ? forms[0] : forms[1];
+  private formatDuration(value: number, unit: 'day' | 'hour' | 'minute' | 'second'): string {
+    return formatDuration(this.locale(), value, unit);
   }
 }

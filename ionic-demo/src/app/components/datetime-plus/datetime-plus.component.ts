@@ -34,7 +34,7 @@ export class DatetimePlusComponent {
   showDefaultTimeLabel = input(true);
   size = input<'cover' | 'fixed'>('cover');
   firstDayOfWeek = input<number | undefined>(0);
-  locale = input('en-US');
+  locale = input('en');
   color = input<Color>('primary');
 
   private previousSelected: string[] = [];
