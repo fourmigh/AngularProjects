@@ -57,6 +57,7 @@ export class DatetimeDemoComponent {
   showDefaultTimeLabel = signal(true);
   size = signal<DatetimeSize>('cover');
   multiple = signal(false);
+  consecutive = signal(false);
   firstDayOfWeek = signal(0);
   locale = signal('en-US');
   color = signal<Color>('primary');

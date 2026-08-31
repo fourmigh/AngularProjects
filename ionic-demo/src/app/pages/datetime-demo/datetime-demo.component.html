@@ -30,6 +30,7 @@
               (valueChange)="value.set($event)"
               [presentation]="presentation()"
               [multiple]="multiple()"
+              [consecutive]="consecutive()"
               [min]="minValue() || undefined"
               [max]="maxValue() || undefined"
               [hourValues]="hourValues() || undefined"
@@ -69,7 +70,7 @@
             </div>
           }
 
-          @if (multiple() && presentation() !== 'week') {
+          @if (multiple()) {
             <ion-note color="warning">
               Multiple selection enabled. Values: {{ value() || '[]' }}
             </ion-note>
@@ -295,8 +296,8 @@
               </ion-item>
             }
 
-            <!-- Multiple (only for date, not week) -->
-            @if (hasDate() && presentation() !== 'week') {
+            <!-- Multiple -->
+            @if (hasDate()) {
               <ion-item>
                 <ion-toggle
                   [checked]="multiple()"
@@ -304,6 +305,19 @@
                   justify="space-between"
                 >
                   Multiple Selection
+                </ion-toggle>
+              </ion-item>
+            }
+
+            <!-- Consecutive (only when multiple is enabled) -->
+            @if (multiple()) {
+              <ion-item>
+                <ion-toggle
+                  [checked]="consecutive()"
+                  (ionChange)="consecutive.set($event.detail.checked)"
+                  justify="space-between"
+                >
+                  Consecutive Only
                 </ion-toggle>
               </ion-item>
             }
