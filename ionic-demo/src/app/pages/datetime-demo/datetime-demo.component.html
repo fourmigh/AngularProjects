@@ -330,7 +330,7 @@
             }
 
             <!-- Multiple -->
-            @if (hasDate()) {
+            @if (supportsMultiple()) {
               <ion-item>
                 <ion-toggle
                   [checked]="multiple()"

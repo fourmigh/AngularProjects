@@ -1,7 +1,7 @@
 <ion-datetime
   [presentation]="presentation()"
   [value]="value()"
-  [multiple]="presentation() === 'week' ? true : multiple()"
+  [multiple]="presentation() === 'week' ? true : (multipleApplicable() ? multiple() : false)"
   [min]="min() || undefined"
   [max]="max() || undefined"
   [disabled]="disabled()"

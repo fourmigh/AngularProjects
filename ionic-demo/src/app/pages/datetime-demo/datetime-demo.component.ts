@@ -113,6 +113,10 @@ export class DatetimeDemoComponent {
     )
   );
 
+  supportsMultiple = computed(() =>
+    ['date', 'date-time', 'time-date'].includes(this.presentation())
+  );
+
   minInputType = computed((): string => {
     const p = this.presentation();
     if (['date-time', 'time-date'].includes(p)) return 'datetime-local';

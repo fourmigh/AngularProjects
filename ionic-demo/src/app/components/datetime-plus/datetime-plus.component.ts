@@ -38,6 +38,7 @@ export class DatetimePlusComponent {
   color = input<Color>('primary');
 
   private previousSelected: string[] = [];
+  private monthDefaultInitialized = false;
 
   constructor() {
     effect(() => {
@@ -46,6 +47,34 @@ export class DatetimePlusComponent {
         this.previousSelected = [];
       }
     });
+
+    effect(() => {
+      const p = this.presentation();
+      const isMonthLike = p === 'month' || p === 'month-year' || p === 'year';
+      if (!isMonthLike) {
+        this.monthDefaultInitialized = false;
+        return;
+      }
+      const v = this.value();
+      const isEmpty = !v || (Array.isArray(v) && v.length === 0);
+      if (isEmpty && !this.monthDefaultInitialized) {
+        this.value.set(this.defaultMonthYearValue(p));
+        this.monthDefaultInitialized = true;
+      }
+    });
+  }
+
+  private defaultMonthYearValue(p: DatetimePresentation | 'week'): string {
+    const d = new Date();
+    const y = d.getFullYear();
+    if (p === 'year') {
+      return String(y);
+    }
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    return `${y}-${m}-${day}T${hh}:${mm}`;
   }
 
   onDatetimeChange(event: CustomEvent) {
@@ -301,6 +330,39 @@ export class DatetimePlusComponent {
     return p === 'time' || p === 'date-time' || p === 'time-date';
   }
 
+  multipleApplicable(): boolean {
+    const p = this.presentation();
+    return p === 'date' || p === 'date-time' || p === 'time-date';
+  }
+
+  private getStartOfValue(value: string): Date {
+    const p = this.presentation();
+    const [y, m = 1, d = 1] = value.slice(0, 10).split('-').map(Number);
+    const date = new Date(y, (m || 1) - 1, (d || 1));
+    if (p === 'year') {
+      date.setMonth(0, 1);
+    } else if (p === 'month' || p === 'month-year') {
+      date.setDate(1);
+    }
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+
+  private getEndOfValue(value: string): Date {
+    const p = this.presentation();
+    const [y, m = 1, d = 1] = value.slice(0, 10).split('-').map(Number);
+    let date: Date;
+    if (p === 'year') {
+      date = new Date(y, 11, 31);
+    } else if (p === 'month' || p === 'month-year') {
+      date = new Date(y, m, 0);
+    } else {
+      date = new Date(y, (m || 1) - 1, (d || 1));
+    }
+    date.setHours(23, 59, 59, 999);
+    return date;
+  }
+
   startDate(): Date | undefined {
     const values = this.getSelectedValues();
     if (values.length === 0) return undefined;
@@ -309,9 +371,7 @@ export class DatetimePlusComponent {
     if (this.isTimeLikePresentation()) {
       return new Date(first);
     }
-    const d = new Date(first);
-    d.setHours(0, 0, 0, 0);
-    return d;
+    return this.getStartOfValue(first);
   }
 
   endDate(): Date | undefined {
@@ -322,9 +382,7 @@ export class DatetimePlusComponent {
     if (this.isTimeLikePresentation()) {
       return new Date(last);
     }
-    const d = new Date(last);
-    d.setHours(23, 59, 59, 999);
-    return d;
+    return this.getEndOfValue(last);
   }
 
   range(): DurationParts | null {
@@ -336,11 +394,11 @@ export class DatetimePlusComponent {
     if (!first || !last) return null;
 
     if (!this.isTimeLikePresentation()) {
-      const start = new Date(first.slice(0, 10));
-      const end = new Date(last.slice(0, 10));
-      const diffDays = Math.round((end.getTime() - start.getTime()) / 86400000) + 1;
-      if (diffDays <= 0) return null;
-      return { days: diffDays, hours: 0, minutes: 0, seconds: 0 };
+      const start = this.getStartOfValue(first);
+      const end = this.getEndOfValue(last);
+      const ms = end.getTime() - start.getTime();
+      const days = Math.max(1, Math.ceil(ms / 86400000));
+      return { days, hours: 0, minutes: 0, seconds: 0 };
     }
 
     const start = new Date(first);
