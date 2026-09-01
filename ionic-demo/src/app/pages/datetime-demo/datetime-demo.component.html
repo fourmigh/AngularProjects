@@ -2,6 +2,12 @@
   <ion-toolbar [color]="color()">
     <ion-title>Ion Datetime Demo</ion-title>
     <ion-buttons slot="end">
+      <ion-button
+        [routerLink]="['/preset-demo']"
+        [queryParams]="{ locale: locale() }"
+      >
+        Presets
+      </ion-button>
       <ion-button (click)="clearValue()">Clear</ion-button>
     </ion-buttons>
   </ion-toolbar>

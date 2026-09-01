@@ -1,0 +1,188 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Preset Datetime Demo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="preset-wrapper">
+    <!-- Single Date -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-badge color="primary">Single Date</ion-badge>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="datetime-container">
+          <app-datetime-plus
+            #cSingleDate
+            [value]="singleDate()"
+            (valueChange)="singleDate.set($event)"
+            presentation="date"
+            [locale]="locale()"
+          ></app-datetime-plus>
+        </div>
+        <div class="range-display">
+          <div class="range-item">
+            <ion-text color="medium"><strong>Start:</strong></ion-text>
+            <ion-note>{{ singleDateStart() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>End:</strong></ion-text>
+            <ion-note>{{ singleDateEnd() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>Range:</strong></ion-text>
+            <ion-note>{{ singleDateRange() }}</ion-note>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Multiple Date (Consecutive) -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-badge color="primary">Multiple Date</ion-badge>
+          <ion-badge color="success">Consecutive</ion-badge>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="datetime-container">
+          <app-datetime-plus
+            #cMultipleDate
+            [value]="multipleDate()"
+            (valueChange)="multipleDate.set($event)"
+            presentation="date"
+            [multiple]="true"
+            [consecutive]="true"
+            [locale]="locale()"
+          ></app-datetime-plus>
+        </div>
+        <div class="range-display">
+          <div class="range-item">
+            <ion-text color="medium"><strong>Start:</strong></ion-text>
+            <ion-note>{{ multipleDateStart() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>End:</strong></ion-text>
+            <ion-note>{{ multipleDateEnd() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>Range:</strong></ion-text>
+            <ion-note>{{ multipleDateRange() }}</ion-note>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Single Week -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-badge color="primary">Single Week</ion-badge>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="datetime-container">
+          <app-datetime-plus
+            #cSingleWeek
+            [value]="singleWeek()"
+            (valueChange)="singleWeek.set($event)"
+            presentation="week"
+            [locale]="locale()"
+          ></app-datetime-plus>
+        </div>
+        <div class="range-display">
+          <div class="range-item">
+            <ion-text color="medium"><strong>Start:</strong></ion-text>
+            <ion-note>{{ singleWeekStart() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>End:</strong></ion-text>
+            <ion-note>{{ singleWeekEnd() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>Range:</strong></ion-text>
+            <ion-note>{{ singleWeekRange() }}</ion-note>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Multiple Week (Consecutive) -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-badge color="primary">Multiple Week</ion-badge>
+          <ion-badge color="success">Consecutive</ion-badge>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="datetime-container">
+          <app-datetime-plus
+            #cMultipleWeek
+            [value]="multipleWeek()"
+            (valueChange)="multipleWeek.set($event)"
+            presentation="week"
+            [multiple]="true"
+            [consecutive]="true"
+            [locale]="locale()"
+          ></app-datetime-plus>
+        </div>
+        <div class="range-display">
+          <div class="range-item">
+            <ion-text color="medium"><strong>Start:</strong></ion-text>
+            <ion-note>{{ multipleWeekStart() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>End:</strong></ion-text>
+            <ion-note>{{ multipleWeekEnd() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>Range:</strong></ion-text>
+            <ion-note>{{ multipleWeekRange() }}</ion-note>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Month-Year -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-badge color="primary">Month-Year</ion-badge>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="datetime-container">
+          <app-datetime-plus
+            #cMonthYear
+            [value]="monthYear()"
+            (valueChange)="monthYear.set($event)"
+            presentation="month-year"
+            [locale]="locale()"
+          ></app-datetime-plus>
+        </div>
+        <div class="range-display">
+          <div class="range-item">
+            <ion-text color="medium"><strong>Start:</strong></ion-text>
+            <ion-note>{{ monthYearStart() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>End:</strong></ion-text>
+            <ion-note>{{ monthYearEnd() }}</ion-note>
+          </div>
+          <div class="range-item">
+            <ion-text color="medium"><strong>Range:</strong></ion-text>
+            <ion-note>{{ monthYearRange() }}</ion-note>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

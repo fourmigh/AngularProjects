@@ -1,5 +1,6 @@
 import { Component, signal, computed, HostListener, ViewChild, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import {
   IonContent, IonHeader, IonToolbar, IonTitle,
   IonToggle, IonSegment, IonSegmentButton, IonLabel,
@@ -26,6 +27,7 @@ import {
   host: { style: 'display: contents' },
   imports: [
     FormsModule,
+    RouterLink,
     IonContent, IonHeader, IonToolbar, IonTitle,
     IonToggle, IonSegment, IonSegmentButton, IonLabel,
     IonSelect, IonSelectOption, IonInput,

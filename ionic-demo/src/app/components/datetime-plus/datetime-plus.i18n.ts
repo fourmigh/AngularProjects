@@ -66,7 +66,7 @@ const DURATION_LABELS: Record<DurationLanguage, Record<DurationUnit, PluralLabel
   },
 };
 
-type UiCategory = 'presentation' | 'hourCycle' | 'size' | 'hourValuePreset' | 'minuteValuePreset';
+type UiCategory = 'presentation' | 'hourCycle' | 'size' | 'hourValuePreset' | 'minuteValuePreset' | 'noSelection';
 
 const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
   en: {
@@ -93,6 +93,7 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,10,20,30,40,50': 'Every 10 min',
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'Every 5 min',
     'minuteValuePreset:0,30': 'Every 30 min',
+    'noSelection:': 'No selection',
   },
   zh: {
     'presentation:time': '时间',
@@ -118,6 +119,7 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,10,20,30,40,50': '每 10 分钟',
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': '每 5 分钟',
     'minuteValuePreset:0,30': '每 30 分钟',
+    'noSelection:': '未选择',
   },
   ja: {
     'presentation:time': '時刻',
@@ -143,6 +145,7 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,10,20,30,40,50': '10分ごと',
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': '5分ごと',
     'minuteValuePreset:0,30': '30分ごと',
+    'noSelection:': '未選択',
   },
   es: {
     'presentation:time': 'Hora',
@@ -168,6 +171,7 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,10,20,30,40,50': 'Cada 10 min',
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'Cada 5 min',
     'minuteValuePreset:0,30': 'Cada 30 min',
+    'noSelection:': 'Sin selección',
   },
   fr: {
     'presentation:time': 'Heure',
@@ -193,6 +197,7 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,10,20,30,40,50': 'Toutes les 10 min',
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'Toutes les 5 min',
     'minuteValuePreset:0,30': 'Toutes les 30 min',
+    'noSelection:': 'Aucune sélection',
   },
   de: {
     'presentation:time': 'Uhrzeit',
@@ -218,6 +223,7 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,10,20,30,40,50': 'Alle 10 min',
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'Alle 5 min',
     'minuteValuePreset:0,30': 'Alle 30 min',
+    'noSelection:': 'Keine Auswahl',
   },
   ko: {
     'presentation:time': '시간',
@@ -243,6 +249,7 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,10,20,30,40,50': '매 10분',
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': '매 5분',
     'minuteValuePreset:0,30': '매 30분',
+    'noSelection:': '선택 없음',
   },
   ar: {
     'presentation:time': 'الوقت',
@@ -268,6 +275,7 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,10,20,30,40,50': 'كل 10 دقائق',
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'كل 5 دقائق',
     'minuteValuePreset:0,30': 'كل 30 دقيقة',
+    'noSelection:': 'لا تحديد',
   },
 };
 
@@ -314,6 +322,10 @@ export function localizeHourValuePresets(locale: string): Option<string>[] {
 
 export function localizeMinuteValuePresets(locale: string): Option<string>[] {
   return MINUTE_VALUE_PRESETS.map(o => ({ ...o, label: translate(locale, 'minuteValuePreset', o.value, o.label) }));
+}
+
+export function localizeNoSelection(locale: string): string {
+  return translate(locale, 'noSelection', '', 'No selection');
 }
 
 function formatWeekday(locale: string, day: number): string {

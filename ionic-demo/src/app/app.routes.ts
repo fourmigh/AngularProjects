@@ -9,6 +9,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'preset-demo',
+    loadComponent: () =>
+      import('./pages/datetime-preset-demo/datetime-preset-demo.component').then(
+        (m) => m.DatetimePresetDemoComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
