@@ -1,4 +1,4 @@
-import { Component, signal, computed, HostListener, ViewChild } from '@angular/core';
+import { Component, signal, computed, HostListener, ViewChild, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonToolbar, IonTitle,
@@ -42,6 +42,15 @@ export class DatetimeDemoComponent {
   isLandscape = signal(window.innerWidth > window.innerHeight);
 
   @ViewChild('datetimePlus') datetimePlus?: DatetimePlusComponent;
+
+  constructor() {
+    effect(() => {
+      if (!this.supportsMultiple()) {
+        this.multiple.set(false);
+        this.consecutive.set(false);
+      }
+    });
+  }
 
   startDateLabel = computed(() => {
     this.value();
@@ -119,8 +128,13 @@ export class DatetimeDemoComponent {
   );
 
   supportsMultiple = computed(() =>
-    ['date', 'date-time', 'time-date'].includes(this.presentation())
+    ['date', 'date-time', 'time-date', 'week'].includes(this.presentation())
   );
+
+  hasSelection = computed(() => {
+    const v = this.value();
+    return v !== undefined && v !== null && v !== '' && (!Array.isArray(v) || v.length > 0);
+  });
 
   minInputType = computed((): string => {
     const p = this.presentation();

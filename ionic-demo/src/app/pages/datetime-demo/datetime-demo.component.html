@@ -58,7 +58,7 @@
             <ion-text color="medium">
               <strong>Current Value:</strong>
             </ion-text>
-            @if (value()) {
+            @if (hasSelection()) {
               <ion-chip [color]="color()" [outline]="true">
                 <ion-label>{{ value() }}</ion-label>
               </ion-chip>
@@ -68,38 +68,44 @@
           </div>
 
           <div class="range-display">
-            <ion-text color="medium">
-              <strong>Start Date:</strong>
-            </ion-text>
-            @if (startDateLabel()) {
-              <ion-chip [color]="color()" [outline]="true">
-                <ion-label>{{ startDateLabel() }}</ion-label>
-              </ion-chip>
-            } @else {
-              <ion-note color="medium">No value selected</ion-note>
-            }
+            <div class="range-item">
+              <ion-text color="medium">
+                <strong>Start Date:</strong>
+              </ion-text>
+              @if (startDateLabel()) {
+                <ion-chip [color]="color()" [outline]="true">
+                  <ion-label>{{ startDateLabel() }}</ion-label>
+                </ion-chip>
+              } @else {
+                <ion-note color="medium">No value selected</ion-note>
+              }
+            </div>
 
-            <ion-text color="medium">
-              <strong>End Date:</strong>
-            </ion-text>
-            @if (endDateLabel()) {
-              <ion-chip [color]="color()" [outline]="true">
-                <ion-label>{{ endDateLabel() }}</ion-label>
-              </ion-chip>
-            } @else {
-              <ion-note color="medium">No value selected</ion-note>
-            }
+            <div class="range-item">
+              <ion-text color="medium">
+                <strong>End Date:</strong>
+              </ion-text>
+              @if (endDateLabel()) {
+                <ion-chip [color]="color()" [outline]="true">
+                  <ion-label>{{ endDateLabel() }}</ion-label>
+                </ion-chip>
+              } @else {
+                <ion-note color="medium">No value selected</ion-note>
+              }
+            </div>
 
-            <ion-text color="medium">
-              <strong>Date Range:</strong>
-            </ion-text>
-            @if (dateDiffLabel()) {
-              <ion-chip color="success" [outline]="true">
-                <ion-label>{{ dateDiffLabel() }}</ion-label>
-              </ion-chip>
-            } @else {
-              <ion-note color="medium">No value selected</ion-note>
-            }
+            <div class="range-item">
+              <ion-text color="medium">
+                <strong>Date Range:</strong>
+              </ion-text>
+              @if (dateDiffLabel()) {
+                <ion-chip color="success" [outline]="true">
+                  <ion-label>{{ dateDiffLabel() }}</ion-label>
+                </ion-chip>
+              } @else {
+                <ion-note color="medium">No value selected</ion-note>
+              }
+            </div>
           </div>
         </ion-card-content>
       </ion-card>

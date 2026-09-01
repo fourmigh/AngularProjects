@@ -1,4 +1,4 @@
-import { Component, model, input, effect } from '@angular/core';
+import { Component, model, input, effect, untracked } from '@angular/core';
 import type { DatetimePresentation, DatetimeHourCycle, Color } from '@ionic/core/components';
 import { IonDatetime } from '@ionic/angular';
 
@@ -62,6 +62,17 @@ export class DatetimePlusComponent {
         this.monthDefaultInitialized = true;
       }
     });
+
+    effect(() => {
+      this.presentation();
+      this.multiple();
+      this.consecutive();
+      const v = untracked(() => this.value());
+      if (v !== undefined && !(Array.isArray(v) && v.length === 0)) {
+        this.value.set([]);
+        this.previousSelected = [];
+      }
+    });
   }
 
   private defaultMonthYearValue(p: DatetimePresentation | 'week'): string {
@@ -89,7 +100,7 @@ export class DatetimePlusComponent {
   }
 
   private handleDateChange(rawValue: string | string[] | null) {
-    if (this.multiple() && this.consecutive()) {
+    if (this.multipleApplicable() && this.multiple() && this.consecutive()) {
       const arr = (Array.isArray(rawValue) ? rawValue : [rawValue]) as string[];
       const prev = this.previousSelected;
 
@@ -332,7 +343,7 @@ export class DatetimePlusComponent {
 
   multipleApplicable(): boolean {
     const p = this.presentation();
-    return p === 'date' || p === 'date-time' || p === 'time-date';
+    return p === 'date' || p === 'date-time' || p === 'time-date' || p === 'week';
   }
 
   private getStartOfValue(value: string): Date {
