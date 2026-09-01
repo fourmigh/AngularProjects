@@ -71,4 +71,5 @@ export const MINUTE_VALUE_PRESETS: Option<string>[] = [
   { value: '0,10,20,30,40,50', label: 'Every 10 min' },
   { value: '0,5,10,15,20,25,30,35,40,45,50,55', label: 'Every 5 min' },
   { value: '0,30', label: 'Every 30 min' },
+  { value: '0', label: 'Every 60 min' },
 ];
