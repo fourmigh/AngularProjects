@@ -39,27 +39,13 @@ export class DatetimePlusComponent {
 
   private previousSelected: string[] = [];
   private monthDefaultInitialized = false;
+  private lastPresentation: DatetimePresentation | 'week' | undefined;
 
   constructor() {
     effect(() => {
       const v = this.value();
       if (!v || (Array.isArray(v) && v.length === 0)) {
         this.previousSelected = [];
-      }
-    });
-
-    effect(() => {
-      const p = this.presentation();
-      const isMonthLike = p === 'month' || p === 'month-year' || p === 'year';
-      if (!isMonthLike) {
-        this.monthDefaultInitialized = false;
-        return;
-      }
-      const v = this.value();
-      const isEmpty = !v || (Array.isArray(v) && v.length === 0);
-      if (isEmpty && !this.monthDefaultInitialized) {
-        this.value.set(this.defaultMonthYearValue(p));
-        this.monthDefaultInitialized = true;
       }
     });
 
@@ -71,6 +57,24 @@ export class DatetimePlusComponent {
       if (v !== undefined && !(Array.isArray(v) && v.length === 0)) {
         this.value.set([]);
         this.previousSelected = [];
+      }
+    });
+
+    effect(() => {
+      const p = this.presentation();
+      const isMonthLike = p === 'month' || p === 'month-year' || p === 'year';
+      if (p !== this.lastPresentation) {
+        this.lastPresentation = p;
+        this.monthDefaultInitialized = false;
+      }
+      if (!isMonthLike) {
+        return;
+      }
+      const v = this.value();
+      const isEmpty = !v || (Array.isArray(v) && v.length === 0);
+      if (isEmpty && !this.monthDefaultInitialized) {
+        this.value.set(this.defaultMonthYearValue(p));
+        this.monthDefaultInitialized = true;
       }
     });
   }
