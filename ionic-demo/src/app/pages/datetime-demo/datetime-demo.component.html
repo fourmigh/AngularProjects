@@ -69,7 +69,7 @@
                 <ion-label>{{ value() }}</ion-label>
               </ion-chip>
             } @else {
-              <ion-note color="medium">No value selected</ion-note>
+              <ion-note color="medium">{{ noSelectionText() }}</ion-note>
             }
           </div>
 
@@ -83,7 +83,7 @@
                   <ion-label>{{ startDateLabel() }}</ion-label>
                 </ion-chip>
               } @else {
-                <ion-note color="medium">No value selected</ion-note>
+                <ion-note color="medium">{{ noSelectionText() }}</ion-note>
               }
             </div>
 
@@ -96,7 +96,7 @@
                   <ion-label>{{ endDateLabel() }}</ion-label>
                 </ion-chip>
               } @else {
-                <ion-note color="medium">No value selected</ion-note>
+                <ion-note color="medium">{{ noSelectionText() }}</ion-note>
               }
             </div>
 
@@ -109,7 +109,7 @@
                   <ion-label>{{ dateDiffLabel() }}</ion-label>
                 </ion-chip>
               } @else {
-                <ion-note color="medium">No value selected</ion-note>
+                <ion-note color="medium">{{ noSelectionText() }}</ion-note>
               }
             </div>
           </div>

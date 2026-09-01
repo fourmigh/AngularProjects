@@ -15,6 +15,7 @@ import {
   formatDuration,
   localizePresentations, localizeHourCycles, localizeSizes,
   localizeWeekDays, localizeHourValuePresets, localizeMinuteValuePresets,
+  localizeNoSelection,
 } from '../../components/datetime-plus/datetime-plus.i18n';
 import {
   Presentation, HourCycle, DatetimeSize, Color,
@@ -118,6 +119,7 @@ export class DatetimeDemoComponent {
   weekDayOptions = computed(() => localizeWeekDays(this.locale()));
   hourValuePresetOptions = computed(() => localizeHourValuePresets(this.locale()));
   minuteValuePresetOptions = computed(() => localizeMinuteValuePresets(this.locale()));
+  noSelectionText = computed(() => localizeNoSelection(this.locale()));
 
   hasTime = computed(() =>
     ['time', 'date-time', 'time-date'].includes(this.presentation())
