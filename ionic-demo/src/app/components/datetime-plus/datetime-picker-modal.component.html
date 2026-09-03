@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ title() }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="clear()">{{ clearLabel() }}</ion-button>
+      <ion-button (click)="cancel()">{{ cancelLabel() }}</ion-button>
+      <ion-button [color]="color()" (click)="confirm()">{{ okLabel() }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+      <app-datetime-plus
+        presentation="date-time"
+        hourCycle="h23"
+        [min]="pickerMin()"
+        [max]="pickerMax()"
+        [value]="selected()"
+        [locale]="locale()"
+        [firstDayOfWeek]="firstDayOfWeek()"
+        [color]="color()"
+        (valueChange)="selected.set($event)"
+      ></app-datetime-plus>
+</ion-content>

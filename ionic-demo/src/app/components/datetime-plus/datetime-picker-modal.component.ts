@@ -1,16 +1,19 @@
-import { Component, input, signal, OnInit } from '@angular/core';
+import { Component, input, signal, computed, OnInit, inject } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import {
   IonHeader, IonToolbar, IonTitle, IonButtons,
   IonButton, IonContent,
 } from '@ionic/angular';
-import { DatetimePlusComponent } from '../../components/datetime-plus/datetime-plus.component';
-import { Color } from '../../components/datetime-plus/datetime-plus.constants';
+import { DatetimePlusComponent } from './datetime-plus.component';
+import { Color } from './datetime-plus.constants';
+import { localizePickerModal } from './datetime-plus.i18n';
 
 export interface PickerModalProps {
   title: string;
   initialValue: string | string[] | null | undefined;
   color: Color;
+  locale: string;
+  firstDayOfWeek: number | undefined;
 }
 
 export interface PickerModalResult {
@@ -25,41 +28,26 @@ export interface PickerModalResult {
     IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent,
     DatetimePlusComponent,
   ],
-  template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>{{ title() }}</ion-title>
-        <ion-buttons slot="end">
-          <ion-button color="danger" (click)="clear()">Clear</ion-button>
-          <ion-button (click)="cancel()">Cancel</ion-button>
-          <ion-button [color]="color()" (click)="confirm()">OK</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <app-datetime-plus
-        presentation="date-time"
-        hourCycle="h23"
-        [min]="pickerMin()"
-        [max]="pickerMax()"
-        [value]="selected()"
-        (valueChange)="selected.set($event)"
-      ></app-datetime-plus>
-    </ion-content>
-  `,
+  templateUrl: './datetime-picker-modal.component.html',
 })
 export class DatetimePickerModalComponent implements OnInit {
   title = input<string>('');
   initialValue = input<string | string[] | null | undefined>();
   color = input<Color>('primary');
+  locale = input<string>('en');
+  firstDayOfWeek = input<number | undefined>(0);
 
   selected = signal<string | string[] | null | undefined>(undefined);
+
+  cancelLabel = computed(() => localizePickerModal(this.locale(), 'cancel'));
+  clearLabel = computed(() => localizePickerModal(this.locale(), 'clear'));
+  okLabel = computed(() => localizePickerModal(this.locale(), 'ok'));
 
   private readonly baseYear = new Date().getFullYear();
   pickerMin = signal(`${this.baseYear - 100}-01-01T00:00`);
   pickerMax = signal(`${this.baseYear + 100}-12-31T23:59`);
 
-  constructor(private modalController: ModalController) {}
+  private readonly modalController = inject(ModalController);
 
   ngOnInit() {
     this.selected.set(this.initialValue());

@@ -14,10 +14,9 @@ body {
 }
 
 ion-modal.picker-modal {
-  --height: 80vh;
+  --max-height: 90vh;
   --width: min(92vw, 460px);
   --max-width: 460px;
-  --min-height: 420px;
 
   ion-header ion-toolbar {
     --min-height: 44px;

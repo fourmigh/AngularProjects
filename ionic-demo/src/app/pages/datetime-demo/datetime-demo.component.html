@@ -211,7 +211,7 @@
                 fill="outline"
                 (click)="openMinPicker()"
               >
-                {{ minValue() || 'Set Min' }}
+                {{ minValue() || minPickerLabel() }}
               </ion-button>
             </ion-item>
 
@@ -224,7 +224,7 @@
                 fill="outline"
                 (click)="openMaxPicker()"
               >
-                {{ maxValue() || 'Set Max' }}
+                {{ maxValue() || maxPickerLabel() }}
               </ion-button>
             </ion-item>
 

@@ -16,12 +16,12 @@ import {
   DatetimePickerModalComponent,
   PickerModalProps,
   PickerModalResult,
-} from './datetime-picker-modal.component';
+} from '../../components/datetime-plus/datetime-picker-modal.component';
 import {
   formatDuration,
   localizePresentations, localizeHourCycles, localizeSizes,
   localizeWeekDays, localizeHourValuePresets, localizeMinuteValuePresets,
-  localizeNoSelection,
+  localizeNoSelection, localizePickerModal,
 } from '../../components/datetime-plus/datetime-plus.i18n';
 import {
   Presentation, HourCycle, DatetimeSize, Color,
@@ -128,6 +128,8 @@ export class DatetimeDemoComponent {
   hourValuePresetOptions = computed(() => localizeHourValuePresets(this.locale()));
   minuteValuePresetOptions = computed(() => localizeMinuteValuePresets(this.locale()));
   noSelectionText = computed(() => localizeNoSelection(this.locale()));
+  minPickerLabel = computed(() => localizePickerModal(this.locale(), 'setMin'));
+  maxPickerLabel = computed(() => localizePickerModal(this.locale(), 'setMax'));
 
   hasTime = computed(() =>
     ['time', 'date-time', 'time-date'].includes(this.presentation())
@@ -153,14 +155,14 @@ export class DatetimeDemoComponent {
   }
 
   openMinPicker() {
-    this.openPicker('Set Min', this.minValue());
+    this.openPicker(this.minPickerLabel(), this.minValue(), 'setMin');
   }
 
   openMaxPicker() {
-    this.openPicker('Set Max', this.maxValue());
+    this.openPicker(this.maxPickerLabel(), this.maxValue(), 'setMax');
   }
 
-  private async openPicker(title: string, initialValue: string | undefined) {
+  private async openPicker(title: string, initialValue: string | undefined, key: 'setMin' | 'setMax') {
     const modal = await this.modalController.create({
       component: DatetimePickerModalComponent,
       cssClass: 'picker-modal',
@@ -168,6 +170,8 @@ export class DatetimeDemoComponent {
         title,
         initialValue,
         color: this.color(),
+        locale: this.locale(),
+        firstDayOfWeek: this.firstDayOfWeek(),
       } satisfies PickerModalProps,
     });
 
@@ -176,11 +180,11 @@ export class DatetimeDemoComponent {
 
     if (!data) return;
     if (data.cleared || !data.value) {
-      if (title === 'Set Min') this.minValue.set(undefined);
+      if (key === 'setMin') this.minValue.set(undefined);
       else this.maxValue.set(undefined);
       return;
     }
-    if (title === 'Set Min') this.minValue.set(data.value);
+    if (key === 'setMin') this.minValue.set(data.value);
     else this.maxValue.set(data.value);
   }
 

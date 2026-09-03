@@ -66,7 +66,7 @@ const DURATION_LABELS: Record<DurationLanguage, Record<DurationUnit, PluralLabel
   },
 };
 
-type UiCategory = 'presentation' | 'hourCycle' | 'size' | 'hourValuePreset' | 'minuteValuePreset' | 'noSelection';
+type UiCategory = 'presentation' | 'hourCycle' | 'size' | 'hourValuePreset' | 'minuteValuePreset' | 'noSelection' | 'pickerModal';
 
 const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
   en: {
@@ -94,6 +94,11 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'Every 5 min',
     'minuteValuePreset:0,30': 'Every 30 min',
     'noSelection:': 'No selection',
+    'pickerModal:cancel': 'Cancel',
+    'pickerModal:clear': 'Clear',
+    'pickerModal:ok': 'OK',
+    'pickerModal:setMin': 'Set Min',
+    'pickerModal:setMax': 'Set Max',
   },
   zh: {
     'presentation:time': '时间',
@@ -120,6 +125,11 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': '每 5 分钟',
     'minuteValuePreset:0,30': '每 30 分钟',
     'noSelection:': '未选择',
+    'pickerModal:cancel': '取消',
+    'pickerModal:clear': '清除',
+    'pickerModal:ok': '确定',
+    'pickerModal:setMin': '设置最小值',
+    'pickerModal:setMax': '设置最大值',
   },
   ja: {
     'presentation:time': '時刻',
@@ -146,6 +156,11 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': '5分ごと',
     'minuteValuePreset:0,30': '30分ごと',
     'noSelection:': '未選択',
+    'pickerModal:cancel': 'キャンセル',
+    'pickerModal:clear': 'クリア',
+    'pickerModal:ok': 'OK',
+    'pickerModal:setMin': '最小を設定',
+    'pickerModal:setMax': '最大を設定',
   },
   es: {
     'presentation:time': 'Hora',
@@ -172,6 +187,11 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'Cada 5 min',
     'minuteValuePreset:0,30': 'Cada 30 min',
     'noSelection:': 'Sin selección',
+    'pickerModal:cancel': 'Cancelar',
+    'pickerModal:clear': 'Limpiar',
+    'pickerModal:ok': 'Aceptar',
+    'pickerModal:setMin': 'Establecer mínimo',
+    'pickerModal:setMax': 'Establecer máximo',
   },
   fr: {
     'presentation:time': 'Heure',
@@ -198,6 +218,11 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'Toutes les 5 min',
     'minuteValuePreset:0,30': 'Toutes les 30 min',
     'noSelection:': 'Aucune sélection',
+    'pickerModal:cancel': 'Annuler',
+    'pickerModal:clear': 'Effacer',
+    'pickerModal:ok': 'OK',
+    'pickerModal:setMin': 'Définir le minimum',
+    'pickerModal:setMax': 'Définir le maximum',
   },
   de: {
     'presentation:time': 'Uhrzeit',
@@ -224,6 +249,11 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'Alle 5 min',
     'minuteValuePreset:0,30': 'Alle 30 min',
     'noSelection:': 'Keine Auswahl',
+    'pickerModal:cancel': 'Abbrechen',
+    'pickerModal:clear': 'Löschen',
+    'pickerModal:ok': 'OK',
+    'pickerModal:setMin': 'Minimum festlegen',
+    'pickerModal:setMax': 'Maximum festlegen',
   },
   ko: {
     'presentation:time': '시간',
@@ -250,6 +280,11 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': '매 5분',
     'minuteValuePreset:0,30': '매 30분',
     'noSelection:': '선택 없음',
+    'pickerModal:cancel': '취소',
+    'pickerModal:clear': '지우기',
+    'pickerModal:ok': '확인',
+    'pickerModal:setMin': '최소 설정',
+    'pickerModal:setMax': '최대 설정',
   },
   ar: {
     'presentation:time': 'الوقت',
@@ -276,6 +311,11 @@ const UI_LABELS: Record<DurationLanguage, Record<string, string>> = {
     'minuteValuePreset:0,5,10,15,20,25,30,35,40,45,50,55': 'كل 5 دقائق',
     'minuteValuePreset:0,30': 'كل 30 دقيقة',
     'noSelection:': 'لا تحديد',
+    'pickerModal:cancel': 'إلغاء',
+    'pickerModal:clear': 'مسح',
+    'pickerModal:ok': 'موافق',
+    'pickerModal:setMin': 'الحد الأدنى',
+    'pickerModal:setMax': 'الحد الأقصى',
   },
 };
 
@@ -326,6 +366,10 @@ export function localizeMinuteValuePresets(locale: string): Option<string>[] {
 
 export function localizeNoSelection(locale: string): string {
   return translate(locale, 'noSelection', '', 'No selection');
+}
+
+export function localizePickerModal(locale: string, key: string): string {
+  return translate(locale, 'pickerModal', key, key);
 }
 
 function formatWeekday(locale: string, day: number): string {
