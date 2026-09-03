@@ -1,16 +1,22 @@
-import { Component, signal, computed, HostListener, ViewChild, effect } from '@angular/core';
+import { Component, signal, computed, HostListener, ViewChild, effect, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import {
   IonContent, IonHeader, IonToolbar, IonTitle,
   IonToggle, IonSegment, IonSegmentButton, IonLabel,
-  IonSelect, IonSelectOption, IonInput,
+  IonSelect, IonSelectOption,
   IonItem, IonItemDivider,
   IonList, IonNote, IonText,
   IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
   IonBadge, IonChip, IonButton, IonButtons, IonFooter,
 } from '@ionic/angular';
 import { DatetimePlusComponent } from '../../components/datetime-plus/datetime-plus.component';
+import {
+  DatetimePickerModalComponent,
+  PickerModalProps,
+  PickerModalResult,
+} from './datetime-picker-modal.component';
 import {
   formatDuration,
   localizePresentations, localizeHourCycles, localizeSizes,
@@ -31,7 +37,7 @@ import {
     RouterLink,
     IonContent, IonHeader, IonToolbar, IonTitle,
     IonToggle, IonSegment, IonSegmentButton, IonLabel,
-    IonSelect, IonSelectOption, IonInput,
+    IonSelect, IonSelectOption,
     IonItem, IonItemDivider,
     IonList, IonNote, IonText,
     IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
@@ -45,6 +51,8 @@ export class DatetimeDemoComponent {
   isLandscape = signal(window.innerWidth > window.innerHeight);
 
   @ViewChild('datetimePlus') datetimePlus?: DatetimePlusComponent;
+
+  private readonly modalController = inject(ModalController);
 
   constructor() {
     effect(() => {
@@ -92,8 +100,8 @@ export class DatetimeDemoComponent {
 
   presentation = signal<Presentation>('date-time');
   value = signal<string | string[] | null | undefined>(undefined);
-  minValue = signal('');
-  maxValue = signal('');
+  minValue = signal<string | undefined>(undefined);
+  maxValue = signal<string | undefined>(undefined);
   hourValues = signal('');
   minuteValues = signal('');
   disabled = signal(false);
@@ -140,25 +148,40 @@ export class DatetimeDemoComponent {
     return v !== undefined && v !== null && v !== '' && (!Array.isArray(v) || v.length > 0);
   });
 
-  minInputType = computed((): string => {
-    const p = this.presentation();
-    if (['date-time', 'time-date'].includes(p)) return 'datetime-local';
-    if (p === 'time') return 'time';
-    return 'date';
-  });
-
-  maxInputType = computed((): string => this.minInputType());
-
-  onMinChange(event: CustomEvent) {
-    this.minValue.set(event.detail.value ?? '');
-  }
-
-  onMaxChange(event: CustomEvent) {
-    this.maxValue.set(event.detail.value ?? '');
-  }
-
   clearValue() {
     this.value.set(undefined);
+  }
+
+  openMinPicker() {
+    this.openPicker('Set Min', this.minValue());
+  }
+
+  openMaxPicker() {
+    this.openPicker('Set Max', this.maxValue());
+  }
+
+  private async openPicker(title: string, initialValue: string | undefined) {
+    const modal = await this.modalController.create({
+      component: DatetimePickerModalComponent,
+      cssClass: 'picker-modal',
+      componentProps: {
+        title,
+        initialValue,
+        color: this.color(),
+      } satisfies PickerModalProps,
+    });
+
+    await modal.present();
+    const { data } = await modal.onWillDismiss<PickerModalResult | undefined>();
+
+    if (!data) return;
+    if (data.cleared || !data.value) {
+      if (title === 'Set Min') this.minValue.set(undefined);
+      else this.maxValue.set(undefined);
+      return;
+    }
+    if (title === 'Set Min') this.minValue.set(data.value);
+    else this.maxValue.set(data.value);
   }
 
   private formatDuration(value: number, unit: 'day' | 'hour' | 'minute' | 'second'): string {

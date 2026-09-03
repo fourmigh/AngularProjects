@@ -204,24 +204,28 @@
 
             <!-- Min -->
             <ion-item>
-              <ion-input
-                label="Min"
-                [type]="minInputType()"
-                [value]="minValue()"
-                placeholder="e.g. 2024-01-01"
-                (ionInput)="onMinChange($event)"
-              ></ion-input>
+              <ion-label>Min</ion-label>
+              <ion-button
+                slot="end"
+                [color]="color()"
+                fill="outline"
+                (click)="openMinPicker()"
+              >
+                {{ minValue() || 'Set Min' }}
+              </ion-button>
             </ion-item>
 
             <!-- Max -->
             <ion-item>
-              <ion-input
-                label="Max"
-                [type]="maxInputType()"
-                [value]="maxValue()"
-                placeholder="e.g. 2025-12-31"
-                (ionInput)="onMaxChange($event)"
-              ></ion-input>
+              <ion-label>Max</ion-label>
+              <ion-button
+                slot="end"
+                [color]="color()"
+                fill="outline"
+                (click)="openMaxPicker()"
+              >
+                {{ maxValue() || 'Set Max' }}
+              </ion-button>
             </ion-item>
 
             <!-- Hour Values (time-only) -->
