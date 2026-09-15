@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
-import { LocaleService } from '../locale.service';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { I18nService } from '../custom-i18n/i18n.service';
 
 interface Step {
   no: string;
@@ -15,9 +15,7 @@ interface Step {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompileTimeComponent {
-  private readonly localeService = inject(LocaleService);
-
-  readonly localeTick = signal(0);
+  readonly i18n = inject(I18nService);
 
   get heroTitle(): string {
     return $localize`:@@ct.hero.title:Official compile-time: extract-i18n + --localize`;
@@ -80,10 +78,6 @@ export class CompileTimeComponent {
 </xliff>`;
 
   constructor() {
-    effect(() => {
-      this.localeService.locale();
-      this.localeTick.update((n) => n + 1);
-    });
     void this.loadXlf();
   }
 

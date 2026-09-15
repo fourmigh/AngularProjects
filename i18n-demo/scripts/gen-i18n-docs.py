@@ -443,10 +443,10 @@ FILE_MAP_ROWS = [
     ["src/app/custom-i18n/pages/custom-page.component.{ts,html}", "自研页面（/custom）= 左 demo + 右编辑器", "自研"],
     ["src/app/custom-i18n/demo/demo.component.{ts,html}", "自研 demo，用 t()/label() 读文案", "自研"],
     ["src/app/custom-i18n/editor/editor.component.{ts,html}", "Monaco JSON 编辑器，可视化改文案", "自研"],
-    ["src/app/custom-i18n/i18n.service.ts", "自研核心服务：t()/label()、applyEdited、下载/重置", "自研"],
+    ["src/app/custom-i18n/i18n.service.ts", "root 单例门面：语言切换 + t()/label()、applyEdited、下载/重置", "自研"],
     ["src/app/custom-i18n/i18n-keys.ts", "生成的文件：翻译键类型（TranslationKey）", "自研"],
     ["src/app/custom-i18n/source-messages.ts", "生成的文件：消息注册表（键 → $localize）", "自研"],
-    ["src/app/locale.service.ts", "语言状态（signal）+ localStorage 持久化", "全部"],
+    ["src/app/locale.service.ts", "语言状态（signal）+ localStorage 持久化，由 I18nService 内部持有", "全部"],
     ["src/app/app.component.{ts,html}", "应用壳：导航、语言按钮、URL/内存切换 go()", "全部"],
     ["src/app/home/home.component.{ts,html}", "首页卡片（/:lang）", "全部"],
     ["src/app/features.ts / features.compile.ts", "RUNTIME_PAGES 开关（编译站关闭运行时页）", "全部"],
@@ -565,9 +565,9 @@ def build_docx():
     add_code(doc, CODE_CUSTOM)
     add_heading(doc, "编辑器「即时生效」的底层原理", 3)
     add_bullet(doc, "编辑器预填 + 自动存草稿：打开 /custom 时 Monaco 已放好合并总表（i18n.service.ts 的 getMergedContent()）；每次按键 onDidChangeModelContent 就把文本写进 localStorage 当草稿，没点 Apply 也能续写、刷新不丢。")
-    add_bullet(doc, "点 Apply 触发 applyEdited(text)（i18n.service.ts:88）：先 parseMerged() 校验 JSON 结构与语言是否合法（zh/en/de 是否写错），不合法提示错误，合法才继续。")
-    add_bullet(doc, "重新注册译文：合法后 applyLocale()（i18n.service.ts:227）用 buildMap(当前语言) 拼出 { 消息id: 译文 }，先 clearTranslations() 清空官方 $localize 注册表，再 loadTranslations(map) 装入新译文。")
-    add_bullet(doc, "强制重画：注册表一更新，applyLocale() 让 renderTick 计数器 +1（i18n.service.ts:233）；而每个页面模板都用 @for (bounce of [i18n.renderTick()]; track bounce) 把整块包起来，renderTick 一变 Angular 就销毁并重建该视图，模板重新去注册表取译文。")
+    add_bullet(doc, "点 Apply 触发 applyEdited(text)（i18n.service.ts）：先 parseMerged() 校验 JSON 结构与语言是否合法（zh/en/de 是否写错），不合法提示错误，合法才继续。")
+    add_bullet(doc, "重新注册译文：合法后 applyLocale()（i18n.service.ts）用 buildMap(当前语言) 拼出 { 消息id: 译文 }，先 clearTranslations() 清空官方 $localize 注册表，再 loadTranslations(map) 装入新译文。")
+    add_bullet(doc, "强制重画：注册表一更新，applyLocale() 让 renderTick 计数器 +1（i18n.service.ts）；而每个页面模板都用 @for (bounce of [i18n.renderTick()]; track bounce) 把整块包起来，renderTick 一变 Angular 就销毁并重建该视图，模板重新去注册表取译文。")
     add_bullet(doc, "立刻看到新字：模板重新执行 i18n.t('键') / $localize，这次从新注册表取到刚改的译文，画面当场刷新——不刷新页面、不重新打包。结果（及草稿）都存 localStorage，Reset 清空回到 translations.json 主文件。")
     add_heading(doc, "演示中的体现", 2)
     add_bullet(doc, "访问 /custom 页面；")

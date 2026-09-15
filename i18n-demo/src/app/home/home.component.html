@@ -5,7 +5,7 @@
       <span class="word">$localize</span>
       <span class="sub">{{ i18n.t('home.official.sub') }}</span>
     </a>
-    <a class="card compile" [routerLink]="['/', localeService.locale(), 'compile-time']">
+    <a class="card compile" [routerLink]="['/', i18n.locale(), 'compile-time']">
       <span class="tag">{{ i18n.t('home.compile.tag') }}</span>
       <span class="word">extract-i18n</span>
       <span class="sub">{{ i18n.t('home.compile.sub') }}</span>

@@ -3,7 +3,7 @@
   <file id="ngi18n" original="ng.template">
     <unit id="shell.nav.home">
       <notes>
-        <note category="location">src/app/app.component.ts:54</note>
+        <note category="location">src/app/app.component.ts:46</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:40</note>
       </notes>
       <segment>
@@ -12,7 +12,7 @@
     </unit>
     <unit id="shell.nav.official">
       <notes>
-        <note category="location">src/app/app.component.ts:57</note>
+        <note category="location">src/app/app.component.ts:49</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:41</note>
       </notes>
       <segment>
@@ -21,7 +21,7 @@
     </unit>
     <unit id="shell.nav.compile">
       <notes>
-        <note category="location">src/app/app.component.ts:60</note>
+        <note category="location">src/app/app.component.ts:52</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:42</note>
       </notes>
       <segment>
@@ -30,7 +30,7 @@
     </unit>
     <unit id="shell.nav.custom">
       <notes>
-        <note category="location">src/app/app.component.ts:63</note>
+        <note category="location">src/app/app.component.ts:55</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:43</note>
       </notes>
       <segment>
@@ -39,7 +39,7 @@
     </unit>
     <unit id="shell.lang.label">
       <notes>
-        <note category="location">src/app/app.component.ts:66</note>
+        <note category="location">src/app/app.component.ts:58</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:44</note>
       </notes>
       <segment>
@@ -48,7 +48,7 @@
     </unit>
     <unit id="ct.hero.title">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:23</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:21</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:24</note>
       </notes>
       <segment>
@@ -57,7 +57,7 @@
     </unit>
     <unit id="ct.hero.sub">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:26</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:24</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:25</note>
       </notes>
       <segment>
@@ -66,7 +66,7 @@
     </unit>
     <unit id="ct.extract.title">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:29</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:27</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:36</note>
       </notes>
       <segment>
@@ -75,7 +75,7 @@
     </unit>
     <unit id="ct.translated.title">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:32</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:30</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:37</note>
       </notes>
       <segment>
@@ -84,7 +84,7 @@
     </unit>
     <unit id="ct.translated.note">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:35</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:33</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:38</note>
       </notes>
       <segment>
@@ -93,7 +93,7 @@
     </unit>
     <unit id="ct.step1.title">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:41</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:39</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:26</note>
       </notes>
       <segment>
@@ -102,7 +102,7 @@
     </unit>
     <unit id="ct.step1.desc">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:42</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:40</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:27</note>
       </notes>
       <segment>
@@ -111,7 +111,7 @@
     </unit>
     <unit id="ct.step2.title">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:46</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:44</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:28</note>
       </notes>
       <segment>
@@ -120,7 +120,7 @@
     </unit>
     <unit id="ct.step2.desc">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:47</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:45</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:29</note>
       </notes>
       <segment>
@@ -129,7 +129,7 @@
     </unit>
     <unit id="ct.step3.title">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:51</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:49</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:30</note>
       </notes>
       <segment>
@@ -138,7 +138,7 @@
     </unit>
     <unit id="ct.step3.desc">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:52</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:50</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:31</note>
       </notes>
       <segment>
@@ -147,7 +147,7 @@
     </unit>
     <unit id="ct.step4.title">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:56</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:54</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:32</note>
       </notes>
       <segment>
@@ -156,7 +156,7 @@
     </unit>
     <unit id="ct.step4.desc">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:57</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:55</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:33</note>
       </notes>
       <segment>
@@ -165,7 +165,7 @@
     </unit>
     <unit id="ct.step5.title">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:61</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:59</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:34</note>
       </notes>
       <segment>
@@ -174,7 +174,7 @@
     </unit>
     <unit id="ct.step5.desc">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:62</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:60</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:35</note>
       </notes>
       <segment>
@@ -183,7 +183,7 @@
     </unit>
     <unit id="ct.xlf.error">
       <notes>
-        <note category="location">src/app/compile-time/compile-time.component.ts:98</note>
+        <note category="location">src/app/compile-time/compile-time.component.ts:92</note>
         <note category="location">src/app/custom-i18n/source-messages.ts:39</note>
       </notes>
       <segment>

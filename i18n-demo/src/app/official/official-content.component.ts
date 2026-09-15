@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { I18nService } from '../custom-i18n/i18n.service';
-import { LocaleService } from '../locale.service';
 import type { LocaleId } from '../custom-i18n/i18n-keys';
 
 @Component({
@@ -12,7 +11,6 @@ import type { LocaleId } from '../custom-i18n/i18n-keys';
 })
 export class OfficialContentComponent {
   private readonly i18n = inject(I18nService);
-  private readonly localeService = inject(LocaleService);
 
   readonly userName = 'Developer';
   readonly itemCount = 3;
@@ -40,6 +38,6 @@ export class OfficialContentComponent {
   );
 
   switchLanguage(id: LocaleId): void {
-    this.localeService.setLocale(id);
+    this.i18n.switchLanguage(id);
   }
 }

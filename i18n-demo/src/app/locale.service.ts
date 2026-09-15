@@ -6,6 +6,7 @@ const KEY_LOCALE = 'i18n-demo.locale';
 @Injectable({ providedIn: 'root' })
 export class LocaleService {
   readonly availableLanguages = signal<LocaleId[]>([]);
+  readonly languageLabels = signal<Record<string, string>>({});
   readonly locale = signal<LocaleId>(this.restore());
 
   constructor() {}
@@ -27,6 +28,9 @@ export class LocaleService {
       const res = await fetch('i18n/translations.json');
       if (res.ok) {
         const raw = (await res.json()) as Record<string, unknown>;
+        if (raw['$languageLabels'] && typeof raw['$languageLabels'] === 'object') {
+          this.languageLabels.set(raw['$languageLabels'] as Record<string, string>);
+        }
         if (Array.isArray(raw['$languages']) && raw['$languages'].length > 0) {
           this.availableLanguages.set(raw['$languages'] as LocaleId[]);
           // re-validate persisted locale against fresh list

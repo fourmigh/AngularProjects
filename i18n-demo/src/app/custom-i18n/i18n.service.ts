@@ -1,37 +1,23 @@
-import { Inject, Injectable, InjectionToken, Optional, signal } from '@angular/core';
+import { Injectable, effect, inject, signal } from '@angular/core';
 import { clearTranslations, loadTranslations } from '@angular/localize';
 import { LocaleId, MergedTranslations, TranslationKey, TranslationMap } from './i18n-keys';
 import { SOURCE_MESSAGES } from './source-messages';
+import { LocaleService } from '../locale.service';
 
 export interface LanguageInfo {
   id: LocaleId;
   label: string;
 }
 
-export const I18N_SCOPE = new InjectionToken<string>('I18N_SCOPE');
-
 const KEY_ACTIVE = 'i18n-demo.active';
 const KEY_DRAFT = 'i18n-demo.draft';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class I18nService {
-  private readonly keyActive: string;
-  private readonly keyDraft: string;
+  private readonly localeService = inject(LocaleService);
 
-  constructor(@Optional() @Inject(I18N_SCOPE) scope: string | null = null) {
-    const suffix = scope ? `:${scope}` : '';
-    this.keyActive = KEY_ACTIVE + suffix;
-    this.keyDraft = KEY_DRAFT + suffix;
-  }
-
-  private availableLanguages: LocaleId[] = [];
-  private languageLabels: Record<string, string> = {};
-
-  get languages(): LanguageInfo[] {
-    return this.availableLanguages.map((id) => ({ id, label: this.languageLabels[id] ?? id }));
-  }
-
-  readonly current = signal<LocaleId>('zh');
+  readonly locale = this.localeService.locale;
+  readonly current = this.localeService.locale;
 
   readonly ready = signal(false);
 
@@ -47,18 +33,35 @@ export class I18nService {
   private activeMerged: MergedTranslations | null = null;
   private draftMerged: string | null = null;
   private lastParseError = '';
+  private initPromise: Promise<void> | null = null;
 
-  async init(): Promise<void> {
-    await this.loadDefault();
-    this.restoreActive();
-    this.restoreDraft();
-    this.applyLocale(this.current(), false);
-    this.ready.set(true);
+  constructor() {
+    effect(() => {
+      const locale = this.localeService.locale();
+      if (this.ready()) this.applyLocale(locale);
+    });
+  }
+
+  get languages(): LanguageInfo[] {
+    const labels = this.localeService.languageLabels();
+    return this.localeService.availableLanguages().map((id) => ({ id, label: labels[id] ?? id }));
+  }
+
+  init(): Promise<void> {
+    if (this.initPromise === null) this.initPromise = this.doInit();
+    return this.initPromise;
+  }
+
+  setLocale(id: LocaleId): void {
+    this.localeService.setLocale(id);
   }
 
   switchLanguage(id: LocaleId): void {
-    this.current.set(id);
-    this.applyLocale(id);
+    this.localeService.setLocale(id);
+  }
+
+  isRouteLang(value: string | null | undefined): value is LocaleId {
+    return this.localeService.isRouteLang(value);
   }
 
   label(key: TranslationKey): string {
@@ -82,7 +85,7 @@ export class I18nService {
 
   saveDraft(text: string): void {
     this.draftMerged = text;
-    localStorage.setItem(this.keyDraft, text);
+    localStorage.setItem(KEY_DRAFT, text);
   }
 
   applyEdited(text: string): string | null {
@@ -99,8 +102,8 @@ export class I18nService {
   resetMerged(): void {
     this.activeMerged = null;
     this.draftMerged = null;
-    localStorage.removeItem(this.keyActive);
-    localStorage.removeItem(this.keyDraft);
+    localStorage.removeItem(KEY_ACTIVE);
+    localStorage.removeItem(KEY_DRAFT);
     this.applyLocale(this.current());
   }
 
@@ -113,6 +116,19 @@ export class I18nService {
     a.download = 'translations.json';
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  private async doInit(): Promise<void> {
+    try {
+      await this.loadDefault();
+      this.restoreActive();
+      this.restoreDraft();
+      this.applyLocale(this.current(), false);
+    } catch (err) {
+      console.warn('[i18n] 初始化失败，界面将回退到源文', err);
+    } finally {
+      this.ready.set(true);
+    }
   }
 
   private parseMerged(text: string): MergedTranslations | null {
@@ -129,15 +145,16 @@ export class I18nService {
       return null;
     }
     const raw = parsed as Record<string, unknown>;
+    const available = this.localeService.availableLanguages();
     const merged: Record<string, unknown> = {};
 
     if (raw['$languages'] !== undefined) {
       if (
-        this.availableLanguages.length > 0 &&
+        available.length > 0 &&
         (!Array.isArray(raw['$languages']) ||
-        raw['$languages'].some((l) => !this.availableLanguages.includes(l as LocaleId)))
+        raw['$languages'].some((l) => !available.includes(l as LocaleId)))
       ) {
-        this.lastParseError = `"$languages" 必须是 ${this.availableLanguages.join('/')} 的子集数组`;
+        this.lastParseError = `"$languages" 必须是 ${available.join('/')} 的子集数组`;
         return null;
       }
       merged['$languages'] = raw['$languages'] as LocaleId[];
@@ -151,7 +168,7 @@ export class I18nService {
       }
       const entry: Partial<Record<LocaleId, string>> = {};
       for (const [lang, text] of Object.entries(value)) {
-        if (this.availableLanguages.length > 0 && !this.availableLanguages.includes(lang as LocaleId)) {
+        if (available.length > 0 && !available.includes(lang as LocaleId)) {
           this.lastParseError = `翻译键 "${key}" 含未知语言 "${lang}"`;
           return null;
         }
@@ -167,29 +184,14 @@ export class I18nService {
   }
 
   private async loadDefault(): Promise<void> {
-    // 先从 translations.json 获取 $languages 和 $languageLabels
-    try {
-      const res = await fetch('i18n/translations.json');
-      if (res.ok) {
-        const raw = (await res.json()) as Record<string, unknown>;
-        if (Array.isArray(raw['$languages']) && raw['$languages'].length > 0) {
-          this.availableLanguages = raw['$languages'] as LocaleId[];
-        }
-        if (raw['$languageLabels'] && typeof raw['$languageLabels'] === 'object') {
-          this.languageLabels = raw['$languageLabels'] as Record<string, string>;
-        }
-      }
-    } catch {
-      // 网络不可用或文件不存在，保持空列表
-    }
-
-    // 按 availableLanguages 加载各自独立的 locale json（assets/locale/{lang}.json），
+    // 语言清单与标签由 LocaleService 在 APP_INITIALIZER 中从 i18n/translations.json 解析，
+    // 这里按 availableLanguages 加载各自独立的 locale json（assets/locale/{lang}.json）。
     // 这些文件由 split-i18n.mjs 从主文件 translations.json 拆分生成，格式即 loadTranslations 所需的 { 消息id: 译文 }。
-    // translations.json 仅作为脚本（check / make-xlf / split）的主文件，运行时不再直接加载；
-    // 若拆分文件缺失（如未跑 i18n:split），则回退到 translations.json 以保证开发可用。
+    const languages = this.localeService.availableLanguages();
     try {
-      const merged: Record<string, unknown> = { $languages: [...this.availableLanguages] };
-      for (const lang of this.availableLanguages) {
+      if (languages.length === 0) throw new Error('语言清单为空');
+      const merged: Record<string, unknown> = { $languages: [...languages] };
+      for (const lang of languages) {
         const res = await fetch(`assets/locale/${lang}.json`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = (await res.json()) as Record<string, string>;
@@ -211,33 +213,33 @@ export class I18nService {
 
   private restoreActive(): void {
     try {
-      const raw = localStorage.getItem(this.keyActive);
+      const raw = localStorage.getItem(KEY_ACTIVE);
       if (!raw) return;
       const parsed = this.parseMerged(raw);
       if (parsed !== null) this.activeMerged = parsed;
     } catch {
-      localStorage.removeItem(this.keyActive);
+      localStorage.removeItem(KEY_ACTIVE);
     }
   }
 
   private restoreDraft(): void {
     try {
-      const raw = localStorage.getItem(this.keyDraft);
+      const raw = localStorage.getItem(KEY_DRAFT);
       if (raw && raw.trim().length > 0) this.draftMerged = raw;
     } catch {
-      localStorage.removeItem(this.keyDraft);
+      localStorage.removeItem(KEY_DRAFT);
     }
   }
 
   private persistActive(): void {
     if (this.activeMerged !== null) {
-      localStorage.setItem(this.keyActive, JSON.stringify(this.activeMerged));
+      localStorage.setItem(KEY_ACTIVE, JSON.stringify(this.activeMerged));
     }
   }
 
   private persistDraft(): void {
     if (this.draftMerged !== null) {
-      localStorage.setItem(this.keyDraft, this.draftMerged);
+      localStorage.setItem(KEY_DRAFT, this.draftMerged);
     }
   }
 

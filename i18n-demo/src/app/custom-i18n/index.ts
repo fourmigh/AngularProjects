@@ -1,5 +1,4 @@
 export {
-  I18N_SCOPE,
   I18nService,
   type LanguageInfo,
 } from './i18n.service';
