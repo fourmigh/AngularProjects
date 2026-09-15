@@ -10,6 +10,7 @@ export type TranslationKey =
   | 'demo.currentLanguage'
   | 'demo.date'
   | 'demo.number'
+  | 'demo.currency'
   | 'demo.tip'
   | 'demo.renders'
   | 'demo.editor.title'

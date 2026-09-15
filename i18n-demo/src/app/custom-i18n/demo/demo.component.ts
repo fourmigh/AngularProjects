@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { I18nService } from '../i18n.service';
 import type { LocaleId } from '../i18n-keys';
+
+const CURRENCIES = ['EUR', 'USD', 'JPY', 'CNY', 'GBP'] as const;
+type CurrencyCode = (typeof CURRENCIES)[number];
 
 @Component({
   selector: 'app-demo',
@@ -29,8 +32,8 @@ export class DemoComponent {
   readonly currentLanguageLabel = this.i18n.t('demo.currentLanguage');
   // 原写法: readonly dateLabel = $localize`:@@demo.date:Localized date`;
   readonly dateLabel = this.i18n.t('demo.date');
-  // 原写法: readonly numberLabel = $localize`:@@demo.number:Localized number`;
-  readonly numberLabel = this.i18n.t('demo.number');
+  // 原写法: readonly currencyLabel = $localize`:@@demo.currency:Localized currency`;
+  readonly currencyLabel = this.i18n.t('demo.currency');
   // 原写法: readonly tip = $localize`:@@demo.tip:Tip: $localize in TS and i18n attributes in templates both support runtime translation via loadTranslations.`;
   readonly tip = this.i18n.t('demo.tip');
   // 原写法: readonly rendersLabel = $localize`:@@demo.renders:Component rebuilds`;
@@ -40,11 +43,12 @@ export class DemoComponent {
   readonly current = this.i18n.current;
   readonly rebuilds = this.i18n.rebuilds;
 
-  readonly date = computed(() =>
-    new Intl.DateTimeFormat(this.i18n.current(), { dateStyle: 'full' }).format(new Date()),
-  );
-  readonly price = computed(() =>
-    new Intl.NumberFormat(this.i18n.current(), { style: 'currency', currency: 'EUR' }).format(1234.56),
+  readonly currencies = CURRENCIES;
+  readonly selectedCurrency = signal<CurrencyCode>('EUR');
+
+  readonly date = computed(() => this.i18n.format.date(new Date()));
+  readonly money = computed(() =>
+    this.i18n.format.currency(1234.56, { currency: this.selectedCurrency() }),
   );
 
   // localize 切换语言链路:
@@ -56,5 +60,9 @@ export class DemoComponent {
   // 语言为内存状态（localStorage 记住上次选择）：setLocale 不改变 URL
   switchLanguage(id: LocaleId): void {
     this.i18n.switchLanguage(id);
+  }
+
+  selectCurrency(currency: CurrencyCode): void {
+    this.selectedCurrency.set(currency);
   }
 }

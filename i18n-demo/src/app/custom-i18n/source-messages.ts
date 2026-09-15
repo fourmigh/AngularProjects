@@ -10,6 +10,7 @@ export const SOURCE_MESSAGES: Record<TranslationKey, () => string> = {
   'demo.currentLanguage': () => $localize`:@@demo.currentLanguage:Current language`,
   'demo.date': () => $localize`:@@demo.date:Localized date`,
   'demo.number': () => $localize`:@@demo.number:Localized number`,
+  'demo.currency': () => $localize`:@@demo.currency:Localized currency`,
   'demo.tip': () => $localize`:@@demo.tip:Tip: $localize in TS and i18n attributes in templates both support runtime translation via loadTranslations.`,
   'demo.renders': () => $localize`:@@demo.renders:Component rebuilds`,
   'demo.editor.title': () => $localize`:@@demo.editor.title:Edit Language Config`,

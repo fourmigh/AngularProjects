@@ -444,6 +444,7 @@ FILE_MAP_ROWS = [
     ["src/app/custom-i18n/demo/demo.component.{ts,html}", "自研 demo，用 t()/label() 读文案", "自研"],
     ["src/app/custom-i18n/editor/editor.component.{ts,html}", "Monaco JSON 编辑器，可视化改文案", "自研"],
     ["src/app/custom-i18n/i18n.service.ts", "root 单例门面：语言切换 + t()/label()、applyEdited、下载/重置", "自研"],
+    ["src/app/custom-i18n/format.service.ts", "Intl 格式化（日期/数字/货币/相对时间等），随当前语言", "自研"],
     ["src/app/custom-i18n/i18n-keys.ts", "生成的文件：翻译键类型（TranslationKey）", "自研"],
     ["src/app/custom-i18n/source-messages.ts", "生成的文件：消息注册表（键 → $localize）", "自研"],
     ["src/app/locale.service.ts", "语言状态（signal）+ localStorage 持久化，由 I18nService 内部持有", "全部"],
@@ -562,6 +563,7 @@ def build_docx():
     add_bullet(doc, "split-i18n.mjs 自动生成两份文件：① i18n-keys.ts（把「翻译键」变成 TypeScript 类型，拼错键名编译报错）② source-messages.ts（注册表：键 -> $localize）；", bold_prefix="2) codegen：")
     add_bullet(doc, "组件直接 this.i18n.t('翻译键') / label('key') 读取，底层仍是官方 $localize + loadTranslations；", bold_prefix="3) 读取：")
     add_bullet(doc, "页面右侧 Monaco 编辑器可直接改合并 JSON → 校验 → Apply → 重新注册译文 → 即时生效；可勾选语言（$languages）、下载、重置。", bold_prefix="4) 编辑器：")
+    add_bullet(doc, "日期/数字/货币等由 I18nService.format（FormatService 封装 Intl）按当前语言格式化，随语言切换自动重算；货币默认 EUR，可 withSymbol:false 只显数字。", bold_prefix="5) 格式化：")
     add_code(doc, CODE_CUSTOM)
     add_heading(doc, "编辑器「即时生效」的底层原理", 3)
     add_bullet(doc, "编辑器预填 + 自动存草稿：打开 /custom 时 Monaco 已放好合并总表（i18n.service.ts 的 getMergedContent()）；每次按键 onDidChangeModelContent 就把文本写进 localStorage 当草稿，没点 Apply 也能续写、刷新不丢。")

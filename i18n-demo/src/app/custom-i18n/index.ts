@@ -2,6 +2,7 @@ export {
   I18nService,
   type LanguageInfo,
 } from './i18n.service';
+export { FormatService, type CurrencyFormatOptions } from './format.service';
 export type {
   LocaleId,
   MergedTranslations,

@@ -7,6 +7,7 @@
   "demo.currentLanguage": "当前语言",
   "demo.date": "本地化日期",
   "demo.number": "本地化数字",
+  "demo.currency": "本地化货币",
   "demo.tip": "提示：TS 中的 $localize 与模板中的 i18n 属性，都可以通过 loadTranslations 在运行时动态翻译。",
   "demo.renders": "组件重建次数",
   "demo.editor.title": "编辑语言配置文件",

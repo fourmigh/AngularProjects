@@ -17,7 +17,8 @@
   font-size: 14px;
 }
 
-.lang-switcher {
+.lang-switcher,
+.currency-switcher {
   display: flex;
   align-items: center;
   gap: 12px;

@@ -3,6 +3,7 @@ import { clearTranslations, loadTranslations } from '@angular/localize';
 import { LocaleId, MergedTranslations, TranslationKey, TranslationMap } from './i18n-keys';
 import { SOURCE_MESSAGES } from './source-messages';
 import { LocaleService } from '../locale.service';
+import { FormatService } from './format.service';
 
 export interface LanguageInfo {
   id: LocaleId;
@@ -15,6 +16,8 @@ const KEY_DRAFT = 'i18n-demo.draft';
 @Injectable({ providedIn: 'root' })
 export class I18nService {
   private readonly localeService = inject(LocaleService);
+
+  readonly format = inject(FormatService);
 
   readonly locale = this.localeService.locale;
   readonly current = this.localeService.locale;

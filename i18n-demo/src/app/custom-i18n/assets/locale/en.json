@@ -7,6 +7,7 @@
   "demo.currentLanguage": "Current language",
   "demo.date": "Localized date",
   "demo.number": "Localized number",
+  "demo.currency": "Localized currency",
   "demo.tip": "Tip: $localize in TS and i18n attributes in templates both support runtime translation via loadTranslations.",
   "demo.renders": "Component rebuilds",
   "demo.editor.title": "Edit Language Config",

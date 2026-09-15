@@ -18,6 +18,20 @@
   <code class="locale-code">{{ current() }}</code>
 </section>
 
+<section class="currency-switcher">
+  <span class="lang-label">{{ currencyLabel }}</span>
+  <div class="lang-buttons">
+    @for (c of currencies; track c) {
+      <button
+        class="lang-btn"
+        [class.active]="selectedCurrency() === c"
+        (click)="selectCurrency(c)">
+        {{ c }}
+      </button>
+    }
+  </div>
+</section>
+
 <section class="cards">
   <div class="card highlight">
     <h2>{{ welcome }}</h2>
@@ -29,8 +43,8 @@
       <p class="value">{{ date() }}</p>
     </div>
     <div>
-      <span class="muted">{{ numberLabel }}</span>
-      <p class="value">{{ price() }}</p>
+      <span class="muted">{{ currencyLabel }}</span>
+      <p class="value">{{ money() }}</p>
     </div>
   </div>
 </section>

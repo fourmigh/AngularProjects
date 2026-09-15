@@ -30,12 +30,8 @@ export class OfficialContentComponent {
   readonly current = this.i18n.current;
   readonly rebuilds = this.i18n.rebuilds;
 
-  readonly date = computed(() =>
-    new Intl.DateTimeFormat(this.i18n.current(), { dateStyle: 'full' }).format(new Date()),
-  );
-  readonly price = computed(() =>
-    new Intl.NumberFormat(this.i18n.current(), { style: 'currency', currency: 'EUR' }).format(1234.56),
-  );
+  readonly date = computed(() => this.i18n.format.date(new Date()));
+  readonly price = computed(() => this.i18n.format.currency(1234.56));
 
   switchLanguage(id: LocaleId): void {
     this.i18n.switchLanguage(id);

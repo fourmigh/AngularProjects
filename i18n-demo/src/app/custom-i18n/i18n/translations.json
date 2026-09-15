@@ -49,6 +49,11 @@
     "en": "Localized number",
     "de": "Lokalisierte Zahl"
   },
+  "demo.currency": {
+    "zh": "本地化货币",
+    "en": "Localized currency",
+    "de": "Lokalisierte Währung"
+  },
   "demo.tip": {
     "zh": "提示：TS 中的 $localize 与模板中的 i18n 属性，都可以通过 loadTranslations 在运行时动态翻译。",
     "en": "Tip: $localize in TS and i18n attributes in templates both support runtime translation via loadTranslations.",
