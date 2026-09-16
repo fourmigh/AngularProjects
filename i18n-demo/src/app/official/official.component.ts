@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OfficialContentComponent } from './official-content.component';
-import { APP_I18N } from '../i18n-bindings/app-i18n';
+import { APP_I18N } from '../i18n/app-i18n';
 
 @Component({
   selector: 'app-official',

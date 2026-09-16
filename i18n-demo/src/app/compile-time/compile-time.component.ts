@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { APP_I18N } from '../i18n-bindings/app-i18n';
+import { APP_I18N } from '../i18n/app-i18n';
 
 interface Step {
   no: string;

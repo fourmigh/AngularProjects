@@ -44,3 +44,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Generated i18n artifacts (source lives in /i18n-source)
+/src/assets/i18n/

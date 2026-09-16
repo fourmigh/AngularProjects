@@ -76,14 +76,9 @@
                 "input": "public"
               },
               {
-                "glob": "**/*",
-                "input": "src/app/i18n-bindings/locale",
-                "output": "/assets/locale"
-              },
-              {
-                "glob": "translations.json",
-                "input": "src/app/i18n-bindings",
-                "output": "/i18n"
+                "glob": "*.json",
+                "input": "src/assets/i18n",
+                "output": "/assets/i18n"
               },
               {
                 "glob": "**/*",

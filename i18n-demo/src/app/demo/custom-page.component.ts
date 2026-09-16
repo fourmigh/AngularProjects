@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18nService } from 'i18n';
 import { EditorComponent, I18N_EDITOR_TRANSLATE } from 'i18n/editor';
-import { APP_I18N } from '../i18n-bindings/app-i18n';
+import { APP_I18N } from '../i18n/app-i18n';
 import { setupMonacoEnvironment } from '../monaco-environment';
 import { DemoComponent } from './demo.component';
 

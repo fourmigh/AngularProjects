@@ -3,5 +3,6 @@
   "dest": "../../dist/i18n",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": ["scripts/split-i18n.mjs"]
 }

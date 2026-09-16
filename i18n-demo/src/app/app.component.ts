@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { type LocaleId } from 'i18n';
-import { APP_I18N } from './i18n-bindings/app-i18n';
+import { APP_I18N } from './i18n/app-i18n';
 import { RUNTIME_PAGES } from './features';
 
 @Component({

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import type { LocaleId } from 'i18n';
-import { APP_I18N } from '../i18n-bindings/app-i18n';
+import { APP_I18N } from '../i18n/app-i18n';
 
 const CURRENCIES = ['EUR', 'USD', 'JPY', 'CNY', 'GBP'] as const;
 type CurrencyCode = (typeof CURRENCIES)[number];

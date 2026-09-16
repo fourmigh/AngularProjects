@@ -9,7 +9,8 @@ Angular 运行时国际化模块：在 `@angular/localize` 的 `$localize` + `lo
 | --- | --- |
 | `i18n` | `provideI18n()`、`LocaleService`、`I18nService`、`FormatService`、类型与配置 token |
 | `i18n/editor` | `EditorComponent`（Monaco JSON 编辑器）、`I18N_EDITOR_TRANSLATE` |
-| `scripts/*.mjs` | codegen：`check-i18n-keys` / `split-i18n` / `make-xlf` |
+| `scripts/split-i18n.mjs` | codegen（**随包发布**）：读取源目录，生成输出目录的 json / 类型 / 源消息 |
+| `scripts/check-i18n-keys.mjs`、`scripts/make-xlf.mjs` | 仓库内工具（不进 npm 包），供本项目/联调使用 |
 
 ## 重要：如何被消费
 
@@ -32,36 +33,40 @@ Angular 的库链接器（linker）只处理 `node_modules` 下的库产物；
 ## 接入步骤（以一个消费工程为例）
 
 1. 让工程依赖上本包（`npm install` / `file:` / 本地 tgz）。
-2. 建绑定目录（默认 `src/app/i18n-bindings/`），放入 `translations.json`：
+2. 建源目录（建议 `i18n-source/`），放入 `lang.json` 与 `languages-meta.json`：
 
    ```json
+   // i18n-source/lang.json
    {
-     "$languages": ["zh", "en", "de"],
-     "$languageLabels": { "zh": "中文", "en": "English", "de": "Deutsch" },
+     "_languagesOrder": ["zh", "en", "de"],
      "demo.title": { "zh": "…", "en": "…", "de": "…" }
    }
+   // i18n-source/languages-meta.json（值可为字符串或富对象，取 label → nativeName → name）
+   { "zh": "中文", "en": "English", "de": "Deutsch" }
    ```
-3. 运行 codegen（脚本通过 `I18N_DIR` 定位绑定目录，默认 `src/app/i18n-bindings`）：
+3. 运行 codegen（目录结构由参数指定，脚本不写死；`split-i18n.mjs` 随包发布）：
 
    ```bash
-   node node_modules/i18n/scripts/split-i18n.mjs      # 生成 i18n-keys.ts / source-messages.ts / locale/*.json
-   node node_modules/i18n/scripts/check-i18n-keys.mjs # 校验键与译文齐全
+   node node_modules/i18n/scripts/split-i18n.mjs --source i18n-source --out src/assets/i18n
+   # 生成 {lang}.json、languages-meta.json、i18n-keys.ts、source-messages.ts
+   node ../i18n/projects/i18n/scripts/check-i18n-keys.mjs --source i18n-source --scan src --out src/assets/i18n
    ```
-4. `angular.json` 的 assets 增加：
+
+   参数：`--source`（默认 `i18n-source`）、`--out`（默认 `src/assets/i18n`）、`--source-lang`（默认 `en`）。
+4. `angular.json` 的 assets 增加（只拷生成的 json，避免把生成 `.ts` 当静态资源）：
 
    ```json
-   { "glob": "**/*", "input": "src/app/i18n-bindings/locale", "output": "/assets/locale" },
-   { "glob": "translations.json", "input": "src/app/i18n-bindings", "output": "/i18n" }
+   { "glob": "*.json", "input": "src/assets/i18n", "output": "/assets/i18n" }
    ```
 5. 注册 provider：
 
    ```ts
    import { provideI18n } from 'i18n';
-   import { SOURCE_MESSAGES } from './i18n-bindings/source-messages';
+   import { SOURCE_MESSAGES } from './assets/i18n/source-messages';
 
    providers: [
      provideI18n({
-       config: { manifestUrl: 'i18n/translations.json', localesBasePath: 'assets/locale', defaultLocale: 'zh' },
+       config: { manifestUrl: 'assets/i18n/languages-meta.json', localesBasePath: 'assets/i18n', defaultLocale: 'zh' },
        sourceMessages: SOURCE_MESSAGES,
      }),
    ]
@@ -117,8 +122,8 @@ providers: [
 
 | 字段 | 默认 | 说明 |
 | --- | --- | --- |
-| `manifestUrl` | `i18n/translations.json` | 语言清单/标签来源 |
-| `localesBasePath` | `assets/locale` | 每语言译文目录 |
+| `manifestUrl` | `i18n/translations.json` | 语言清单/标签来源（推荐生成物 `assets/i18n/languages-meta.json`） |
+| `localesBasePath` | `assets/locale` | 每语言译文目录（推荐 `assets/i18n`） |
 | `defaultLocale` | `en` | 默认语言 |
 | `storagePrefix` | `i18n` | localStorage key 前缀 |
 | `defaultCurrency` | `EUR` | 默认货币代码 |

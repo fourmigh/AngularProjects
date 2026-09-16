@@ -1,13 +1,48 @@
 import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 
-// 约定：在消费工程根目录执行（npm script 的 cwd）。
-// 可用环境变量 I18N_DIR 覆盖绑定目录。
-const APP_DIR = process.env.I18N_DIR ?? join(process.cwd(), 'src', 'app', 'i18n-bindings');
-const SOURCE = join(APP_DIR, 'translations.json');
-const OUT_DIR = join(APP_DIR, 'locale');
-const KEYS_FILE = join(APP_DIR, 'i18n-keys.ts');
-const SOURCE_MESSAGES_FILE = join(APP_DIR, 'source-messages.ts');
+// 通用 codegen：读源目录的 lang.json + languages-meta.json，
+// 生成每语言 json、运行时清单、TS 类型与 $localize 源消息到输出目录。
+// 目录结构全部由参数提供（默认见下），脚本本身不写死项目路径。
+
+const DEFAULT_SOURCE = 'i18n-source';
+const DEFAULT_OUT = 'src/assets/i18n';
+const DEFAULT_SOURCE_LANG = 'en';
+const MANIFEST_FILE = 'languages-meta.json';
+
+function parseArgs(argv) {
+  const args = {};
+  for (let i = 0; i < argv.length; i++) {
+    const token = argv[i];
+    if (token === '--help' || token === '-h') {
+      args.help = true;
+      continue;
+    }
+    const match = /^--([^=]+)(?:=(.*))?$/.exec(token);
+    if (!match) continue;
+    if (match[2] !== undefined) {
+      args[match[1]] = match[2];
+    } else if (i + 1 < argv.length) {
+      args[match[1]] = argv[++i];
+    }
+  }
+  return args;
+}
+
+function usage() {
+  console.log(
+    `用法: node split-i18n.mjs [选项]\n\n` +
+      `  --source <目录>        源目录（含 lang.json / languages-meta.json），默认 ${DEFAULT_SOURCE}\n` +
+      `  --out <目录>           输出目录，默认 ${DEFAULT_OUT}\n` +
+      `  --source-lang <语言>   生成 source-messages.ts 用的源语言，默认 ${DEFAULT_SOURCE_LANG}\n` +
+      `  --help                 显示帮助`,
+  );
+}
+
+function fail(message) {
+  console.error(`[i18n:split] ${message}`);
+  process.exit(1);
+}
 
 function escapeTemplateLiteral(text) {
   return text.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
@@ -17,95 +52,127 @@ function placeholderToMarkers(text) {
   return text.replace(/\{\$([A-Za-z0-9_]+)\}/g, (_, name) => `\${'{\$${name}}'}:${name}:`);
 }
 
-function fail(message) {
-  console.error(`[i18n:split] ${message}`);
-  process.exit(1);
+function labelOf(meta) {
+  if (typeof meta === 'string') return meta;
+  if (meta && typeof meta === 'object') return meta.label ?? meta.nativeName ?? meta.name ?? '';
+  return '';
 }
 
-let data;
-try {
-  data = JSON.parse(readFileSync(SOURCE, 'utf8'));
-} catch (err) {
-  fail(`无法读取或解析主文件 ${SOURCE}: ${err.message}`);
-}
-
-if (typeof data !== 'object' || data === null || Array.isArray(data)) {
-  fail(`主文件顶层必须是对象: ${SOURCE}`);
-}
-
-if (!Array.isArray(data.$languages) || data.$languages.length === 0) {
-  fail(`主文件必须包含非空的 "$languages" 数组`);
-}
-const targets = [...new Set(data.$languages)];
-
-const result = Object.fromEntries(targets.map((lang) => [lang, {}]));
-let warned = false;
-
-for (const [key, entry] of Object.entries(data)) {
-  if (key === '$languages' || key === '$languageLabels') continue;
-  if (typeof entry !== 'object' || entry === null || Array.isArray(entry)) {
-    fail(`翻译键 "${key}" 的值必须是对象（{ 语言: 文本 }）`);
+function main() {
+  const args = parseArgs(process.argv.slice(2));
+  if (args.help) {
+    usage();
+    return;
   }
+
+  const cwd = process.cwd();
+  const sourceDir = resolve(cwd, args.source ?? DEFAULT_SOURCE);
+  const outDir = resolve(cwd, args.out ?? DEFAULT_OUT);
+  const sourceLang = args['source-lang'] ?? DEFAULT_SOURCE_LANG;
+  const langFile = join(sourceDir, 'lang.json');
+  const metaFile = join(sourceDir, 'languages-meta.json');
+
+  let data;
+  try {
+    data = JSON.parse(readFileSync(langFile, 'utf8'));
+  } catch (err) {
+    fail(`无法读取或解析源文件 ${langFile}: ${err.message}`);
+  }
+  if (typeof data !== 'object' || data === null || Array.isArray(data)) {
+    fail(`源文件顶层必须是对象: ${langFile}`);
+  }
+  if (!Array.isArray(data._languagesOrder) || data._languagesOrder.length === 0) {
+    fail(`源文件必须包含非空的 "_languagesOrder" 数组: ${langFile}`);
+  }
+  const targets = [...new Set(data._languagesOrder)];
+
+  let meta = {};
+  try {
+    meta = JSON.parse(readFileSync(metaFile, 'utf8'));
+  } catch (err) {
+    console.warn(`[i18n:split] 未能读取 ${metaFile}（${err.message}），将使用语言代码作为标签`);
+  }
+
+  const keys = Object.keys(data).filter((k) => k !== '_languagesOrder');
+  const result = Object.fromEntries(targets.map((lang) => [lang, {}]));
+  let warned = false;
+
+  for (const key of keys) {
+    const entry = data[key];
+    if (typeof entry !== 'object' || entry === null || Array.isArray(entry)) {
+      fail(`翻译键 "${key}" 的值必须是对象（{ 语言: 文本 }）`);
+    }
+    for (const lang of targets) {
+      const value = entry[lang];
+      if (value === undefined) {
+        console.warn(`[i18n:split] 警告: "${key}" 缺少语言 "${lang}"，已跳过`);
+        warned = true;
+        continue;
+      }
+      if (typeof value !== 'string') {
+        fail(`翻译键 "${key}" 的语言 "${lang}" 的值必须是字符串`);
+      }
+      result[lang][key] = value;
+    }
+  }
+
+  mkdirSync(outDir, { recursive: true });
+
+  for (const file of readdirSync(outDir)) {
+    if (!file.endsWith('.json') || file === MANIFEST_FILE) continue;
+    const lang = file.slice(0, -'.json'.length);
+    if (!targets.includes(lang)) {
+      rmSync(join(outDir, file));
+      console.log(`[i18n:split] 已删除多余文件: ${file}`);
+    }
+  }
+
   for (const lang of targets) {
-    const value = entry[lang];
-    if (value === undefined) {
-      console.warn(`[i18n:split] 警告: "${key}" 缺少语言 "${lang}"，已跳过`);
-      warned = true;
-      continue;
+    writeFileSync(join(outDir, `${lang}.json`), JSON.stringify(result[lang], null, 2) + '\n');
+  }
+
+  const languageLabels = Object.fromEntries(
+    targets.map((lang) => [lang, labelOf(meta[lang]) || lang]),
+  );
+  writeFileSync(
+    join(outDir, MANIFEST_FILE),
+    JSON.stringify({ $languages: targets, $languageLabels: languageLabels }, null, 2) + '\n',
+  );
+
+  const localeUnion = targets.map((l) => `'${l}'`).join(' | ');
+  const keyUnion = keys.map((k) => `  | '${k}'`).join('\n');
+  const keysContent =
+    `// AUTO-GENERATED by i18n split-i18n.mjs — do not edit.\n` +
+    `export type LocaleId = ${localeUnion};\n\n` +
+    `export type TranslationKey =\n${keyUnion};\n\n` +
+    `export type TranslationMap = Partial<Record<TranslationKey, string>>;\n\n` +
+    `export type MergedTranslations = {\n` +
+    `  $languages?: LocaleId[];\n` +
+    `} & { [K in TranslationKey]?: Partial<Record<LocaleId, string>> };\n`;
+  writeFileSync(join(outDir, 'i18n-keys.ts'), keysContent);
+
+  const sourceLines = [];
+  for (const key of keys) {
+    const source = data[key][sourceLang];
+    if (typeof source !== 'string') {
+      fail(`翻译键 "${key}" 缺少源语言 "${sourceLang}" 的文本，无法生成 source-messages.ts`);
     }
-    if (typeof value !== 'string') {
-      fail(`翻译键 "${key}" 的语言 "${lang}" 的值必须是字符串`);
-    }
-    result[lang][key] = value;
+    const safe = placeholderToMarkers(escapeTemplateLiteral(source));
+    sourceLines.push(`  '${key}': () => $localize\`:@@${key}:${safe}\`,`);
   }
+  const sourceMessagesContent =
+    `// AUTO-GENERATED by i18n split-i18n.mjs — do not edit.\n` +
+    `import type { TranslationKey } from './i18n-keys';\n\n` +
+    `export const SOURCE_MESSAGES: Record<TranslationKey, () => string> = {\n` +
+    sourceLines.join('\n') +
+    '\n};\n';
+  writeFileSync(join(outDir, 'source-messages.ts'), sourceMessagesContent);
+
+  console.log(`[i18n:split] 源: ${langFile}`);
+  console.log(`[i18n:split] 输出: ${outDir}`);
+  console.log(`[i18n:split] 已生成 ${targets.length} 个语言文件: ${targets.join(', ')}`);
+  console.log(`[i18n:split] 已生成 ${MANIFEST_FILE}、i18n-keys.ts、source-messages.ts`);
+  if (warned) console.warn('[i18n:split] 存在缺失语言键的警告，请检查源文件');
 }
 
-mkdirSync(OUT_DIR, { recursive: true });
-for (const file of readdirSync(OUT_DIR)) {
-  if (!file.endsWith('.json')) continue;
-  const lang = file.slice(0, -'.json'.length);
-  if (!targets.includes(lang)) {
-    rmSync(join(OUT_DIR, file));
-    console.log(`[i18n:split] 已删除多余文件: ${file}`);
-  }
-}
-
-for (const lang of targets) {
-  writeFileSync(join(OUT_DIR, `${lang}.json`), JSON.stringify(result[lang], null, 2) + '\n');
-}
-
-const keys = Object.keys(data).filter((k) => k !== '$languages' && k !== '$languageLabels');
-const localeUnion = targets.map((l) => `'${l}'`).join(' | ');
-const keyUnion = keys.map((k) => `  | '${k}'`).join('\n');
-const keysContent =
-  `// AUTO-GENERATED by i18n split-i18n.mjs — do not edit.\n` +
-  `export type LocaleId = ${localeUnion};\n\n` +
-  `export type TranslationKey =\n${keyUnion};\n\n` +
-  `export type TranslationMap = Partial<Record<TranslationKey, string>>;\n\n` +
-  `export type MergedTranslations = {\n` +
-  `  $languages?: LocaleId[];\n` +
-  `} & { [K in TranslationKey]?: Partial<Record<LocaleId, string>> };\n`;
-writeFileSync(KEYS_FILE, keysContent);
-
-const sourceLines = [];
-for (const key of keys) {
-  const entry = data[key];
-  const source = typeof entry === 'object' && entry !== null ? entry['en'] : undefined;
-  if (typeof source !== 'string') {
-    fail(`翻译键 "${key}" 缺少 en 译文，无法生成 source-messages.ts`);
-  }
-  const safe = placeholderToMarkers(escapeTemplateLiteral(source));
-  sourceLines.push(`  '${key}': () => $localize\`:@@${key}:${safe}\`,`);
-}
-const sourceMessagesContent =
-  `// AUTO-GENERATED by i18n split-i18n.mjs — do not edit.\n` +
-  `import type { TranslationKey } from './i18n-keys';\n\n` +
-  `export const SOURCE_MESSAGES: Record<TranslationKey, () => string> = {\n` +
-  sourceLines.join('\n') +
-  '\n};\n';
-writeFileSync(SOURCE_MESSAGES_FILE, sourceMessagesContent);
-
-console.log(`[i18n:split] 已生成 ${targets.length} 个语言文件: ${targets.join(', ')}`);
-console.log(`[i18n:split] 已生成类型文件: ${KEYS_FILE}`);
-console.log(`[i18n:split] 已生成源消息文件: ${SOURCE_MESSAGES_FILE}`);
-if (warned) console.warn('[i18n:split] 存在缺失语言键的警告，请检查主文件');
+main();

@@ -3,9 +3,9 @@ import { provideRouter } from '@angular/router';
 import { I18nService, LocaleService, provideI18n } from 'i18n';
 import { routes } from './app.routes';
 import { RUNTIME_PAGES } from './features';
-import { APP_I18N, type AppI18n } from './i18n-bindings/app-i18n';
-import { SOURCE_MESSAGES } from './i18n-bindings/source-messages';
-import { fetchEntityTranslations } from './i18n-bindings/entity-translations';
+import { APP_I18N, type AppI18n } from './i18n/app-i18n';
+import { SOURCE_MESSAGES } from '../assets/i18n/source-messages';
+import { fetchEntityTranslations } from './i18n/entity-translations';
 
 async function preloadEntityTranslations(locale: LocaleService, i18n: I18nService): Promise<void> {
   await Promise.all(
@@ -25,8 +25,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideI18n({
       config: {
-        manifestUrl: 'i18n/translations.json',
-        localesBasePath: 'assets/locale',
+        manifestUrl: 'assets/i18n/languages-meta.json',
+        localesBasePath: 'assets/i18n',
         defaultLocale: 'zh',
         storagePrefix: 'i18n-demo',
       },

@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { I18nService } from 'i18n';
-import type { TranslationKey } from './i18n-keys';
+import type { TranslationKey } from '../../assets/i18n/i18n-keys';
 
 /**
  * 类型投影：APP_I18N 通过 useExisting 指向同一个 I18nService 单例，
