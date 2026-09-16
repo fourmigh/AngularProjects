@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
-import { I18nService } from './custom-i18n/i18n.service';
-import { LocaleId } from './custom-i18n/i18n-keys';
+import { type LocaleId } from 'i18n';
+import { APP_I18N } from './i18n-bindings/app-i18n';
 import { RUNTIME_PAGES } from './features';
 
 @Component({
@@ -16,7 +16,7 @@ export class AppComponent {
   private readonly router = inject(Router);
 
   readonly runtimePages = RUNTIME_PAGES;
-  readonly i18n = inject(I18nService);
+  readonly i18n = inject(APP_I18N);
   readonly langs = computed(() => this.i18n.languages.map((l) => ({ id: l.id, label: l.id.toUpperCase() })));
 
   constructor() {

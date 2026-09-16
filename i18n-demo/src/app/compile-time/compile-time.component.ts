@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { I18nService } from '../custom-i18n/i18n.service';
+import { APP_I18N } from '../i18n-bindings/app-i18n';
 
 interface Step {
   no: string;
@@ -15,7 +15,7 @@ interface Step {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompileTimeComponent {
-  readonly i18n = inject(I18nService);
+  readonly i18n = inject(APP_I18N);
 
   get heroTitle(): string {
     return $localize`:@@ct.hero.title:Official compile-time: extract-i18n + --localize`;

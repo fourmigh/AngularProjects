@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { I18nService } from '../custom-i18n/i18n.service';
-import type { LocaleId } from '../custom-i18n/i18n-keys';
+import { type LocaleId } from 'i18n';
+import { APP_I18N } from '../i18n-bindings/app-i18n';
 
 @Component({
   selector: 'app-official-content',
@@ -10,7 +10,7 @@ import type { LocaleId } from '../custom-i18n/i18n-keys';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OfficialContentComponent {
-  private readonly i18n = inject(I18nService);
+  private readonly i18n = inject(APP_I18N);
 
   readonly userName = 'Developer';
   readonly itemCount = 3;

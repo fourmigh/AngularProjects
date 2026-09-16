@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { I18nService } from '../custom-i18n/i18n.service';
+import { APP_I18N } from '../i18n-bindings/app-i18n';
 
 @Component({
   selector: 'app-home',
@@ -10,5 +10,5 @@ import { I18nService } from '../custom-i18n/i18n.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
-  readonly i18n = inject(I18nService);
+  readonly i18n = inject(APP_I18N);
 }

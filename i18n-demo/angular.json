@@ -77,12 +77,12 @@
               },
               {
                 "glob": "**/*",
-                "input": "src/app/custom-i18n/assets",
-                "output": "/assets"
+                "input": "src/app/i18n-bindings/locale",
+                "output": "/assets/locale"
               },
               {
                 "glob": "translations.json",
-                "input": "src/app/custom-i18n/i18n",
+                "input": "src/app/i18n-bindings",
                 "output": "/i18n"
               },
               {

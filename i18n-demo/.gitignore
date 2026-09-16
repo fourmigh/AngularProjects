@@ -6,6 +6,10 @@
 /out-tsc
 /bazel-out
 
+# Locally packed i18n library (produced by `npm run lib:pack`)
+/i18n-local.tgz
+/i18n-*.tgz
+
 # Node
 /node_modules
 npm-debug.log

@@ -1,0 +1,30 @@
+<section class="editor-shell">
+  <header class="editor-toolbar">
+    <span class="editor-title">{{ label('i18n.editor.title') }}</span>
+    <div class="lang-checks">
+      @for (lang of languages; track lang.id) {
+        <label class="lang-check">
+          <input type="checkbox" [checked]="checked()[lang.id]" (change)="onToggle(lang.id)" />
+          <span>{{ lang.label }}</span>
+        </label>
+      }
+    </div>
+    <div class="editor-actions">
+      <button class="btn primary" (click)="apply()">{{ label('i18n.editor.apply') }}</button>
+      <button class="btn" (click)="reset()">{{ label('i18n.editor.reset') }}</button>
+      <button class="btn" (click)="download()">{{ label('i18n.editor.download') }}</button>
+    </div>
+  </header>
+
+  <div class="editor-hint">{{ label('i18n.editor.hint') }}</div>
+
+  <div #monacoContainer class="monaco-container"></div>
+
+  <footer class="editor-status" [class.error]="isError()">
+    @if (status()) {
+      <span>{{ status() }}</span>
+    } @else {
+      <span>{{ fileStats() }}</span>
+    }
+  </footer>
+</section>

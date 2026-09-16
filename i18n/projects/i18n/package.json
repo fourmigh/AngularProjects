@@ -1,0 +1,19 @@
+{
+  "name": "i18n",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^22.1.0",
+    "@angular/core": "^22.1.0",
+    "@angular/localize": "^22.1.0",
+    "monaco-editor": ">=0.52.0"
+  },
+  "peerDependenciesMeta": {
+    "monaco-editor": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
