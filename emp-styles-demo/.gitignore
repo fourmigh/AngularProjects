@@ -1,0 +1,7 @@
+node_modules/
+dist/
+out-tsc/
+.angular/
+.build-logs/
+*.tgz
+.DS_Store

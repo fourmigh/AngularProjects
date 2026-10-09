@@ -1,0 +1,31 @@
+{
+  "name": "emp",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve emp-ui --port 4201 --host 0.0.0.0",
+    "build": "ng build emp-components",
+    "build:app": "ng build emp-ui",
+    "watch": "ng build emp-components --watch --configuration development"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "22.1.6",
+    "@angular/compiler": "22.1.6",
+    "@angular/core": "22.1.6",
+    "@angular/forms": "22.1.6",
+    "@angular/platform-browser": "22.1.6",
+    "@angular/router": "22.1.6",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.16.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.1.6",
+    "@angular/cli": "22.1.6",
+    "@angular/compiler-cli": "22.1.6",
+    "less": "^4.2.0",
+    "ng-packagr": "^22.1.0",
+    "typescript": "~6.0.3"
+  }
+}

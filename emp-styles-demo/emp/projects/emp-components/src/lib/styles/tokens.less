@@ -1,0 +1,38 @@
+// =============================================================================
+// emp-components 设计令牌（唯一来源 / single source of truth）
+// 语义色板沿用 bike-tower 的命名与取值，便于正式工程按同一套 token 迁移。
+// =============================================================================
+
+// Base
+@color-white: #fff;
+@color-black: #000;
+
+// Text
+@color-text-primary: #333;
+@color-text-secondary: #666;
+@color-text-muted: #999;
+
+// Background
+@color-bg-body: #f0f2f5;
+@color-bg-page: #f5f7fa;
+
+// Border
+@color-border: #e0e0e0;
+
+// Brand
+@color-primary: #667eea;
+@color-primary-dark: #764ba2;
+
+// Typography
+@emp-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+  'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+@emp-font-size-base: 14px;
+
+// Shape / background（默认：满铺矩形）
+// 注意：必须带单位（0px），否则 theme.less 的
+// calc(100% - 2 * var(--emp-bg-inset)) 会因“百分比减纯数字”非法而整条失效。
+@emp-radius-app: 0px;
+@emp-bg-inset: 0px;
+@emp-bg-shadow: none;
+@emp-bg-app: linear-gradient(135deg, @color-primary 0%, @color-primary-dark 100%);
+@emp-bg-outer: @color-bg-body;

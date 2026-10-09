@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.app-nav {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 20px;
+  background: var(--emp-color-bg-page, #f5f7fa);
+  border-bottom: 1px solid var(--emp-color-border, #e0e0e0);
+}
+
+.app-brand {
+  font-size: 15px;
+  color: var(--emp-color-text-primary, #333);
+}
+
+.app-links {
+  display: flex;
+  gap: 16px;
+
+  a {
+    color: var(--emp-color-text-secondary, #666);
+    text-decoration: none;
+
+    &.active {
+      color: var(--emp-color-primary, #667eea);
+      font-weight: 600;
+    }
+  }
+}
+
+.app-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}

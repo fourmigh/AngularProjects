@@ -1,0 +1,45 @@
+// 组件样式同时演示两种共享方式：
+// 1) 编译期：@import 共享令牌（LESS 变量，如 @color-primary）
+// 2) 运行期：使用 CSS 变量（--emp-*），可被消费方运行时覆盖
+@import '../styles/tokens.less';
+
+.emp-demo-card {
+  font-family: inherit;
+  background: @color-white;
+  border: 1px solid @color-border;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  &__title {
+    font-weight: 600;
+    color: @color-primary;
+    margin-bottom: 8px;
+  }
+
+  &__body {
+    color: @color-text-secondary;
+    font-size: 13px;
+    line-height: 1.6;
+
+    code {
+      background: @color-bg-page;
+      padding: 0 4px;
+      border-radius: 4px;
+    }
+  }
+
+  &__btn {
+    margin-top: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    color: @color-white;
+    background: var(--emp-color-primary, @color-primary);
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+  }
+}

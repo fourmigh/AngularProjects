@@ -1,0 +1,17 @@
+<div class="app-shell">
+  <header class="app-nav">
+    <strong class="app-brand">emp-ui · 共享样式演示</strong>
+    <nav class="app-links">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >组件示例</a
+      >
+      <a routerLink="/theme-editor" routerLinkActive="active">主题编辑器</a>
+    </nav>
+  </header>
+  <main class="app-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

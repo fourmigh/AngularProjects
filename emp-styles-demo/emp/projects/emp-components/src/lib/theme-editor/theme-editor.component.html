@@ -1,0 +1,165 @@
+<div class="theme-editor">
+  <header class="theme-editor__header">
+    <h2 class="theme-editor__title">主题可视化编辑</h2>
+    <div class="theme-editor__actions">
+      <button type="button" class="te-btn" (click)="reset()">重置为默认</button>
+      <button type="button" class="te-btn" (click)="copyLess()">
+        复制 LESS
+      </button>
+      @if (copied()) {
+        <span class="theme-editor__copied">{{ copied() }}</span>
+      }
+    </div>
+  </header>
+
+  <div class="theme-editor__layout">
+    <section class="theme-editor__preview">
+      <div class="theme-editor__preview-label">实时预览（整页同步生效）</div>
+      <emp-demo-card title="预览卡片"></emp-demo-card>
+
+      @if (lessCode()) {
+        <div class="te-code">
+          <div class="te-code__head">
+            <span>LESS 覆盖</span>
+            <button type="button" class="te-code__close" (click)="closeCode()">
+              关闭
+            </button>
+          </div>
+          <pre class="te-code__body">{{ lessCode() }}</pre>
+        </div>
+      }
+    </section>
+
+    <section class="theme-editor__controls">
+      @for (group of svc.groups; track group.name) {
+        <section class="te-group">
+          <div class="te-group__title">{{ group.name }}</div>
+
+          @for (token of group.tokens; track token.key) {
+            <label class="te-row">
+              <span class="te-row__label">{{ token.label }}</span>
+
+              @switch (token.type) {
+                @case ('color') {
+                  <input
+                    type="color"
+                    class="te-row__color"
+                    [value]="svc.valueOf(token.key)"
+                    (input)="svc.set(token.key, $any($event.target).value)"
+                  />
+                  <code class="te-row__value">{{ svc.valueOf(token.key) }}</code>
+                }
+
+                @case ('length') {
+                  <input
+                    type="range"
+                    class="te-row__range"
+                    [min]="token.min ?? 0"
+                    [max]="token.max ?? 32"
+                    [step]="token.step ?? 1"
+                    [value]="num(token.key)"
+                    (input)="setLength(token, $any($event.target).value)"
+                  />
+                  <input
+                    type="number"
+                    class="te-row__number"
+                    [value]="num(token.key)"
+                    (input)="setLength(token, $any($event.target).value)"
+                  />
+                }
+
+                @case ('font') {
+                  <select
+                    class="te-row__select"
+                    [value]="svc.valueOf(token.key)"
+                    (change)="svc.set(token.key, $any($event.target).value)"
+                  >
+                    @for (option of token.options; track option.value) {
+                      <option [value]="option.value">{{ option.label }}</option>
+                    }
+                  </select>
+                }
+
+                @case ('shadow') {
+                  <select
+                    class="te-row__select"
+                    [value]="svc.valueOf(token.key)"
+                    (change)="svc.set(token.key, $any($event.target).value)"
+                  >
+                    @for (option of token.options; track option.label) {
+                      <option [value]="option.value">{{ option.label }}</option>
+                    }
+                  </select>
+                }
+
+                @default {
+                  <input
+                    type="text"
+                    class="te-row__text"
+                    [value]="svc.valueOf(token.key)"
+                    (input)="svc.set(token.key, $any($event.target).value)"
+                  />
+                }
+              }
+            </label>
+          }
+        </section>
+      }
+
+      <section class="te-group">
+        <div class="te-group__title">应用背景（--emp-bg-app）</div>
+        <label class="te-row">
+          <span class="te-row__label">形态</span>
+          <select
+            class="te-row__select"
+            [value]="bgMode()"
+            (change)="onModeChange($event)"
+          >
+            <option value="gradient">渐变</option>
+            <option value="solid">纯色</option>
+          </select>
+        </label>
+
+        @if (bgMode() === 'gradient') {
+          <label class="te-row">
+            <span class="te-row__label">起色</span>
+            <input
+              type="color"
+              class="te-row__color"
+              [value]="gradFrom()"
+              (input)="gradFrom.set($any($event.target).value); applyGradient()"
+            />
+          </label>
+          <label class="te-row">
+            <span class="te-row__label">止色</span>
+            <input
+              type="color"
+              class="te-row__color"
+              [value]="gradTo()"
+              (input)="gradTo.set($any($event.target).value); applyGradient()"
+            />
+          </label>
+          <label class="te-row">
+            <span class="te-row__label">角度</span>
+            <input
+              type="number"
+              class="te-row__number"
+              [value]="gradAngle()"
+              (input)="gradAngle.set(+$any($event.target).value); applyGradient()"
+            />
+          </label>
+        } @else {
+          <label class="te-row">
+            <span class="te-row__label">纯色</span>
+            <input
+              type="color"
+              class="te-row__color"
+              [value]="solidColor()"
+              (input)="solidColor.set($any($event.target).value); applySolid()"
+            />
+          </label>
+        }
+      </section>
+    </section>
+  </div>
+</div>

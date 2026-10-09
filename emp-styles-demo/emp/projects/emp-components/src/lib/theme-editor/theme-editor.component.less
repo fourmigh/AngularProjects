@@ -1,0 +1,207 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.theme-editor {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px;
+  color: var(--emp-color-text-primary, #333);
+
+  &__header {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__copied {
+    font-size: 12px;
+    color: var(--emp-color-primary, #667eea);
+  }
+
+  // 双列，整页不滚动：左列预览+代码，右列选项独立滚动
+  &__layout {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 20px;
+  }
+
+  &__preview {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &__preview-label {
+    flex: 0 0 auto;
+    font-size: 12px;
+    color: var(--emp-color-text-muted, #999);
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+}
+
+.te-btn {
+  border: 1px solid var(--emp-color-border, #e0e0e0);
+  background: #fff;
+  color: var(--emp-color-text-primary, #333);
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--emp-color-primary, #667eea);
+    color: var(--emp-color-primary, #667eea);
+  }
+}
+
+// 左列底部的 LESS 代码面板
+.te-code {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--emp-color-border, #e0e0e0);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+
+  &__head {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--emp-color-text-secondary, #666);
+    border-bottom: 1px solid var(--emp-color-border, #e0e0e0);
+  }
+
+  &__close {
+    border: none;
+    background: none;
+    color: var(--emp-color-text-muted, #999);
+    cursor: pointer;
+    font-size: 12px;
+
+    &:hover {
+      color: var(--emp-color-primary, #667eea);
+    }
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0;
+    padding: 12px;
+    overflow: auto;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--emp-color-text-primary, #333);
+  }
+}
+
+.te-group {
+  min-width: 0;
+  border: 1px solid var(--emp-color-border, #e0e0e0);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+
+  &__title {
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--emp-color-text-secondary, #666);
+  }
+}
+
+.te-row {
+  display: grid;
+  grid-template-columns: minmax(0, 116px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+
+  &__label {
+    min-width: 0;
+    font-size: 12px;
+    color: var(--emp-color-text-secondary, #666);
+    overflow-wrap: anywhere;
+  }
+
+  &__color {
+    width: 40px;
+    height: 24px;
+    padding: 0;
+    border: 1px solid var(--emp-color-border, #e0e0e0);
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+  }
+
+  &__range {
+    width: 100%;
+    min-width: 0;
+  }
+
+  &__number {
+    width: 64px;
+  }
+
+  &__select,
+  &__text {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  &__value {
+    font-size: 11px;
+    color: var(--emp-color-text-muted, #999);
+    min-width: 72px;
+    text-align: right;
+  }
+}
+
+@media (max-width: 720px) {
+  .theme-editor__layout {
+    grid-template-columns: 1fr;
+  }
+}

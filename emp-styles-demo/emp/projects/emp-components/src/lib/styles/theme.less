@@ -1,0 +1,62 @@
+// =============================================================================
+// emp-components 全局基础样式（字体 + 背景 + CSS 变量令牌）
+// 消费方在全局样式里 @import 本文件即可获得统一的基础样式。
+// 设计令牌见 ./tokens.less；运行时可通过覆盖 :root 上的 --emp-* 变量定制。
+// =============================================================================
+@import './tokens.less';
+
+:root {
+  // Brand
+  --emp-color-primary: @color-primary;
+  --emp-color-primary-dark: @color-primary-dark;
+
+  // Text
+  --emp-color-text-primary: @color-text-primary;
+  --emp-color-text-secondary: @color-text-secondary;
+  --emp-color-text-muted: @color-text-muted;
+  --emp-color-black: @color-black;
+  --emp-color-white: @color-white;
+
+  // Background
+  --emp-color-bg-body: @color-bg-body;
+  --emp-color-bg-page: @color-bg-page;
+  --emp-bg-outer: @emp-bg-outer;
+  --emp-bg-app: @emp-bg-app;
+
+  // Border
+  --emp-color-border: @color-border;
+
+  // Typography
+  --emp-font-family: @emp-font-family;
+  --emp-font-size-base: @emp-font-size-base;
+
+  // Shape
+  --emp-radius-app: @emp-radius-app;
+  --emp-bg-inset: @emp-bg-inset;
+  --emp-bg-shadow: @emp-bg-shadow;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--emp-font-family);
+  font-size: var(--emp-font-size-base);
+  color: var(--emp-color-text-primary);
+}
+
+body {
+  background: var(--emp-bg-outer);
+}
+
+// 应用外框：默认 inset=0 / radius=0 → 满铺矩形；
+// 覆盖 --emp-bg-inset / --emp-radius-app / --emp-bg-shadow 即变为圆角卡片。
+.emp-app-frame {
+  display: block;
+  margin: var(--emp-bg-inset);
+  height: calc(100% - 2 * var(--emp-bg-inset));
+  background: var(--emp-bg-app);
+  border-radius: var(--emp-radius-app);
+  box-shadow: var(--emp-bg-shadow);
+  overflow: hidden;
+}
