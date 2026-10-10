@@ -41,20 +41,30 @@ export interface ThemeTokenDef {
 
 const FONT_STACKS: ThemeTokenOption[] = [
   {
-    label: '系统默认',
+    label: 'System UI',
     value:
-      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif",
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
   },
-  { label: '无衬线', value: 'Arial, Helvetica, sans-serif' },
-  { label: '衬线', value: "Georgia, 'Times New Roman', serif" },
+  { label: 'Arial', value: 'Arial, Helvetica, sans-serif' },
+  { label: 'Helvetica', value: 'Helvetica, Arial, sans-serif' },
+  { label: 'Verdana', value: 'Verdana, Geneva, sans-serif' },
+  { label: 'Tahoma', value: 'Tahoma, Verdana, sans-serif' },
   {
-    label: '等宽',
-    value: "'SFMono-Regular', Consolas, 'Liberation Mono', monospace",
+    label: 'Trebuchet MS',
+    value: "'Trebuchet MS', 'Lucida Grande', sans-serif",
   },
   {
-    label: '中文优先',
-    value: "'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif",
+    label: 'Segoe UI',
+    value: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
+  { label: 'Calibri', value: "Calibri, 'Segoe UI', sans-serif" },
+  { label: 'Roboto', value: 'Roboto, Arial, sans-serif' },
+  { label: 'Open Sans', value: "'Open Sans', Arial, sans-serif" },
+  { label: 'Noto Sans', value: "'Noto Sans', Arial, sans-serif" },
+  { label: 'Georgia', value: "Georgia, 'Times New Roman', serif" },
+  { label: 'Times New Roman', value: "'Times New Roman', Times, serif" },
+  { label: 'Cambria', value: 'Cambria, Georgia, serif' },
+  { label: 'Courier New', value: "'Courier New', Courier, monospace" },
 ];
 
 const SHADOWS: ThemeTokenOption[] = [

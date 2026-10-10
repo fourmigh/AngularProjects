@@ -5,25 +5,25 @@
 
 .emp-demo-card {
   font-family: inherit;
-  background: @color-white;
-  border: 1px solid @color-border;
+  background: var(--emp-color-white, @color-white);
+  border: 1px solid var(--emp-color-border, @color-border);
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 
   &__title {
     font-weight: 600;
-    color: @color-primary;
+    color: var(--emp-color-primary, @color-primary);
     margin-bottom: 8px;
   }
 
   &__body {
-    color: @color-text-secondary;
+    color: var(--emp-color-text-secondary, @color-text-secondary);
     font-size: 13px;
     line-height: 1.6;
 
     code {
-      background: @color-bg-page;
+      background: var(--emp-color-bg-page, @color-bg-page);
       padding: 0 4px;
       border-radius: 4px;
     }

@@ -1,0 +1,48 @@
+// =============================================================================
+// bike-tower 本项目主题（应用层）
+// 顺序：先引入库主题作为基座，再用本项目令牌覆盖（同优先级，后写胜）。
+// 注意：只对使用 var(--emp-*) 的样式生效。
+// =============================================================================
+
+// 1) 库主题基座（裸标识符可用；也可写相对路径 ../../node_modules/...）
+@import "@tikmac/emp-components/styles/theme.less";
+
+// 2) 本项目令牌
+@import "./tokens.less";
+
+// 3) 用本项目令牌覆盖库的 CSS 变量（必须在基座之后）
+:root {
+  --emp-color-primary: @bt-color-primary;
+  --emp-color-primary-dark: @bt-color-primary-dark;
+  --emp-font-family: @bt-font-family;
+  --emp-bg-app: linear-gradient(
+    135deg,
+    @bt-color-primary 0%,
+    @bt-color-primary-dark 100%
+  );
+
+  // 其他按需放开：
+  --emp-color-text-primary: #1f1f1f;
+  --emp-color-text-secondary: #595959;
+  --emp-bg-outer: #f0f2f5;
+  --emp-color-border: #d9d9d9;
+
+  // 形状：圆角卡片；要满铺矩形就都设为 0px
+  --emp-radius-app: 12px;
+  --emp-bg-inset: 16px;
+  --emp-bg-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+// 4) 基础布局覆盖（可选）
+body {
+  background: var(--emp-bg-outer);
+}
+.emp-app-frame {
+  overflow: visible;
+}
+
+// 5) 局部/多主题（可选）：给容器加 class 即局部换肤
+.theme-compact {
+  --emp-radius-app: 6px;
+  --emp-font-size-base: 13px;
+}

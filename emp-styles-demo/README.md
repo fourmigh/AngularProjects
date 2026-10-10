@@ -67,14 +67,49 @@ emp-styles-demo/
   > `calc(100% - 2*0)`（百分比减纯数字）在 CSS 中非法，会导致整条 `height` 失效、
   > 应用外框退化为内容高度、整页出现滚动。
 
+## 消费方如何覆盖（bike-tower）
+
+bike-tower 采用与库**同构的两层结构**，在 `theme.less` 里“先引入库主题、再覆盖”：
+
+```
+bike-tower/src/
+  styles.less            # 全局入口（angular.json 指向它）：@import './styles/theme.less'
+  styles/
+    tokens.less          # 本项目令牌（@bt-* 前缀，避免与库 @color-* 混淆）
+    theme.less           # 基座 + 本项目令牌 + :root 覆盖
+```
+
+```less
+// bike-tower/src/styles/theme.less
+@import '@tikmac/emp-components/styles/theme.less'; // 1) 库主题基座
+@import './tokens.less';                             // 2) 本项目令牌
+
+:root {                                              // 3) 覆盖（须在基座之后）
+  --emp-color-primary: @bt-color-primary;
+  --emp-font-family: @bt-font-family;
+  --emp-bg-app: linear-gradient(135deg, @bt-color-primary, @bt-color-primary-dark);
+}
+```
+
+- 覆盖令牌：在 `:root` 写 `--emp-*`（`:root` 同优先级，**后出现者胜**，所以必须在 `@import theme.less` 之后）。
+- 覆盖基础布局：`body{}` / `.emp-app-frame{}` 同理。
+- 只对使用 `var(--emp-*)` 的样式生效（含库 `theme.less` 与改造过的 `emp-demo-card`）；库中若仍是编译期 `@color-*` 的组件不受影响。
+- 局部/多主题：给容器加 class 并在其中覆盖 `--emp-*` 即可（CSS 变量按后代继承）。
+
 ## 主题编辑器（`emp-theme-editor`）
 
 库内可复用组件，`<emp-theme-editor>` 即可使用：
 
 - 覆盖 `tokens.less` 全部令牌（颜色/字体/字号/圆角/内边距/阴影/背景形态）。
+- 右侧每个选项行也在末尾直接显示该令牌的 LESS 键值（如 `@color-text-primary: #333;`），与左侧示例一一对应。
+- 字体下拉提供常用**西文（英文/德文）字体栈**，选项文字即完整 `font-family` 值（不做中文翻译）。
+- 左侧「样式样板」为**每个令牌**都提供可见示例（外框/形状、品牌色、文字、黑/白、背景、边框、字体），
+  并在示例旁直接显示对应 LESS 代码（如 `@color-text-primary: #333;`，**实时反映当前值**）；
+  **鼠标悬停或聚焦右侧某行时，左侧对应示例会高亮描边**。
 - **整页实时预览**：写入 `document.documentElement` 的内联 `--emp-*`，优先级高于 `theme.less`。
 - 持久化到 `localStorage`，并提供「重置」回到默认。
-- 仅保留一个「复制 LESS」按钮：点击后复制当前覆盖，并在左侧预览下方显示 LESS 代码（可关闭）。
+- 仅保留一个「复制 LESS」按钮：点击后复制当前覆盖并提示「已复制」，不再弹出代码面板
+  （代码已内联显示在每个示例旁）。
 - 布局：编辑页整页不滚动，右侧选项列表独立上下滚动，左侧预览与代码区固定。
 - 提示：该组件需宿主页提供有界高度（demo 的 emp-ui 已保证）。
 
@@ -90,3 +125,4 @@ emp-styles-demo/
    右栏 `.theme-editor__controls` 内容高于可视区、独立滚动。✅
 7. 修复了一个真实缺陷：形状令牌原先为无单位 `0`，导致 `calc(100% - 2*0)` 非法、
    整页随内容增高；改为 `0px` 后应用外框正确撑满视口。✅
+8. 样板覆盖全部令牌并用无头浏览器逐项校验：17/17 个右侧选项悬停都能高亮左侧对应示例。✅

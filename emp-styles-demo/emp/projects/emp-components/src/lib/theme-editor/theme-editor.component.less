@@ -88,53 +88,24 @@
   }
 }
 
-// 左列底部的 LESS 代码面板
-.te-code {
-  flex: 1 1 auto;
-  min-height: 0;
+// 示例旁的内联 LESS 代码
+.te-inline-list {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--emp-color-border, #e0e0e0);
-  border-radius: 8px;
-  background: #fff;
-  overflow: hidden;
+  gap: 2px;
+}
 
-  &__head {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 8px 12px;
-    font-size: 12px;
-    color: var(--emp-color-text-secondary, #666);
-    border-bottom: 1px solid var(--emp-color-border, #e0e0e0);
-  }
-
-  &__close {
-    border: none;
-    background: none;
-    color: var(--emp-color-text-muted, #999);
-    cursor: pointer;
-    font-size: 12px;
-
-    &:hover {
-      color: var(--emp-color-primary, #667eea);
-    }
-  }
-
-  &__body {
-    flex: 1 1 auto;
-    min-height: 0;
-    margin: 0;
-    padding: 12px;
-    overflow: auto;
-    font-size: 12px;
-    line-height: 1.5;
-    white-space: pre-wrap;
-    word-break: break-word;
-    color: var(--emp-color-text-primary, #333);
-  }
+.te-inline-code {
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 1px 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--emp-color-text-muted, #999);
+  background: var(--emp-color-bg-page, #f5f7fa);
+  border-radius: 4px;
+  overflow-wrap: anywhere;
 }
 
 .te-group {
@@ -154,7 +125,7 @@
 
 .te-row {
   display: grid;
-  grid-template-columns: minmax(0, 116px) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 116px) minmax(0, 1fr) minmax(0, 1.1fr);
   align-items: center;
   gap: 8px;
   padding: 4px 0;
@@ -166,7 +137,15 @@
     overflow-wrap: anywhere;
   }
 
+  &__control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
   &__color {
+    flex: 0 0 auto;
     width: 40px;
     height: 24px;
     padding: 0;
@@ -177,27 +156,183 @@
   }
 
   &__range {
-    width: 100%;
+    flex: 1 1 auto;
     min-width: 0;
   }
 
   &__number {
+    flex: 0 0 auto;
     width: 64px;
   }
 
   &__select,
   &__text {
+    flex: 1 1 auto;
     width: 100%;
     min-width: 0;
     max-width: 100%;
   }
 
-  &__value {
+  &__less {
+    min-width: 0;
+    padding: 1px 5px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 11px;
+    line-height: 1.5;
     color: var(--emp-color-text-muted, #999);
-    min-width: 72px;
-    text-align: right;
+    background: var(--emp-color-bg-page, #f5f7fa);
+    border-radius: 4px;
+    overflow-wrap: anywhere;
   }
+}
+
+// 预览可滚动区：内容多时左栏内部滚动，不影响整页
+.te-preview-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 4px;
+}
+
+// 样式样板：覆盖右侧全部令牌，供对照预览
+.te-specimen {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--emp-color-border, #e0e0e0);
+  border-radius: 8px;
+  background: var(--emp-color-white, #fff);
+
+  &__frame {
+    padding: 12px;
+    border-radius: 8px;
+    background: var(--emp-bg-outer, #f0f2f5);
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    padding: 12px;
+    font-size: 12px;
+    color: var(--emp-color-text-primary, #333);
+    background: var(--emp-bg-app);
+    border-radius: var(--emp-radius-app, 0px);
+    box-shadow: var(--emp-bg-shadow, none);
+    margin: var(--emp-bg-inset, 0px);
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  &__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__cap {
+    flex: 0 0 auto;
+    width: 56px;
+    font-size: 12px;
+    color: var(--emp-color-text-secondary, #666);
+  }
+
+  &__text {
+    font-size: 13px;
+
+    &--primary {
+      color: var(--emp-color-text-primary, #333);
+    }
+    &--secondary {
+      color: var(--emp-color-text-secondary, #666);
+    }
+    &--muted {
+      color: var(--emp-color-text-muted, #999);
+    }
+  }
+
+  &__border {
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--emp-color-text-secondary, #666);
+    border: 1px solid var(--emp-color-border, #e0e0e0);
+    border-radius: 6px;
+  }
+
+  &__type {
+    font-family: var(--emp-font-family);
+    font-size: var(--emp-font-size-base, 14px);
+    color: var(--emp-color-text-primary, #333);
+  }
+}
+
+.te-chip {
+  display: inline-block;
+  width: 28px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  vertical-align: middle;
+
+  &--primary {
+    background: var(--emp-color-primary, #667eea);
+  }
+  &--primary-dark {
+    background: var(--emp-color-primary-dark, #764ba2);
+  }
+  &--black {
+    background: var(--emp-color-black, #000);
+  }
+  &--white {
+    background: var(--emp-color-white, #fff);
+  }
+  &--body {
+    background: var(--emp-color-bg-body, #f0f2f5);
+  }
+  &--page {
+    background: var(--emp-color-bg-page, #f5f7fa);
+  }
+}
+
+.te-chip-strip {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: #333;
+}
+
+.te-sample-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: var(--emp-color-white, #fff);
+  background: var(--emp-color-primary, #667eea);
+  cursor: pointer;
+}
+
+.is-highlight {
+  outline: 2px solid var(--emp-color-primary, #667eea);
+  outline-offset: 2px;
 }
 
 @media (max-width: 720px) {

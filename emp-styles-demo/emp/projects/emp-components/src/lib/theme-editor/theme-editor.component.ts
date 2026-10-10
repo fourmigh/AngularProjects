@@ -47,7 +47,8 @@ export class ThemeEditorComponent {
   protected readonly gradAngle = signal(135);
   protected readonly solidColor = signal('#667eea');
   protected readonly copied = signal('');
-  protected readonly lessCode = signal('');
+  /** 当前鼠标/焦点所在的令牌，用于在左侧高亮对应预览 */
+  protected readonly highlight = signal<string | null>(null);
 
   constructor() {
     const current = this.svc.valueOf('--emp-bg-app');
@@ -63,10 +64,29 @@ export class ThemeEditorComponent {
     }
   }
 
+  protected onRowEnter(key: string): void {
+    this.highlight.set(key);
+  }
+
+  protected onRowLeave(): void {
+    this.highlight.set(null);
+  }
+
+  protected isAny(keys: string[]): boolean {
+    const current = this.highlight();
+    return current !== null && keys.includes(current);
+  }
+
   protected num(key: string): number {
     const value = this.svc.valueOf(key);
     const n = parseFloat(value);
     return Number.isNaN(n) ? 0 : n;
+  }
+
+  /** 令牌当前的 LESS 写法（实时值），如 `@color-text-primary: #333;` */
+  protected lessOf(key: string): string {
+    const token = this.svc.allTokens.find((t) => t.key === key);
+    return token ? `${token.lessName}: ${this.svc.valueOf(key)};` : '';
   }
 
   protected setLength(token: ThemeTokenDef, raw: string): void {
@@ -103,17 +123,10 @@ export class ThemeEditorComponent {
     this.gradFrom.set('#667eea');
     this.gradTo.set('#764ba2');
     this.gradAngle.set(135);
-    this.lessCode.set('');
   }
 
   protected async copyLess(): Promise<void> {
-    const code = this.svc.exportLess();
-    this.lessCode.set(code);
-    await this.copy(code, '已复制 LESS');
-  }
-
-  protected closeCode(): void {
-    this.lessCode.set('');
+    await this.copy(this.svc.exportLess(), '已复制 LESS');
   }
 
   private async copy(text: string, message: string): Promise<void> {

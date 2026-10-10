@@ -15,19 +15,192 @@
   <div class="theme-editor__layout">
     <section class="theme-editor__preview">
       <div class="theme-editor__preview-label">实时预览（整页同步生效）</div>
-      <emp-demo-card title="预览卡片"></emp-demo-card>
 
-      @if (lessCode()) {
-        <div class="te-code">
-          <div class="te-code__head">
-            <span>LESS 覆盖</span>
-            <button type="button" class="te-code__close" (click)="closeCode()">
-              关闭
+      <div class="te-preview-scroll">
+        <div class="te-specimen">
+          <!-- 外框 / 形状 / 应用背景 -->
+          <div
+            class="te-specimen__frame"
+            [class.is-highlight]="highlight() === '--emp-bg-outer'"
+            data-token-preview="--emp-bg-outer"
+          >
+            <div
+              class="te-specimen__inner"
+              [class.is-highlight]="
+                isAny([
+                  '--emp-bg-app',
+                  '--emp-radius-app',
+                  '--emp-bg-inset',
+                  '--emp-bg-shadow'
+                ])
+              "
+              data-token-preview="--emp-bg-app --emp-radius-app --emp-bg-inset --emp-bg-shadow"
+            >
+              应用背景 / 圆角 / 内边距 / 阴影
+            </div>
+          </div>
+          <div class="te-inline-list">
+            <code class="te-inline-code">{{ lessOf('--emp-bg-outer') }}</code>
+            <code class="te-inline-code">{{ lessOf('--emp-bg-app') }}</code>
+            <code class="te-inline-code">{{ lessOf('--emp-radius-app') }}</code>
+            <code class="te-inline-code">{{ lessOf('--emp-bg-inset') }}</code>
+            <code class="te-inline-code">{{ lessOf('--emp-bg-shadow') }}</code>
+          </div>
+
+          <!-- 品牌色 -->
+          <div class="te-specimen__row">
+            <span class="te-specimen__cap">品牌色</span>
+            <span class="te-specimen__item">
+              <span
+                class="te-chip te-chip--primary"
+                [class.is-highlight]="highlight() === '--emp-color-primary'"
+                data-token-preview="--emp-color-primary"
+              ></span>
+              <code class="te-inline-code">{{
+                lessOf('--emp-color-primary')
+              }}</code>
+            </span>
+            <span class="te-specimen__item">
+              <span
+                class="te-chip te-chip--primary-dark"
+                [class.is-highlight]="highlight() === '--emp-color-primary-dark'"
+                data-token-preview="--emp-color-primary-dark"
+              ></span>
+              <code class="te-inline-code">{{
+                lessOf('--emp-color-primary-dark')
+              }}</code>
+            </span>
+            <button
+              type="button"
+              class="te-sample-btn"
+              [class.is-highlight]="highlight() === '--emp-color-primary'"
+            >
+              主色按钮
             </button>
           </div>
-          <pre class="te-code__body">{{ lessCode() }}</pre>
+
+          <!-- 文字 -->
+          <div class="te-specimen__stack">
+            <span class="te-specimen__cap">文字</span>
+            <span class="te-specimen__item">
+              <span
+                class="te-specimen__text te-specimen__text--primary"
+                [class.is-highlight]="highlight() === '--emp-color-text-primary'"
+                data-token-preview="--emp-color-text-primary"
+                >主要文字 Primary</span
+              >
+              <code class="te-inline-code"
+                >{{ lessOf('--emp-color-text-primary') }}</code
+              >
+            </span>
+            <span class="te-specimen__item">
+              <span
+                class="te-specimen__text te-specimen__text--secondary"
+                [class.is-highlight]="
+                  highlight() === '--emp-color-text-secondary'
+                "
+                data-token-preview="--emp-color-text-secondary"
+                >次要文字 Secondary</span
+              >
+              <code class="te-inline-code"
+                >{{ lessOf('--emp-color-text-secondary') }}</code
+              >
+            </span>
+            <span class="te-specimen__item">
+              <span
+                class="te-specimen__text te-specimen__text--muted"
+                [class.is-highlight]="highlight() === '--emp-color-text-muted'"
+                data-token-preview="--emp-color-text-muted"
+                >弱化文字 Muted</span
+              >
+              <code class="te-inline-code"
+                >{{ lessOf('--emp-color-text-muted') }}</code
+              >
+            </span>
+          </div>
+
+          <!-- 黑 / 白 -->
+          <div class="te-specimen__row">
+            <span class="te-specimen__cap">黑/白</span>
+            <span class="te-specimen__item">
+              <span class="te-chip-strip">
+                <span
+                  class="te-chip te-chip--black"
+                  [class.is-highlight]="highlight() === '--emp-color-black'"
+                  data-token-preview="--emp-color-black"
+                ></span>
+                <span
+                  class="te-chip te-chip--white"
+                  [class.is-highlight]="highlight() === '--emp-color-white'"
+                  data-token-preview="--emp-color-white"
+                ></span>
+              </span>
+              <code class="te-inline-code"
+                >{{ lessOf('--emp-color-black') }}
+                {{ lessOf('--emp-color-white') }}</code
+              >
+            </span>
+          </div>
+
+          <!-- 背景 -->
+          <div class="te-specimen__row">
+            <span class="te-specimen__cap">背景</span>
+            <span class="te-specimen__item">
+              <span
+                class="te-chip te-chip--body"
+                [class.is-highlight]="highlight() === '--emp-color-bg-body'"
+                data-token-preview="--emp-color-bg-body"
+              ></span>
+              <code class="te-inline-code">{{
+                lessOf('--emp-color-bg-body')
+              }}</code>
+            </span>
+            <span class="te-specimen__item">
+              <span
+                class="te-chip te-chip--page"
+                [class.is-highlight]="highlight() === '--emp-color-bg-page'"
+                data-token-preview="--emp-color-bg-page"
+              ></span>
+              <code class="te-inline-code">{{
+                lessOf('--emp-color-bg-page')
+              }}</code>
+            </span>
+          </div>
+
+          <!-- 边框 -->
+          <div class="te-specimen__item">
+            <span
+              class="te-specimen__border"
+              [class.is-highlight]="highlight() === '--emp-color-border'"
+              data-token-preview="--emp-color-border"
+            >
+              边框示例 Border 1px
+            </span>
+            <code class="te-inline-code"
+              >{{ lessOf('--emp-color-border') }}</code
+            >
+          </div>
+
+          <!-- 字体排版 -->
+          <div class="te-specimen__stack">
+            <span
+              class="te-specimen__type"
+              [class.is-highlight]="
+                isAny(['--emp-font-family', '--emp-font-size-base'])
+              "
+              data-token-preview="--emp-font-family --emp-font-size-base"
+            >
+              字体与字号示例 Aa 123 中文
+            </span>
+            <code class="te-inline-code">{{ lessOf('--emp-font-family') }}</code>
+            <code class="te-inline-code">{{
+              lessOf('--emp-font-size-base')
+            }}</code>
+          </div>
         </div>
-      }
+
+        <emp-demo-card title="预览卡片"></emp-demo-card>
+      </div>
     </section>
 
     <section class="theme-editor__controls">
@@ -36,71 +209,91 @@
           <div class="te-group__title">{{ group.name }}</div>
 
           @for (token of group.tokens; track token.key) {
-            <label class="te-row">
+            <label
+              class="te-row"
+              [attr.data-token]="token.key"
+              (mouseenter)="onRowEnter(token.key)"
+              (mouseleave)="onRowLeave()"
+              (focusin)="onRowEnter(token.key)"
+              (focusout)="onRowLeave()"
+            >
               <span class="te-row__label">{{ token.label }}</span>
 
               @switch (token.type) {
                 @case ('color') {
-                  <input
-                    type="color"
-                    class="te-row__color"
-                    [value]="svc.valueOf(token.key)"
-                    (input)="svc.set(token.key, $any($event.target).value)"
-                  />
-                  <code class="te-row__value">{{ svc.valueOf(token.key) }}</code>
+                  <span class="te-row__control">
+                    <input
+                      type="color"
+                      class="te-row__color"
+                      [value]="svc.valueOf(token.key)"
+                      (input)="svc.set(token.key, $any($event.target).value)"
+                    />
+                  </span>
                 }
 
                 @case ('length') {
-                  <input
-                    type="range"
-                    class="te-row__range"
-                    [min]="token.min ?? 0"
-                    [max]="token.max ?? 32"
-                    [step]="token.step ?? 1"
-                    [value]="num(token.key)"
-                    (input)="setLength(token, $any($event.target).value)"
-                  />
-                  <input
-                    type="number"
-                    class="te-row__number"
-                    [value]="num(token.key)"
-                    (input)="setLength(token, $any($event.target).value)"
-                  />
+                  <span class="te-row__control">
+                    <input
+                      type="range"
+                      class="te-row__range"
+                      [min]="token.min ?? 0"
+                      [max]="token.max ?? 32"
+                      [step]="token.step ?? 1"
+                      [value]="num(token.key)"
+                      (input)="setLength(token, $any($event.target).value)"
+                    />
+                    <input
+                      type="number"
+                      class="te-row__number"
+                      [value]="num(token.key)"
+                      (input)="setLength(token, $any($event.target).value)"
+                    />
+                  </span>
                 }
 
                 @case ('font') {
-                  <select
-                    class="te-row__select"
-                    [value]="svc.valueOf(token.key)"
-                    (change)="svc.set(token.key, $any($event.target).value)"
-                  >
-                    @for (option of token.options; track option.value) {
-                      <option [value]="option.value">{{ option.label }}</option>
-                    }
-                  </select>
+                  <span class="te-row__control">
+                    <select
+                      class="te-row__select"
+                      [value]="svc.valueOf(token.key)"
+                      (change)="svc.set(token.key, $any($event.target).value)"
+                    >
+                      @for (option of token.options; track option.value) {
+                        <option [value]="option.value" [title]="option.value">{{
+                          option.value
+                        }}</option>
+                      }
+                    </select>
+                  </span>
                 }
 
                 @case ('shadow') {
-                  <select
-                    class="te-row__select"
-                    [value]="svc.valueOf(token.key)"
-                    (change)="svc.set(token.key, $any($event.target).value)"
-                  >
-                    @for (option of token.options; track option.label) {
-                      <option [value]="option.value">{{ option.label }}</option>
-                    }
-                  </select>
+                  <span class="te-row__control">
+                    <select
+                      class="te-row__select"
+                      [value]="svc.valueOf(token.key)"
+                      (change)="svc.set(token.key, $any($event.target).value)"
+                    >
+                      @for (option of token.options; track option.label) {
+                        <option [value]="option.value">{{ option.label }}</option>
+                      }
+                    </select>
+                  </span>
                 }
 
                 @default {
-                  <input
-                    type="text"
-                    class="te-row__text"
-                    [value]="svc.valueOf(token.key)"
-                    (input)="svc.set(token.key, $any($event.target).value)"
-                  />
+                  <span class="te-row__control">
+                    <input
+                      type="text"
+                      class="te-row__text"
+                      [value]="svc.valueOf(token.key)"
+                      (input)="svc.set(token.key, $any($event.target).value)"
+                    />
+                  </span>
                 }
               }
+
+              <code class="te-row__less">{{ lessOf(token.key) }}</code>
             </label>
           }
         </section>
@@ -108,55 +301,101 @@
 
       <section class="te-group">
         <div class="te-group__title">应用背景（--emp-bg-app）</div>
-        <label class="te-row">
+        <label
+          class="te-row"
+          data-token="--emp-bg-app"
+          (mouseenter)="onRowEnter('--emp-bg-app')"
+          (mouseleave)="onRowLeave()"
+          (focusin)="onRowEnter('--emp-bg-app')"
+          (focusout)="onRowLeave()"
+        >
           <span class="te-row__label">形态</span>
-          <select
-            class="te-row__select"
-            [value]="bgMode()"
-            (change)="onModeChange($event)"
-          >
-            <option value="gradient">渐变</option>
-            <option value="solid">纯色</option>
-          </select>
+          <span class="te-row__control">
+            <select
+              class="te-row__select"
+              [value]="bgMode()"
+              (change)="onModeChange($event)"
+            >
+              <option value="gradient">渐变</option>
+              <option value="solid">纯色</option>
+            </select>
+          </span>
+          <code class="te-row__less">{{ lessOf('--emp-bg-app') }}</code>
         </label>
 
         @if (bgMode() === 'gradient') {
-          <label class="te-row">
+          <label
+            class="te-row"
+            data-token="--emp-bg-app"
+            (mouseenter)="onRowEnter('--emp-bg-app')"
+            (mouseleave)="onRowLeave()"
+            (focusin)="onRowEnter('--emp-bg-app')"
+            (focusout)="onRowLeave()"
+          >
             <span class="te-row__label">起色</span>
-            <input
-              type="color"
-              class="te-row__color"
-              [value]="gradFrom()"
-              (input)="gradFrom.set($any($event.target).value); applyGradient()"
-            />
+            <span class="te-row__control">
+              <input
+                type="color"
+                class="te-row__color"
+                [value]="gradFrom()"
+                (input)="gradFrom.set($any($event.target).value); applyGradient()"
+              />
+            </span>
           </label>
-          <label class="te-row">
+          <label
+            class="te-row"
+            data-token="--emp-bg-app"
+            (mouseenter)="onRowEnter('--emp-bg-app')"
+            (mouseleave)="onRowLeave()"
+            (focusin)="onRowEnter('--emp-bg-app')"
+            (focusout)="onRowLeave()"
+          >
             <span class="te-row__label">止色</span>
-            <input
-              type="color"
-              class="te-row__color"
-              [value]="gradTo()"
-              (input)="gradTo.set($any($event.target).value); applyGradient()"
-            />
+            <span class="te-row__control">
+              <input
+                type="color"
+                class="te-row__color"
+                [value]="gradTo()"
+                (input)="gradTo.set($any($event.target).value); applyGradient()"
+              />
+            </span>
           </label>
-          <label class="te-row">
+          <label
+            class="te-row"
+            data-token="--emp-bg-app"
+            (mouseenter)="onRowEnter('--emp-bg-app')"
+            (mouseleave)="onRowLeave()"
+            (focusin)="onRowEnter('--emp-bg-app')"
+            (focusout)="onRowLeave()"
+          >
             <span class="te-row__label">角度</span>
-            <input
-              type="number"
-              class="te-row__number"
-              [value]="gradAngle()"
-              (input)="gradAngle.set(+$any($event.target).value); applyGradient()"
-            />
+            <span class="te-row__control">
+              <input
+                type="number"
+                class="te-row__number"
+                [value]="gradAngle()"
+                (input)="gradAngle.set(+$any($event.target).value); applyGradient()"
+              />
+            </span>
           </label>
         } @else {
-          <label class="te-row">
+          <label
+            class="te-row"
+            data-token="--emp-bg-app"
+            (mouseenter)="onRowEnter('--emp-bg-app')"
+            (mouseleave)="onRowLeave()"
+            (focusin)="onRowEnter('--emp-bg-app')"
+            (focusout)="onRowLeave()"
+          >
             <span class="te-row__label">纯色</span>
-            <input
-              type="color"
-              class="te-row__color"
-              [value]="solidColor()"
-              (input)="solidColor.set($any($event.target).value); applySolid()"
-            />
+            <span class="te-row__control">
+              <input
+                type="color"
+                class="te-row__color"
+                [value]="solidColor()"
+                (input)="solidColor.set($any($event.target).value); applySolid()"
+              />
+            </span>
           </label>
         }
       </section>
