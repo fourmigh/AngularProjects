@@ -1,10 +1,20 @@
-<div class="emp-demo-card">
+<div
+  class="emp-demo-card"
+  [class.emp-demo-card--plain]="variant() === 'plain'"
+  [class.emp-demo-card--accent]="variant() === 'accent'"
+>
   <div class="emp-demo-card__title">{{ title() }}</div>
   <div class="emp-demo-card__body">
-    <p>
-      该卡片使用共享令牌：主色 <code>@color-primary</code>、圆角
-      <code>var(--emp-radius-app)</code>、字体 <code>var(--emp-font-family)</code>。
-    </p>
-    <button type="button" class="emp-demo-card__btn">主色按钮</button>
+    @if (body()) {
+      <p>{{ body() }}</p>
+    } @else {
+      <p>
+        该卡片使用共享令牌：主色 <code>@color-primary</code>、圆角
+        <code>var(--emp-radius-app)</code>、字体 <code>var(--emp-font-family)</code>。
+      </p>
+    }
+    @if (showButton()) {
+      <button type="button" class="emp-demo-card__btn">主色按钮</button>
+    }
   </div>
 </div>

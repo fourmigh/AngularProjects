@@ -8,6 +8,7 @@ export type ThemeTokenType =
   | 'color'
   | 'length'
   | 'font'
+  | 'weight'
   | 'shadow'
   | 'gradient'
   | 'text';
@@ -67,8 +68,25 @@ const FONT_STACKS: ThemeTokenOption[] = [
   { label: 'Courier New', value: "'Courier New', Courier, monospace" },
 ];
 
-const SHADOWS: ThemeTokenOption[] = [
-  { label: '无', value: 'none' },
+const MONO_STACKS: ThemeTokenOption[] = [
+  {
+    label: 'System Mono',
+    value: "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace",
+  },
+  { label: 'Consolas', value: "Consolas, 'Courier New', monospace" },
+  { label: 'Menlo', value: 'Menlo, Monaco, Consolas, monospace' },
+  { label: 'Courier New', value: "'Courier New', Courier, monospace" },
+  { label: 'Monospace', value: 'monospace' },
+];
+
+const WEIGHTS: ThemeTokenOption[] = [
+  { label: 'Regular 400', value: '400' },
+  { label: 'Medium 500', value: '500' },
+  { label: 'Semibold 600', value: '600' },
+  { label: 'Bold 700', value: '700' },
+];
+
+const SHADOWS: ThemeTokenOption[] = [  { label: '无', value: 'none' },
   { label: '轻微', value: '0 1px 2px rgba(0, 0, 0, 0.08)' },
   { label: '中等', value: '0 4px 12px rgba(0, 0, 0, 0.12)' },
   { label: '明显', value: '0 12px 32px rgba(0, 0, 0, 0.18)' },
@@ -183,26 +201,165 @@ export const THEME_TOKENS: ThemeTokenDef[] = [
     default: '#e0e0e0',
   },
 
-  // Typography
+  // Typography —— family 角色
   {
     key: '--emp-font-family',
     lessName: '@emp-font-family',
-    label: '字体',
+    label: '正文字体',
     type: 'font',
     group: '字体排版',
     default: FONT_STACKS[0].value,
     options: FONT_STACKS,
   },
   {
+    key: '--emp-font-family-heading',
+    lessName: '@emp-font-family-heading',
+    label: '标题字体',
+    type: 'font',
+    group: '字体排版',
+    default: FONT_STACKS[0].value,
+    options: FONT_STACKS,
+  },
+  {
+    key: '--emp-font-family-code',
+    lessName: '@emp-font-family-code',
+    label: '代码字体',
+    type: 'font',
+    group: '字体排版',
+    default: MONO_STACKS[0].value,
+    options: MONO_STACKS,
+  },
+
+  // Typography —— 字号刻度
+  {
+    key: '--emp-font-size-xs',
+    lessName: '@emp-font-size-xs',
+    label: '字号 xs(px)',
+    type: 'length',
+    group: '字体排版',
+    default: '12px',
+    min: 10,
+    max: 48,
+    step: 1,
+  },
+  {
+    key: '--emp-font-size-sm',
+    lessName: '@emp-font-size-sm',
+    label: '字号 sm(px)',
+    type: 'length',
+    group: '字体排版',
+    default: '13px',
+    min: 10,
+    max: 48,
+    step: 1,
+  },
+  {
     key: '--emp-font-size-base',
     lessName: '@emp-font-size-base',
-    label: '基础字号(px)',
+    label: '字号 base(px)',
     type: 'length',
     group: '字体排版',
     default: '14px',
-    min: 12,
-    max: 20,
+    min: 10,
+    max: 48,
     step: 1,
+  },
+  {
+    key: '--emp-font-size-lg',
+    lessName: '@emp-font-size-lg',
+    label: '字号 lg(px)',
+    type: 'length',
+    group: '字体排版',
+    default: '16px',
+    min: 10,
+    max: 48,
+    step: 1,
+  },
+  {
+    key: '--emp-font-size-xl',
+    lessName: '@emp-font-size-xl',
+    label: '字号 xl(px)',
+    type: 'length',
+    group: '字体排版',
+    default: '20px',
+    min: 10,
+    max: 64,
+    step: 1,
+  },
+  {
+    key: '--emp-font-size-2xl',
+    lessName: '@emp-font-size-2xl',
+    label: '字号 2xl(px)',
+    type: 'length',
+    group: '字体排版',
+    default: '24px',
+    min: 10,
+    max: 72,
+    step: 1,
+  },
+
+  // Typography —— 字重刻度
+  {
+    key: '--emp-font-weight-regular',
+    lessName: '@emp-font-weight-regular',
+    label: '字重 regular',
+    type: 'weight',
+    group: '字体排版',
+    default: '400',
+    options: WEIGHTS,
+  },
+  {
+    key: '--emp-font-weight-medium',
+    lessName: '@emp-font-weight-medium',
+    label: '字重 medium',
+    type: 'weight',
+    group: '字体排版',
+    default: '500',
+    options: WEIGHTS,
+  },
+  {
+    key: '--emp-font-weight-semibold',
+    lessName: '@emp-font-weight-semibold',
+    label: '字重 semibold',
+    type: 'weight',
+    group: '字体排版',
+    default: '600',
+    options: WEIGHTS,
+  },
+  {
+    key: '--emp-font-weight-bold',
+    lessName: '@emp-font-weight-bold',
+    label: '字重 bold',
+    type: 'weight',
+    group: '字体排版',
+    default: '700',
+    options: WEIGHTS,
+  },
+
+  // Typography —— 行高刻度
+  {
+    key: '--emp-line-height-tight',
+    lessName: '@emp-line-height-tight',
+    label: '行高 tight',
+    type: 'text',
+    group: '字体排版',
+    default: '1.25',
+  },
+  {
+    key: '--emp-line-height-base',
+    lessName: '@emp-line-height-base',
+    label: '行高 base',
+    type: 'text',
+    group: '字体排版',
+    default: '1.5',
+  },
+  {
+    key: '--emp-line-height-loose',
+    lessName: '@emp-line-height-loose',
+    label: '行高 loose',
+    type: 'text',
+    group: '字体排版',
+    default: '1.75',
   },
 
   // Shape

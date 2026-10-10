@@ -277,10 +277,30 @@
     border-radius: 6px;
   }
 
-  &__type {
+  &__typo {
     font-family: var(--emp-font-family);
-    font-size: var(--emp-font-size-base, 14px);
     color: var(--emp-color-text-primary, #333);
+
+    &--heading {
+      font-family: var(--emp-font-family-heading);
+      font-size: var(--emp-font-size-xl);
+      font-weight: var(--emp-font-weight-semibold);
+      line-height: var(--emp-line-height-tight);
+    }
+
+    &--body {
+      font-family: var(--emp-font-family);
+      font-size: var(--emp-font-size-base);
+    }
+
+    &--code {
+      font-family: var(--emp-font-family-code);
+      font-size: var(--emp-font-size-sm);
+    }
+
+    &--lh {
+      font-size: var(--emp-font-size-sm);
+    }
   }
 }
 

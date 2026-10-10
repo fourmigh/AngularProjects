@@ -100,7 +100,10 @@ bike-tower/src/
 
 库内可复用组件，`<emp-theme-editor>` 即可使用：
 
-- 覆盖 `tokens.less` 全部令牌（颜色/字体/字号/圆角/内边距/阴影/背景形态）。
+- 覆盖 `tokens.less` 全部令牌（颜色 / 排版 / 形状 / 背景）。
+- **排版令牌（刻度制）**：family 角色（正文 `--emp-font-family`、标题 `--emp-font-family-heading`、
+  代码 `--emp-font-family-code`）+ 字号刻度（`xs/sm/base/lg/xl/2xl`）+ 字重刻度（`regular/medium/semibold/bold`）
+  + 行高刻度（`tight/base/loose`）。**只在 `:root` 暴露变量、不自动应用到标签**，由消费方/组件用 `var(--emp-*)` 取用。
 - 右侧每个选项行也在末尾直接显示该令牌的 LESS 键值（如 `@color-text-primary: #333;`），与左侧示例一一对应。
 - 字体下拉提供常用**西文（英文/德文）字体栈**，选项文字即完整 `font-family` 值（不做中文翻译）。
 - 左侧「样式样板」为**每个令牌**都提供可见示例（外框/形状、品牌色、文字、黑/白、背景、边框、字体），

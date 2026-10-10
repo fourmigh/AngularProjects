@@ -34,12 +34,50 @@
     border: none;
     border-radius: 6px;
     padding: 6px 14px;
-    color: @color-white;
+    color: var(--emp-color-white, @color-white);
     background: var(--emp-color-primary, @color-primary);
     cursor: pointer;
 
     &:hover {
       filter: brightness(0.95);
+    }
+  }
+
+  // 变体：简洁（浅底、虚线边框、无阴影、弱化标题）
+  &--plain {
+    background: var(--emp-color-bg-page, @color-bg-page);
+    border-style: dashed;
+    box-shadow: none;
+
+    .emp-demo-card__title {
+      color: var(--emp-color-text-secondary, @color-text-secondary);
+    }
+  }
+
+  // 变体：品牌实底（主色背景 + 反白文字 + 等宽字体）
+  &--accent {
+    font-family: var(--emp-font-family-code, monospace);
+    background: var(--emp-color-primary, @color-primary);
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    .emp-demo-card__title {
+      color: var(--emp-color-white, @color-white);
+    }
+
+    .emp-demo-card__body {
+      color: var(--emp-color-white, @color-white);
+      opacity: 0.9;
+
+      code {
+        background: rgba(255, 255, 255, 0.18);
+        color: var(--emp-color-white, @color-white);
+      }
+    }
+
+    .emp-demo-card__btn {
+      background: var(--emp-color-white, @color-white);
+      color: var(--emp-color-primary, @color-primary);
     }
   }
 }

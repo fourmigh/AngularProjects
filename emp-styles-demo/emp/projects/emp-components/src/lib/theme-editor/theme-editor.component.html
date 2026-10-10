@@ -181,25 +181,97 @@
             >
           </div>
 
-          <!-- 字体排版 -->
+          <!-- 字体族 -->
           <div class="te-specimen__stack">
-            <span
-              class="te-specimen__type"
-              [class.is-highlight]="
-                isAny(['--emp-font-family', '--emp-font-size-base'])
-              "
-              data-token-preview="--emp-font-family --emp-font-size-base"
-            >
-              字体与字号示例 Aa 123 中文
+            <span class="te-specimen__cap">字体</span>
+            <span class="te-specimen__item">
+              <span
+                class="te-specimen__typo te-specimen__typo--heading"
+                [class.is-highlight]="
+                  highlight() === '--emp-font-family-heading'
+                "
+                data-token-preview="--emp-font-family-heading"
+                >标题 Heading Aa 123</span
+              >
+              <code class="te-inline-code">{{
+                lessOf('--emp-font-family-heading')
+              }}</code>
             </span>
-            <code class="te-inline-code">{{ lessOf('--emp-font-family') }}</code>
-            <code class="te-inline-code">{{
-              lessOf('--emp-font-size-base')
-            }}</code>
+            <span class="te-specimen__item">
+              <span
+                class="te-specimen__typo te-specimen__typo--body"
+                [class.is-highlight]="highlight() === '--emp-font-family'"
+                data-token-preview="--emp-font-family"
+                >正文 Body Aa 123</span
+              >
+              <code class="te-inline-code">{{
+                lessOf('--emp-font-family')
+              }}</code>
+            </span>
+            <span class="te-specimen__item">
+              <span
+                class="te-specimen__typo te-specimen__typo--code"
+                [class.is-highlight]="highlight() === '--emp-font-family-code'"
+                data-token-preview="--emp-font-family-code"
+                >代码 Code 123</span
+              >
+              <code class="te-inline-code">{{
+                lessOf('--emp-font-family-code')
+              }}</code>
+            </span>
+          </div>
+
+          <!-- 字号刻度 -->
+          <div class="te-specimen__stack">
+            <span class="te-specimen__cap">字号</span>
+            @for (sz of sizeTokens; track sz.key) {
+              <span class="te-specimen__item">
+                <span
+                  class="te-specimen__typo"
+                  [style.font-size]="svc.valueOf(sz.key)"
+                  [class.is-highlight]="highlight() === sz.key"
+                  [attr.data-token-preview]="sz.key"
+                  >{{ sz.label }} Aa 中文</span
+                >
+                <code class="te-inline-code">{{ lessOf(sz.key) }}</code>
+              </span>
+            }
+          </div>
+
+          <!-- 字重刻度 -->
+          <div class="te-specimen__stack">
+            <span class="te-specimen__cap">字重</span>
+            @for (w of weightTokens; track w.key) {
+              <span class="te-specimen__item">
+                <span
+                  class="te-specimen__typo"
+                  [style.font-weight]="svc.valueOf(w.key)"
+                  [class.is-highlight]="highlight() === w.key"
+                  [attr.data-token-preview]="w.key"
+                  >{{ w.label }} Weight</span
+                >
+                <code class="te-inline-code">{{ lessOf(w.key) }}</code>
+              </span>
+            }
+          </div>
+
+          <!-- 行高刻度 -->
+          <div class="te-specimen__stack">
+            <span class="te-specimen__cap">行高</span>
+            @for (lh of lineHeightTokens; track lh.key) {
+              <span class="te-specimen__item">
+                <span
+                  class="te-specimen__typo te-specimen__typo--lh"
+                  [style.line-height]="svc.valueOf(lh.key)"
+                  [class.is-highlight]="highlight() === lh.key"
+                  [attr.data-token-preview]="lh.key"
+                  >{{ lh.label }} 行高示例 Line</span
+                >
+                <code class="te-inline-code">{{ lessOf(lh.key) }}</code>
+              </span>
+            }
           </div>
         </div>
-
-        <emp-demo-card title="预览卡片"></emp-demo-card>
       </div>
     </section>
 
@@ -255,13 +327,32 @@
                   <span class="te-row__control">
                     <select
                       class="te-row__select"
-                      [value]="svc.valueOf(token.key)"
                       (change)="svc.set(token.key, $any($event.target).value)"
                     >
                       @for (option of token.options; track option.value) {
-                        <option [value]="option.value" [title]="option.value">{{
-                          option.value
-                        }}</option>
+                        <option
+                          [value]="option.value"
+                          [selected]="option.value === svc.valueOf(token.key)"
+                          [title]="option.value"
+                          >{{ option.value }}</option
+                        >
+                      }
+                    </select>
+                  </span>
+                }
+
+                @case ('weight') {
+                  <span class="te-row__control">
+                    <select
+                      class="te-row__select"
+                      (change)="svc.set(token.key, $any($event.target).value)"
+                    >
+                      @for (option of token.options; track option.value) {
+                        <option
+                          [value]="option.value"
+                          [selected]="option.value === svc.valueOf(token.key)"
+                          >{{ option.label }}</option
+                        >
                       }
                     </select>
                   </span>
@@ -271,11 +362,14 @@
                   <span class="te-row__control">
                     <select
                       class="te-row__select"
-                      [value]="svc.valueOf(token.key)"
                       (change)="svc.set(token.key, $any($event.target).value)"
                     >
                       @for (option of token.options; track option.label) {
-                        <option [value]="option.value">{{ option.label }}</option>
+                        <option
+                          [value]="option.value"
+                          [selected]="option.value === svc.valueOf(token.key)"
+                          >{{ option.label }}</option
+                        >
                       }
                     </select>
                   </span>
@@ -313,11 +407,14 @@
           <span class="te-row__control">
             <select
               class="te-row__select"
-              [value]="bgMode()"
               (change)="onModeChange($event)"
             >
-              <option value="gradient">渐变</option>
-              <option value="solid">纯色</option>
+              <option value="gradient" [selected]="bgMode() === 'gradient'">
+                渐变
+              </option>
+              <option value="solid" [selected]="bgMode() === 'solid'">
+                纯色
+              </option>
             </select>
           </span>
           <code class="te-row__less">{{ lessOf('--emp-bg-app') }}</code>

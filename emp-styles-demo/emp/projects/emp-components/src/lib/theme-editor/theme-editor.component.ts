@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { EmpDemoCardComponent } from '../demo-card/emp-demo-card.component';
 import { ThemeEditorService } from './theme-editor.service';
 import { ThemeTokenDef } from './theme-tokens';
 
@@ -34,7 +33,6 @@ function normalizeHex(color: string): string {
 @Component({
   selector: 'emp-theme-editor',
   standalone: true,
-  imports: [EmpDemoCardComponent],
   templateUrl: './theme-editor.component.html',
   styleUrls: ['./theme-editor.component.less'],
 })
@@ -49,6 +47,17 @@ export class ThemeEditorComponent {
   protected readonly copied = signal('');
   /** 当前鼠标/焦点所在的令牌，用于在左侧高亮对应预览 */
   protected readonly highlight = signal<string | null>(null);
+
+  /** 排版刻度令牌（供样板逐项展示） */
+  protected readonly sizeTokens = this.svc.allTokens.filter((t) =>
+    t.key.startsWith('--emp-font-size-'),
+  );
+  protected readonly weightTokens = this.svc.allTokens.filter((t) =>
+    t.key.startsWith('--emp-font-weight-'),
+  );
+  protected readonly lineHeightTokens = this.svc.allTokens.filter((t) =>
+    t.key.startsWith('--emp-line-height-'),
+  );
 
   constructor() {
     const current = this.svc.valueOf('--emp-bg-app');

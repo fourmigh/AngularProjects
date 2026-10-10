@@ -23,10 +23,31 @@
 @color-primary: #667eea;
 @color-primary-dark: #764ba2;
 
-// Typography
+// Typography —— 字体族（family 角色）
 @emp-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
   'Helvetica Neue', Arial, sans-serif;
+@emp-font-family-heading: @emp-font-family;
+@emp-font-family-code: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
+  monospace;
+
+// Typography —— 字号刻度
+@emp-font-size-xs: 12px;
+@emp-font-size-sm: 13px;
 @emp-font-size-base: 14px;
+@emp-font-size-lg: 16px;
+@emp-font-size-xl: 20px;
+@emp-font-size-2xl: 24px;
+
+// Typography —— 字重刻度
+@emp-font-weight-regular: 400;
+@emp-font-weight-medium: 500;
+@emp-font-weight-semibold: 600;
+@emp-font-weight-bold: 700;
+
+// Typography —— 行高刻度
+@emp-line-height-tight: 1.25;
+@emp-line-height-base: 1.5;
+@emp-line-height-loose: 1.75;
 
 // Shape / background（默认：满铺矩形）
 // 注意：必须带单位（0px），否则 theme.less 的
