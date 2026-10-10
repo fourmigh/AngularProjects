@@ -3,12 +3,14 @@
     <h2 class="theme-editor__title">主题可视化编辑</h2>
     <div class="theme-editor__actions">
       <button type="button" class="te-btn" (click)="reset()">重置为默认</button>
-      <button type="button" class="te-btn" (click)="copyLess()">
-        复制 LESS
+      <button
+        type="button"
+        class="te-btn"
+        [disabled]="applying()"
+        (click)="pickAndApply()"
+      >
+        一键应用到项目
       </button>
-      @if (copied()) {
-        <span class="theme-editor__copied">{{ copied() }}</span>
-      }
     </div>
   </header>
 
@@ -498,4 +500,99 @@
       </section>
     </section>
   </div>
+
+  @if (applyOpen()) {
+    <div class="te-apply" (click)="closeApply()">
+      <div
+        class="te-apply__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="应用到项目"
+        (click)="$event.stopPropagation()"
+      >
+        <header class="te-apply__head">
+          <h3 class="te-apply__title">应用到项目</h3>
+          <button
+            type="button"
+            class="te-apply__close"
+            aria-label="关闭"
+            (click)="closeApply()"
+          >
+            ✕
+          </button>
+        </header>
+
+        @if (applySteps().length) {
+          <ul class="te-apply__steps">
+            @for (step of applySteps(); track step.label) {
+              <li
+                class="te-apply__step"
+                [class.is-done]="step.state === 'done'"
+                [class.is-error]="step.state === 'error'"
+                [class.is-running]="step.state === 'running'"
+                [class.is-skipped]="step.state === 'skipped'"
+              >
+                <span class="te-apply__icon" aria-hidden="true">
+                  @switch (step.state) {
+                    @case ('done') {
+                      ✓
+                    }
+                    @case ('error') {
+                      ✕
+                    }
+                    @case ('skipped') {
+                      —
+                    }
+                    @case ('running') {
+                      <span class="te-apply__spin"></span>
+                    }
+                    @default {
+                      •
+                    }
+                  }
+                </span>
+                <span class="te-apply__label">{{ step.label }}</span>
+                @if (step.detail) {
+                  <span class="te-apply__detail">{{ step.detail }}</span>
+                }
+              </li>
+            }
+          </ul>
+        }
+
+        @if (applyResult(); as r) {
+          <div class="te-apply__result">
+            <p class="te-apply__ok">完成</p>
+            <p>项目：<b>{{ r.project }}</b></p>
+            <p>写入文件：</p>
+            <ul class="te-apply__files">
+              @for (f of r.files; track f) {
+                <li><code>{{ f }}</code></li>
+              }
+            </ul>
+            <p>
+              {{
+                r.importAdded
+                  ? '已在 src/styles.less 追加引入。'
+                  : 'src/styles.less 已含引入，未改动。'
+              }}
+            </p>
+            <p>写入的覆盖内容：</p>
+            <pre class="te-apply__code"><code>{{ r.overrides }}</code></pre>
+            <p class="te-apply__hint">重启开发服务 / 刷新页面后生效。</p>
+          </div>
+        }
+
+        @if (applyError(); as err) {
+          <div class="te-apply__error">✕ {{ err }}</div>
+        }
+
+        <div class="te-apply__actions">
+          <button type="button" class="te-btn" (click)="closeApply()">
+            关闭
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

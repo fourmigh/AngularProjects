@@ -10,11 +10,11 @@
 emp-styles-demo/
   build.sh                    # 统一脚本：lib / serve / all / stop / help
   emp/                        # 库工作区（对应 emp/UI/emp-ui）
-    projects/emp-components/  # 库：@tikmac/emp-components
+    projects/emp-components/  # 库：@tikmac/emp-components（仅含共享样式 + demo-card）
       src/lib/styles/         # 共享样式：tokens.less + theme.less
       src/lib/demo-card/      # 示例组件（引用共享令牌）
-      src/lib/theme-editor/   # 库内可复用的主题可视化编辑组件
     src/                      # emp-ui 宿主 app（源码方式引入主题）
+      app/pages/theme-editor/ # 主题可视化编辑器（demo 内置，不在库中）+「一键应用到项目」
   bike-tower/                 # 消费方（对应 bike-tower/UI）
     src/                      # 通过 node_modules 引入“已发布”主题
     scripts/                  # pack-lib.mjs / bootstrap.mjs
@@ -69,36 +69,41 @@ emp-styles-demo/
 
 ## 消费方如何覆盖（bike-tower）
 
-bike-tower 采用与库**同构的两层结构**，在 `theme.less` 里“先引入库主题、再覆盖”：
+bike-tower 用**两层**：**基座** + **令牌覆盖**。
 
 ```
 bike-tower/src/
-  styles.less            # 全局入口（angular.json 指向它）：@import './styles/theme.less'
+  styles.less            # 全局入口（angular.json 指向它）
   styles/
-    tokens.less          # 本项目令牌（@bt-* 前缀，避免与库 @color-* 混淆）
-    theme.less           # 基座 + 本项目令牌 + :root 覆盖
+    theme.less           # 库主题基座 + 基础布局（body / .emp-app-frame / .theme-compact）
+    overrides.less       # 令牌覆盖（主题编辑器「一键应用到项目」生成，用库变量名）
 ```
 
 ```less
-// bike-tower/src/styles/theme.less
-@import '@tikmac/emp-components/styles/theme.less'; // 1) 库主题基座
-@import './tokens.less';                             // 2) 本项目令牌
+// bike-tower/src/styles.less（顺序：先基座，后覆盖）
+@import './styles/theme.less';       // 1) 库主题基座
+@import './styles/overrides.less';   // 2) 令牌覆盖（须在基座之后）
 
-:root {                                              // 3) 覆盖（须在基座之后）
-  --emp-color-primary: @bt-color-primary;
-  --emp-font-family: @bt-font-family;
-  --emp-bg-app: linear-gradient(135deg, @bt-color-primary, @bt-color-primary-dark);
-}
+// bike-tower/src/styles/overrides.less（编辑器生成，使用库的 LESS 变量名）
+@color-primary: #4f11df;
+@emp-bg-app: #603db3;
+@emp-radius-app: 0px;
+@emp-bg-inset: 0px;
+@emp-bg-shadow: none;
 ```
 
-- 覆盖令牌：在 `:root` 写 `--emp-*`（`:root` 同优先级，**后出现者胜**，所以必须在 `@import theme.less` 之后）。
-- 覆盖基础布局：`body{}` / `.emp-app-frame{}` 同理。
-- 只对使用 `var(--emp-*)` 的样式生效（含库 `theme.less` 与改造过的 `emp-demo-card`）；库中若仍是编译期 `@color-*` 的组件不受影响。
-- 局部/多主题：给容器加 class 并在其中覆盖 `--emp-*` 即可（CSS 变量按后代继承）。
+- **覆盖方式**：在 `overrides.less` 里写**库的 LESS 变量**（`@color-*` / `@emp-*`）。该文件本身不输出 CSS，
+  它改变的是库主题那条 `:root` 的取值；因此**必须在 `@import theme.less` 之后**引入才生效
+  （Less 同作用域「后定义者胜」）。
+- 该文件通常由主题编辑器右上角 **「一键应用到项目」** 自动生成：选择项目根目录 → 写入
+  `src/styles/overrides.less` 并在 `src/styles.less` 幂等追加 `@import './styles/overrides.less';`。
+- 只对使用 `var(--emp-*)` 的样式生效（含库 `theme.less` 与改造过的 `emp-demo-card`）。
+- 基础布局覆盖（如 `body{}` / `.emp-app-frame{}`）放在 `theme.less`；局部/多主题可在容器 class 里覆盖 `--emp-*`。
 
-## 主题编辑器（`emp-theme-editor`）
+## 主题编辑器（demo 内置）
 
-库内可复用组件，`<emp-theme-editor>` 即可使用：
+位于 `emp/src/app/pages/theme-editor/`（`emp-theme-editor` 组件 + 服务 + 令牌元数据），
+**仅存在于 demo（emp-ui），不随 `@tikmac/emp-components` 发布**；路由 `/theme-editor`。
 
 - 覆盖 `tokens.less` 全部令牌（颜色 / 排版 / 形状 / 背景）。
 - **排版令牌（刻度制）**：family 角色（正文 `--emp-font-family`、标题 `--emp-font-family-heading`、
@@ -111,8 +116,10 @@ bike-tower/src/
   **鼠标悬停或聚焦右侧某行时，左侧对应示例会高亮描边**。
 - **整页实时预览**：写入 `document.documentElement` 的内联 `--emp-*`，优先级高于 `theme.less`。
 - 持久化到 `localStorage`，并提供「重置」回到默认。
-- 仅保留一个「复制 LESS」按钮：点击后复制当前覆盖并提示「已复制」，不再弹出代码面板
-  （代码已内联显示在每个示例旁）。
+- **「一键应用到项目」按钮**（编辑器头部，demo 内置）：用浏览器 File System Access API 让用户
+  **选择项目根目录并授权**后，自动写入 `src/styles/overrides.less` 并在 `src/styles.less`（库主题行之后）
+  幂等追加 `@import './styles/overrides.less';`。**仅 Chrome/Edge**，需 `localhost` 等安全上下文；
+  不支持的浏览器会提示改用 Chrome/Edge。写文件逻辑在 demo 内，**库本身不含该能力**。
 - 布局：编辑页整页不滚动，右侧选项列表独立上下滚动，左侧预览与代码区固定。
 - 提示：该组件需宿主页提供有界高度（demo 的 emp-ui 已保证）。
 
