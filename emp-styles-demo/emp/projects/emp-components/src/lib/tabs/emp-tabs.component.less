@@ -1,0 +1,47 @@
+:host {
+  display: block;
+}
+
+.emp-tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--emp-tabs-border-color, #ededed);
+  background: var(--emp-tabs-bg, transparent);
+
+  &__item {
+    position: relative;
+    flex: 0 0 auto;
+    padding: var(--emp-tabs-padding-y, 8px) var(--emp-tabs-padding-x, 14px);
+    border: none;
+    border-radius: var(--emp-tabs-radius, 8px) var(--emp-tabs-radius, 8px) 0 0;
+    background: transparent;
+    color: var(--emp-tabs-text, #6b6b6b);
+    font-family: inherit;
+    font-size: var(--emp-tabs-font-size, 15px);
+    cursor: pointer;
+    transition:
+      color 120ms ease,
+      background-color 120ms ease;
+
+    &:hover {
+      color: var(--emp-tabs-hover-text, #222222);
+      background: var(--emp-color-surface-hover, #f5f5f5);
+    }
+
+    &--active {
+      color: var(--emp-tabs-active-text, #00679e);
+      font-weight: var(--emp-font-weight-medium, 500);
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 2px;
+        background: var(--emp-tabs-active-border, #00679e);
+      }
+    }
+  }
+}

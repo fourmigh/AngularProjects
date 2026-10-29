@@ -1,0 +1,225 @@
+<div class="home" empSkinOff>
+  <header class="home-nav">
+    <a class="home-nav__brand" routerLink="/">emp 皮肤系统</a>
+    <nav class="home-nav__links">
+      <a routerLink="/showcase">组件展示</a>
+      <a routerLink="/compare">并排对比</a>
+      <a routerLink="/compare/plain">无皮肤</a>
+      <a routerLink="/compare/skinned">有皮肤</a>
+      <a
+        class="home-nav__cta"
+        [href]="editorUrl"
+        target="_blank"
+        rel="noopener"
+        >打开编辑器</a
+      >
+    </nav>
+  </header>
+
+  <main class="home-main">
+    <section class="hero">
+      <div class="hero__copy">
+        <span class="eyebrow">emp styles</span>
+        <h1>一套 Less，<br />一套皮肤</h1>
+        <p class="hero__desc">
+          用可视化编辑器调整组件和页面的背景、边框、圆角、颜色、阴影等键值，
+          实时预览后导出 Less 文件，让 emp 和 bike-tower 的页面共用同一套皮肤。
+        </p>
+        <div class="hero__actions">
+          <a
+            class="btn btn--primary"
+            [href]="editorUrl"
+            target="_blank"
+            rel="noopener"
+            >打开皮肤编辑器</a
+          >
+          <a class="btn" routerLink="/compare">查看并排对比</a>
+        </div>
+        <div class="chips">
+          <span class="chip">一套 Less = 一套皮肤</span>
+          <span class="chip">默认启用</span>
+          <span class="chip">empSkinOff 跳过</span>
+        </div>
+      </div>
+
+      <div class="hero__panel">
+        <div class="hero__panel-title">当前皮肤文件</div>
+        <pre class="code"><code>/* current.less */
+body:not([data-skin-off]) &#123;
+  --emp-color-text: #ebebeb;
+&#125;
+
+body:not([data-skin-off]) .emp-card &#123;
+  background: #1f1f1f !important;
+  border: 1px solid #292929 !important;
+  border-radius: 12px !important;
+&#125;</code></pre>
+        <div class="hero__panel-foot">导出后由项目 styles.less 引入</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head">
+        <span class="eyebrow">workflow</span>
+        <h2>三步完成换肤</h2>
+      </div>
+
+      <div class="steps">
+        <article class="card">
+          <span class="step__num">01</span>
+          <h3>编辑键值</h3>
+          <p>
+            在左侧选择组件或页面分组，在右侧调整背景、边框、圆角、颜色、阴影等。
+          </p>
+        </article>
+        <article class="card">
+          <span class="step__num">02</span>
+          <h3>实时预览</h3>
+          <p>
+            中间 iframe 实时显示 bike-tower 的组件展示页，也可以切换到 emp
+            自身的页面。
+          </p>
+        </article>
+        <article class="card">
+          <span class="step__num">03</span>
+          <h3>导出接入</h3>
+          <p>
+            导出 Less 到项目的 src/styles/skins，并在 styles.less 中引入，
+            重启 dev server 即可生效。
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head">
+        <span class="eyebrow">tokens</span>
+        <h2>皮肤键值</h2>
+      </div>
+
+      <div class="split">
+        <article class="card">
+          <h3>按组件分组</h3>
+          <p>同一类组件只维护一组键值，例如所有卡片共用 --emp-card-*。</p>
+          <pre class="code"><code>--emp-card-bg: #ffffff;
+--emp-card-border-color: #dbdbdb;
+--emp-card-radius: 12px;
+--emp-card-shadow: ...;</code></pre>
+        </article>
+
+        <article class="card">
+          <h3>全局与自定义</h3>
+          <p>
+            全局色板、字体和圆角放在全局分组；自定义组件的键值纳入 custom 分组。
+          </p>
+          <pre class="code"><code>--emp-color-primary: #00679e;
+--emp-font-size-base: 15px;
+--emp-bt-stat-bg: #ffffff;</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head">
+        <span class="eyebrow">export</span>
+        <h2>两种导出格式</h2>
+      </div>
+
+      <div class="split">
+        <article class="card">
+          <h3>Class 属性</h3>
+          <p>每个组件一个 class，里面是普通 CSS 属性，可读性最好。</p>
+          <pre class="code"><code>.emp-card &#123;
+  background: #ffffff !important;
+  border: 1px solid #dbdbdb !important;
+  border-radius: 12px !important;
+&#125;</code></pre>
+        </article>
+
+        <article class="card">
+          <h3>分组变量</h3>
+          <p>按组件分块的 CSS 变量，自定义组件可以直接读取。</p>
+          <pre class="code"><code>:root &#123;
+  --emp-card-bg: #ffffff;
+  --emp-card-border-color: #dbdbdb;
+  --emp-card-radius: 12px;
+&#125;</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head">
+        <span class="eyebrow">scope</span>
+        <h2>页面启用与跳过</h2>
+      </div>
+
+      <div class="scope-grid">
+        <article class="card">
+          <span class="tag tag--default">默认</span>
+          <h3>使用皮肤</h3>
+          <p>页面什么都不用加，默认应用 current.less 中的皮肤。</p>
+        </article>
+
+        <article class="card">
+          <span class="tag tag--off">跳过</span>
+          <h3>empSkinOff</h3>
+          <p>给页面根元素加 empSkinOff，进入页面时给 body 加 data-skin-off。</p>
+          <pre class="code"><code>&lt;div class="compare" empSkinOff&gt;
+  &lt;app-showcase /&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+
+        <article class="card">
+          <span class="tag tag--local">局部</span>
+          <h3>.emp-skin</h3>
+          <p>需要局部换肤时，把皮肤限定在 .emp-skin 容器内。</p>
+          <pre class="code"><code>&lt;div class="emp-skin"&gt;
+  &lt;app-showcase /&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head">
+        <span class="eyebrow">shortcuts</span>
+        <h2>快速入口</h2>
+      </div>
+
+      <div class="links">
+        <a class="link-card" routerLink="/showcase">
+          <strong>组件展示</strong>
+          <span>完整展示全部基础组件和自定义组件</span>
+        </a>
+        <a class="link-card" routerLink="/compare">
+          <strong>并排对比</strong>
+          <span>左右两栏，同步滚动</span>
+        </a>
+        <a class="link-card" routerLink="/compare/plain">
+          <strong>无皮肤</strong>
+          <span>使用组件默认样式</span>
+        </a>
+        <a class="link-card" routerLink="/compare/skinned">
+          <strong>有皮肤</strong>
+          <span>使用当前导出皮肤</span>
+        </a>
+        <a
+          class="link-card link-card--accent"
+          [href]="editorUrl"
+          target="_blank"
+          rel="noopener"
+        >
+          <strong>皮肤编辑器</strong>
+          <span>打开 4201 的可视化编辑器</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="home-foot">
+      <span>bike-tower · 4210</span>
+      <span>emp-ui · 4201</span>
+      <span>皮肤文件：src/styles/skins/current.less</span>
+    </footer>
+  </main>
+</div>

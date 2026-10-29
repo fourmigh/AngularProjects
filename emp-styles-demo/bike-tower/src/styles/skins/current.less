@@ -1,0 +1,943 @@
+/* emp skin: dark */
+/* Excluded by [data-skin-off]. The !important flag overrides component defaults. */
+
+body:not([data-skin-off]) {
+  --emp-color-primary: #00679e;
+  --emp-color-primary-hover: #3285b1;
+  --emp-color-primary-active: #00507a;
+  --emp-color-primary-soft: #1e3a4a;
+  --emp-color-primary-soft-text: #9fd8ee;
+  --emp-color-on-primary: #ffffff;
+  --emp-color-text: #ebebeb;
+  --emp-color-text-secondary: #b8b8b8;
+  --emp-color-text-muted: #8f8f8f;
+  --emp-color-surface: #1f1f1f;
+  --emp-color-surface-hover: #262626;
+  --emp-color-surface-dark: #2b2b2b;
+  --emp-color-surface-darker: #333333;
+  --emp-color-border: #292929;
+  --emp-color-border-dark: #3a3a3a;
+  --emp-color-border-strong: #6b6b6b;
+  --emp-color-success: #4caf50;
+  --emp-color-success-bg: #17351a;
+  --emp-color-success-text: #b7e4ba;
+  --emp-color-info: #29a3d1;
+  --emp-color-info-bg: #102a38;
+  --emp-color-info-text: #9fd8ee;
+  --emp-color-warning: #d9a300;
+  --emp-color-warning-bg: #3a2f14;
+  --emp-color-warning-text: #ffe4a1;
+  --emp-color-danger: #e05252;
+  --emp-color-danger-bg: #3a1717;
+  --emp-color-danger-text: #ffb4b4;
+  --emp-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --emp-font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  --emp-font-size-base: 15px;
+  --emp-font-size-sm: 13px;
+  --emp-font-size-lg: 16px;
+  --emp-font-size-xl: 20px;
+  --emp-font-weight-regular: 400;
+  --emp-font-weight-medium: 500;
+  --emp-font-weight-semibold: 600;
+  --emp-line-height: 1.5;
+  --emp-radius-sm: 4px;
+  --emp-radius-md: 8px;
+  --emp-radius-lg: 12px;
+  --emp-radius-xl: 16px;
+  --emp-radius-pill: 100px;
+}
+
+body:not([data-skin-off]) {
+  color: #ebebeb !important;
+  background: #0b0f1a !important;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+/* 页面与应用框架 */
+body:not([data-skin-off]) .emp-app-frame {
+  margin: 8px !important;
+  height: calc(100% - 2 * 8px) !important;
+  background: #171717 !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+body:not([data-skin-off]) .emp-page {
+  padding: 24px !important;
+  background: #171717 !important;
+  color: #ebebeb !important;
+  border-radius: 12px !important;
+}
+
+/* 卡片 */
+body:not([data-skin-off]) .emp-card {
+  background: #1f1f1f !important;
+  border: 1px solid #292929 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+  padding: 16px !important;
+  color: #b8b8b8 !important;
+}
+body:not([data-skin-off]) .emp-card__title {
+  color: #ebebeb !important;
+}
+body:not([data-skin-off]) .emp-card:hover {
+  background: #262626 !important;
+}
+
+/* 按钮 */
+body:not([data-skin-off]) .emp-button {
+  background: #00679e !important;
+  color: #ffffff !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 7px 16px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+body:not([data-skin-off]) .emp-button:hover:not(:disabled) {
+  background: #00507a !important;
+}
+body:not([data-skin-off]) .emp-button--secondary {
+  background: #262626 !important;
+  color: #ebebeb !important;
+  border-color: #3a3a3a !important;
+}
+body:not([data-skin-off]) .emp-button--secondary:hover:not(:disabled) {
+  background: #2f2f2f !important;
+}
+body:not([data-skin-off]) .emp-button--danger {
+  background: #c90000 !important;
+  color: #ffffff !important;
+  border-color: #c90000 !important;
+}
+body:not([data-skin-off]) .emp-button--danger:hover:not(:disabled) {
+  background: #a80000 !important;
+  border-color: #a80000 !important;
+}
+body:not([data-skin-off]) .emp-button:disabled {
+  opacity: 0.5 !important;
+}
+body:not([data-skin-off]) .emp-button--ghost {
+  background: transparent !important;
+  color: #00679e !important;
+  border-color: transparent !important;
+}
+body:not([data-skin-off]) .emp-button--ghost:hover:not(:disabled) {
+  background: #262626 !important;
+}
+
+/* 输入框 */
+body:not([data-skin-off]) .emp-input {
+  background: #1f1f1f !important;
+  color: #ebebeb !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 15px !important;
+}
+body:not([data-skin-off]) .emp-input::placeholder {
+  color: #8f8f8f !important;
+}
+body:not([data-skin-off]) .emp-input:focus {
+  border-color: #29a3d1 !important;
+  box-shadow: 0 0 0 2px rgba(41, 163, 209, 0.25) !important;
+}
+body:not([data-skin-off]) .emp-input:disabled {
+  background: #2b2b2b !important;
+}
+body:not([data-skin-off]) .emp-field__label {
+  color: #ebebeb !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+body:not([data-skin-off]) .emp-field__hint {
+  color: #8f8f8f !important;
+  font-size: 13px !important;
+}
+
+/* 选择框 */
+body:not([data-skin-off]) .emp-select {
+  background-color: #1f1f1f !important;
+  background-image: linear-gradient(45deg, transparent 50%, #b8b8b8 50%), linear-gradient(135deg, #b8b8b8 50%, transparent 50%) !important;
+  color: #ebebeb !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 15px !important;
+}
+body:not([data-skin-off]) .emp-select:focus {
+  border-color: #29a3d1 !important;
+}
+
+/* 勾选与开关 */
+body:not([data-skin-off]) .emp-check {
+  color: #ebebeb !important;
+}
+body:not([data-skin-off]) .emp-check__control {
+  width: 18px !important;
+  height: 18px !important;
+  background: #1f1f1f !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 4px !important;
+}
+body:not([data-skin-off]) .emp-check__input:checked + .emp-check__control {
+  background: #00679e !important;
+  border-color: #00679e !important;
+}
+body:not([data-skin-off]) .emp-check__input:checked + .emp-check__control::after {
+  border-color: #ffffff !important;
+}
+body:not([data-skin-off]) .emp-check--switch .emp-check__control {
+  width: 38px !important;
+  height: 22px !important;
+  background: #3a3a3a !important;
+}
+body:not([data-skin-off]) .emp-check--switch .emp-check__input:checked + .emp-check__control {
+  background: #00679e !important;
+}
+body:not([data-skin-off]) .emp-check--switch .emp-check__control::after {
+  width: calc(22px - 4px) !important;
+  height: calc(22px - 4px) !important;
+  background: #ebebeb !important;
+}
+
+/* 表格 */
+body:not([data-skin-off]) .emp-table-wrap {
+  background: #1f1f1f !important;
+  border: 1px solid #292929 !important;
+  border-radius: 12px !important;
+}
+body:not([data-skin-off]) .emp-table {
+  color: #ebebeb !important;
+  font-size: 15px !important;
+}
+body:not([data-skin-off]) .emp-table th {
+  background: #262626 !important;
+  color: #ebebeb !important;
+  border-color: #292929 !important;
+  padding: 10px 12px !important;
+  font-weight: 600 !important;
+}
+body:not([data-skin-off]) .emp-table td {
+  border-color: #292929 !important;
+  padding: 10px 12px !important;
+}
+body:not([data-skin-off]) .emp-table tbody tr:hover {
+  background: #262626 !important;
+}
+
+/* 标签页 */
+body:not([data-skin-off]) .emp-tabs {
+  background: transparent !important;
+  border-color: #292929 !important;
+}
+body:not([data-skin-off]) .emp-tabs__item {
+  color: #b8b8b8 !important;
+  border-radius: 8px 8px 0 0 !important;
+  padding: 8px 14px !important;
+  font-size: 15px !important;
+}
+body:not([data-skin-off]) .emp-tabs__item:hover {
+  color: #ebebeb !important;
+  background: #262626 !important;
+}
+body:not([data-skin-off]) .emp-tabs__item--active {
+  color: #29a3d1 !important;
+}
+body:not([data-skin-off]) .emp-tabs__item--active::after {
+  background: #29a3d1 !important;
+}
+
+/* 徽标 */
+body:not([data-skin-off]) .emp-badge {
+  background: #1e3a4a !important;
+  color: #9fd8ee !important;
+  border-radius: 100px !important;
+  padding: 2px 8px !important;
+  font-size: 13px !important;
+}
+body:not([data-skin-off]) .emp-badge--success {
+  background: #17351a !important;
+  color: #b7e4ba !important;
+}
+body:not([data-skin-off]) .emp-badge--warning {
+  background: #3a2f14 !important;
+  color: #ffe4a1 !important;
+}
+body:not([data-skin-off]) .emp-badge--danger {
+  background: #3a1717 !important;
+  color: #ffb4b4 !important;
+}
+body:not([data-skin-off]) .emp-badge--info {
+  background: #102a38 !important;
+  color: #9fd8ee !important;
+}
+
+/* 提示 */
+body:not([data-skin-off]) .emp-alert {
+  background: #102a38 !important;
+  color: #9fd8ee !important;
+  border-color: #29a3d1 !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+body:not([data-skin-off]) .emp-alert__title {
+  color: #9fd8ee !important;
+}
+body:not([data-skin-off]) .emp-alert--success {
+  background: #17351a !important;
+  color: #b7e4ba !important;
+  border-color: #4caf50 !important;
+}
+body:not([data-skin-off]) .emp-alert--success .emp-alert__title {
+  color: #b7e4ba !important;
+}
+body:not([data-skin-off]) .emp-alert--warning {
+  background: #3a2f14 !important;
+  color: #ffe4a1 !important;
+  border-color: #d9a300 !important;
+}
+body:not([data-skin-off]) .emp-alert--warning .emp-alert__title {
+  color: #ffe4a1 !important;
+}
+body:not([data-skin-off]) .emp-alert--danger {
+  background: #3a1717 !important;
+  color: #ffb4b4 !important;
+  border-color: #e05252 !important;
+}
+body:not([data-skin-off]) .emp-alert--danger .emp-alert__title {
+  color: #ffb4b4 !important;
+}
+
+/* 弹窗 */
+body:not([data-skin-off]) .emp-dialog-wrap--overlay {
+  background: rgba(0, 0, 0, 0.65) !important;
+}
+body:not([data-skin-off]) .emp-dialog {
+  background: #1f1f1f !important;
+  color: #ebebeb !important;
+  border: 1px solid #292929 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18) !important;
+  padding: 20px !important;
+}
+body:not([data-skin-off]) .emp-dialog__title {
+  color: #ebebeb !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+body:not([data-skin-off]) .emp-dialog__close:hover {
+  color: #8f8f8f !important;
+}
+
+/* 工具栏与侧栏 */
+body:not([data-skin-off]) .emp-toolbar {
+  background: #111426 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  min-height: 50px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+body:not([data-skin-off]) .emp-nav {
+  background: #171717 !important;
+  color: #ebebeb !important;
+  border-color: #292929 !important;
+  width: 300px !important;
+}
+body:not([data-skin-off]) .emp-nav--active {
+  background: #1e3a4a !important;
+  color: #9fd8ee !important;
+}
+
+/* 分页 */
+body:not([data-skin-off]) .emp-pagination__item {
+  background: #1f1f1f !important;
+  color: #ebebeb !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 8px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  font-size: 13px !important;
+}
+body:not([data-skin-off]) .emp-pagination__item:hover:not(:disabled) {
+  background: #262626 !important;
+}
+body:not([data-skin-off]) .emp-pagination__item--active {
+  background: #00679e !important;
+  color: #ffffff !important;
+  border-color: #00679e !important;
+}
+
+/* 空状态 */
+body:not([data-skin-off]) .emp-empty {
+  background: transparent !important;
+  border-color: #3a3a3a !important;
+  border-radius: 12px !important;
+  padding: 32px !important;
+}
+body:not([data-skin-off]) .emp-empty__title {
+  color: #ebebeb !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
+body:not([data-skin-off]) .emp-empty__text {
+  color: #8f8f8f !important;
+  font-size: 13px !important;
+}
+body:not([data-skin-off]) .emp-empty__icon {
+  color: #6b6b6b !important;
+}
+
+/* 自定义 · 工作台 */
+body:not([data-skin-off]) .bt-workbench {
+  background: #171717 !important;
+  border: 1px solid #292929 !important;
+  border-radius: 16px !important;
+}
+body:not([data-skin-off]) .bt-workbench__header {
+  background: #111426 !important;
+  color: #ffffff !important;
+}
+body:not([data-skin-off]) .bt-workbench__brand {
+  font-weight: 600 !important;
+}
+body:not([data-skin-off]) .bt-workbench__sidebar {
+  background: #171717 !important;
+  color: #ebebeb !important;
+  border-color: #292929 !important;
+}
+body:not([data-skin-off]) .bt-workbench__nav {
+  border-radius: 8px !important;
+  font-size: 13px !important;
+}
+body:not([data-skin-off]) .bt-workbench__nav--active {
+  background: #1e3a4a !important;
+  color: #9fd8ee !important;
+  font-weight: 500 !important;
+}
+body:not([data-skin-off]) .bt-workbench__content {
+  background: #171717 !important;
+}
+
+/* 自定义 · 指标卡 */
+body:not([data-skin-off]) .bt-stat-card {
+  background: #1f1f1f !important;
+  border: 1px solid #292929 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+body:not([data-skin-off]) .bt-stat-card__label {
+  color: #b8b8b8 !important;
+  font-size: 13px !important;
+}
+body:not([data-skin-off]) .bt-stat-card__value {
+  color: #ebebeb !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+body:not([data-skin-off]) .bt-stat-card__delta {
+  font-size: 13px !important;
+}
+body:not([data-skin-off]) .bt-stat-card__delta--up {
+  color: #7bd88a !important;
+}
+body:not([data-skin-off]) .bt-stat-card__delta--down {
+  color: #ff8a8a !important;
+}
+
+/* 自定义 · 记录列表 */
+body:not([data-skin-off]) .bt-record-list {
+  background: #1f1f1f !important;
+  border: 1px solid #292929 !important;
+  border-radius: 12px !important;
+}
+body:not([data-skin-off]) .bt-record-list__row {
+  border-color: #292929 !important;
+}
+body:not([data-skin-off]) .bt-record-list__row:hover {
+  background: #262626 !important;
+}
+body:not([data-skin-off]) .bt-record-list__title {
+  color: #ebebeb !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+body:not([data-skin-off]) .bt-record-list__meta {
+  color: #b8b8b8 !important;
+  font-size: 13px !important;
+}
+body:not([data-skin-off]) .bt-record-list__status {
+  background: #1e3a4a !important;
+  color: #9fd8ee !important;
+  font-size: 13px !important;
+  border-radius: 100px !important;
+}
+
+/* Scoped section for the split compare page. */
+.emp-skin {
+  --emp-color-primary: #00679e;
+  --emp-color-primary-hover: #3285b1;
+  --emp-color-primary-active: #00507a;
+  --emp-color-primary-soft: #1e3a4a;
+  --emp-color-primary-soft-text: #9fd8ee;
+  --emp-color-on-primary: #ffffff;
+  --emp-color-text: #ebebeb;
+  --emp-color-text-secondary: #b8b8b8;
+  --emp-color-text-muted: #8f8f8f;
+  --emp-color-surface: #1f1f1f;
+  --emp-color-surface-hover: #262626;
+  --emp-color-surface-dark: #2b2b2b;
+  --emp-color-surface-darker: #333333;
+  --emp-color-border: #292929;
+  --emp-color-border-dark: #3a3a3a;
+  --emp-color-border-strong: #6b6b6b;
+  --emp-color-success: #4caf50;
+  --emp-color-success-bg: #17351a;
+  --emp-color-success-text: #b7e4ba;
+  --emp-color-info: #29a3d1;
+  --emp-color-info-bg: #102a38;
+  --emp-color-info-text: #9fd8ee;
+  --emp-color-warning: #d9a300;
+  --emp-color-warning-bg: #3a2f14;
+  --emp-color-warning-text: #ffe4a1;
+  --emp-color-danger: #e05252;
+  --emp-color-danger-bg: #3a1717;
+  --emp-color-danger-text: #ffb4b4;
+  --emp-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --emp-font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  --emp-font-size-base: 15px;
+  --emp-font-size-sm: 13px;
+  --emp-font-size-lg: 16px;
+  --emp-font-size-xl: 20px;
+  --emp-font-weight-regular: 400;
+  --emp-font-weight-medium: 500;
+  --emp-font-weight-semibold: 600;
+  --emp-line-height: 1.5;
+  --emp-radius-sm: 4px;
+  --emp-radius-md: 8px;
+  --emp-radius-lg: 12px;
+  --emp-radius-xl: 16px;
+  --emp-radius-pill: 100px;
+}
+
+/* 页面 */
+.emp-skin .emp-page {
+  padding: 24px !important;
+  background: #171717 !important;
+  color: #ebebeb !important;
+  border-radius: 12px !important;
+}
+
+/* 卡片 */
+.emp-skin .emp-card {
+  background: #1f1f1f !important;
+  border: 1px solid #292929 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+  padding: 16px !important;
+  color: #b8b8b8 !important;
+}
+.emp-skin .emp-card__title {
+  color: #ebebeb !important;
+}
+.emp-skin .emp-card:hover {
+  background: #262626 !important;
+}
+
+/* 按钮 */
+.emp-skin .emp-button {
+  background: #00679e !important;
+  color: #ffffff !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 7px 16px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+.emp-skin .emp-button:hover:not(:disabled) {
+  background: #00507a !important;
+}
+.emp-skin .emp-button--secondary {
+  background: #262626 !important;
+  color: #ebebeb !important;
+  border-color: #3a3a3a !important;
+}
+.emp-skin .emp-button--secondary:hover:not(:disabled) {
+  background: #2f2f2f !important;
+}
+.emp-skin .emp-button--danger {
+  background: #c90000 !important;
+  color: #ffffff !important;
+  border-color: #c90000 !important;
+}
+.emp-skin .emp-button--danger:hover:not(:disabled) {
+  background: #a80000 !important;
+  border-color: #a80000 !important;
+}
+.emp-skin .emp-button:disabled {
+  opacity: 0.5 !important;
+}
+.emp-skin .emp-button--ghost {
+  background: transparent !important;
+  color: #00679e !important;
+  border-color: transparent !important;
+}
+.emp-skin .emp-button--ghost:hover:not(:disabled) {
+  background: #262626 !important;
+}
+
+/* 输入框 */
+.emp-skin .emp-input {
+  background: #1f1f1f !important;
+  color: #ebebeb !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 15px !important;
+}
+.emp-skin .emp-input::placeholder {
+  color: #8f8f8f !important;
+}
+.emp-skin .emp-input:focus {
+  border-color: #29a3d1 !important;
+  box-shadow: 0 0 0 2px rgba(41, 163, 209, 0.25) !important;
+}
+.emp-skin .emp-input:disabled {
+  background: #2b2b2b !important;
+}
+.emp-skin .emp-field__label {
+  color: #ebebeb !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+.emp-skin .emp-field__hint {
+  color: #8f8f8f !important;
+  font-size: 13px !important;
+}
+
+/* 选择框 */
+.emp-skin .emp-select {
+  background-color: #1f1f1f !important;
+  background-image: linear-gradient(45deg, transparent 50%, #b8b8b8 50%), linear-gradient(135deg, #b8b8b8 50%, transparent 50%) !important;
+  color: #ebebeb !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 15px !important;
+}
+.emp-skin .emp-select:focus {
+  border-color: #29a3d1 !important;
+}
+
+/* 勾选与开关 */
+.emp-skin .emp-check {
+  color: #ebebeb !important;
+}
+.emp-skin .emp-check__control {
+  width: 18px !important;
+  height: 18px !important;
+  background: #1f1f1f !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 4px !important;
+}
+.emp-skin .emp-check__input:checked + .emp-check__control {
+  background: #00679e !important;
+  border-color: #00679e !important;
+}
+.emp-skin .emp-check__input:checked + .emp-check__control::after {
+  border-color: #ffffff !important;
+}
+.emp-skin .emp-check--switch .emp-check__control {
+  width: 38px !important;
+  height: 22px !important;
+  background: #3a3a3a !important;
+}
+.emp-skin .emp-check--switch .emp-check__input:checked + .emp-check__control {
+  background: #00679e !important;
+}
+.emp-skin .emp-check--switch .emp-check__control::after {
+  width: calc(22px - 4px) !important;
+  height: calc(22px - 4px) !important;
+  background: #ebebeb !important;
+}
+
+/* 表格 */
+.emp-skin .emp-table-wrap {
+  background: #1f1f1f !important;
+  border: 1px solid #292929 !important;
+  border-radius: 12px !important;
+}
+.emp-skin .emp-table {
+  color: #ebebeb !important;
+  font-size: 15px !important;
+}
+.emp-skin .emp-table th {
+  background: #262626 !important;
+  color: #ebebeb !important;
+  border-color: #292929 !important;
+  padding: 10px 12px !important;
+  font-weight: 600 !important;
+}
+.emp-skin .emp-table td {
+  border-color: #292929 !important;
+  padding: 10px 12px !important;
+}
+.emp-skin .emp-table tbody tr:hover {
+  background: #262626 !important;
+}
+
+/* 标签页 */
+.emp-skin .emp-tabs {
+  background: transparent !important;
+  border-color: #292929 !important;
+}
+.emp-skin .emp-tabs__item {
+  color: #b8b8b8 !important;
+  border-radius: 8px 8px 0 0 !important;
+  padding: 8px 14px !important;
+  font-size: 15px !important;
+}
+.emp-skin .emp-tabs__item:hover {
+  color: #ebebeb !important;
+  background: #262626 !important;
+}
+.emp-skin .emp-tabs__item--active {
+  color: #29a3d1 !important;
+}
+.emp-skin .emp-tabs__item--active::after {
+  background: #29a3d1 !important;
+}
+
+/* 徽标 */
+.emp-skin .emp-badge {
+  background: #1e3a4a !important;
+  color: #9fd8ee !important;
+  border-radius: 100px !important;
+  padding: 2px 8px !important;
+  font-size: 13px !important;
+}
+.emp-skin .emp-badge--success {
+  background: #17351a !important;
+  color: #b7e4ba !important;
+}
+.emp-skin .emp-badge--warning {
+  background: #3a2f14 !important;
+  color: #ffe4a1 !important;
+}
+.emp-skin .emp-badge--danger {
+  background: #3a1717 !important;
+  color: #ffb4b4 !important;
+}
+.emp-skin .emp-badge--info {
+  background: #102a38 !important;
+  color: #9fd8ee !important;
+}
+
+/* 提示 */
+.emp-skin .emp-alert {
+  background: #102a38 !important;
+  color: #9fd8ee !important;
+  border-color: #29a3d1 !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+.emp-skin .emp-alert__title {
+  color: #9fd8ee !important;
+}
+.emp-skin .emp-alert--success {
+  background: #17351a !important;
+  color: #b7e4ba !important;
+  border-color: #4caf50 !important;
+}
+.emp-skin .emp-alert--success .emp-alert__title {
+  color: #b7e4ba !important;
+}
+.emp-skin .emp-alert--warning {
+  background: #3a2f14 !important;
+  color: #ffe4a1 !important;
+  border-color: #d9a300 !important;
+}
+.emp-skin .emp-alert--warning .emp-alert__title {
+  color: #ffe4a1 !important;
+}
+.emp-skin .emp-alert--danger {
+  background: #3a1717 !important;
+  color: #ffb4b4 !important;
+  border-color: #e05252 !important;
+}
+.emp-skin .emp-alert--danger .emp-alert__title {
+  color: #ffb4b4 !important;
+}
+
+/* 弹窗 */
+.emp-skin .emp-dialog-wrap--overlay {
+  background: rgba(0, 0, 0, 0.65) !important;
+}
+.emp-skin .emp-dialog {
+  background: #1f1f1f !important;
+  color: #ebebeb !important;
+  border: 1px solid #292929 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18) !important;
+  padding: 20px !important;
+}
+.emp-skin .emp-dialog__title {
+  color: #ebebeb !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+.emp-skin .emp-dialog__close:hover {
+  color: #8f8f8f !important;
+}
+
+/* 工具栏与侧栏 */
+.emp-skin .emp-toolbar {
+  background: #111426 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  min-height: 50px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+.emp-skin .emp-nav {
+  background: #171717 !important;
+  color: #ebebeb !important;
+  border-color: #292929 !important;
+  width: 300px !important;
+}
+.emp-skin .emp-nav--active {
+  background: #1e3a4a !important;
+  color: #9fd8ee !important;
+}
+
+/* 分页 */
+.emp-skin .emp-pagination__item {
+  background: #1f1f1f !important;
+  color: #ebebeb !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 8px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  font-size: 13px !important;
+}
+.emp-skin .emp-pagination__item:hover:not(:disabled) {
+  background: #262626 !important;
+}
+.emp-skin .emp-pagination__item--active {
+  background: #00679e !important;
+  color: #ffffff !important;
+  border-color: #00679e !important;
+}
+
+/* 空状态 */
+.emp-skin .emp-empty {
+  background: transparent !important;
+  border-color: #3a3a3a !important;
+  border-radius: 12px !important;
+  padding: 32px !important;
+}
+.emp-skin .emp-empty__title {
+  color: #ebebeb !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
+.emp-skin .emp-empty__text {
+  color: #8f8f8f !important;
+  font-size: 13px !important;
+}
+.emp-skin .emp-empty__icon {
+  color: #6b6b6b !important;
+}
+
+/* 自定义 · 工作台 */
+.emp-skin .bt-workbench {
+  background: #171717 !important;
+  border: 1px solid #292929 !important;
+  border-radius: 16px !important;
+}
+.emp-skin .bt-workbench__header {
+  background: #111426 !important;
+  color: #ffffff !important;
+}
+.emp-skin .bt-workbench__brand {
+  font-weight: 600 !important;
+}
+.emp-skin .bt-workbench__sidebar {
+  background: #171717 !important;
+  color: #ebebeb !important;
+  border-color: #292929 !important;
+}
+.emp-skin .bt-workbench__nav {
+  border-radius: 8px !important;
+  font-size: 13px !important;
+}
+.emp-skin .bt-workbench__nav--active {
+  background: #1e3a4a !important;
+  color: #9fd8ee !important;
+  font-weight: 500 !important;
+}
+.emp-skin .bt-workbench__content {
+  background: #171717 !important;
+}
+
+/* 自定义 · 指标卡 */
+.emp-skin .bt-stat-card {
+  background: #1f1f1f !important;
+  border: 1px solid #292929 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+.emp-skin .bt-stat-card__label {
+  color: #b8b8b8 !important;
+  font-size: 13px !important;
+}
+.emp-skin .bt-stat-card__value {
+  color: #ebebeb !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+.emp-skin .bt-stat-card__delta {
+  font-size: 13px !important;
+}
+.emp-skin .bt-stat-card__delta--up {
+  color: #7bd88a !important;
+}
+.emp-skin .bt-stat-card__delta--down {
+  color: #ff8a8a !important;
+}
+
+/* 自定义 · 记录列表 */
+.emp-skin .bt-record-list {
+  background: #1f1f1f !important;
+  border: 1px solid #292929 !important;
+  border-radius: 12px !important;
+}
+.emp-skin .bt-record-list__row {
+  border-color: #292929 !important;
+}
+.emp-skin .bt-record-list__row:hover {
+  background: #262626 !important;
+}
+.emp-skin .bt-record-list__title {
+  color: #ebebeb !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+.emp-skin .bt-record-list__meta {
+  color: #b8b8b8 !important;
+  font-size: 13px !important;
+}
+.emp-skin .bt-record-list__status {
+  background: #1e3a4a !important;
+  color: #9fd8ee !important;
+  font-size: 13px !important;
+  border-radius: 100px !important;
+}

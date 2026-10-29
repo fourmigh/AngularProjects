@@ -1,0 +1,36 @@
+:host {
+  display: inline-flex;
+}
+
+.emp-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--emp-badge-padding-y, 2px) var(--emp-badge-padding-x, 8px);
+  border-radius: var(--emp-badge-radius, 100px);
+  background: var(--emp-badge-bg, #e5eff5);
+  color: var(--emp-badge-text, #00293f);
+  font-size: var(--emp-badge-font-size, 13px);
+  font-weight: var(--emp-font-weight-medium, 500);
+  line-height: 1.4;
+  white-space: nowrap;
+
+  &--success {
+    background: var(--emp-badge-success-bg, #d8f3da);
+    color: var(--emp-badge-success-text, #005416);
+  }
+
+  &--warning {
+    background: var(--emp-badge-warning-bg, #ffeec5);
+    color: var(--emp-badge-warning-text, #664700);
+  }
+
+  &--danger {
+    background: var(--emp-badge-danger-bg, #ffe7e7);
+    color: var(--emp-badge-danger-text, #8a0000);
+  }
+
+  &--info {
+    background: var(--emp-badge-info-bg, #d5f1fa);
+    color: var(--emp-badge-info-text, #0066ac);
+  }
+}

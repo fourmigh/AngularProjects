@@ -1,0 +1,334 @@
+<div class="se">
+  <header class="se__bar">
+    <div class="se__title">
+      <strong>皮肤编辑器</strong>
+      <span class="se__sub">{{ svc.modifiedCount() }} 项已修改</span>
+      @if (exportMessage()) {
+        <span class="se__status">{{ exportMessage() }}</span>
+      }
+    </div>
+
+    <div class="se__actions">
+      <label class="se__control">
+        <span>皮肤</span>
+        <select
+          class="se__input"
+          [value]="svc.presetValue()"
+          (change)="onPresetChange($event)"
+        >
+          <option value="__default__">Nextcloud（默认）</option>
+          @if (svc.presetValue() === '__current__') {
+            <option value="__current__">当前：{{ svc.name() }}</option>
+          }
+          @for (name of svc.presetNames(); track name) {
+            <option [value]="name">{{ name }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="se__control">
+        <span>名称</span>
+        <input
+          class="se__input se__input--name"
+          [value]="svc.name()"
+          (change)="svc.name.set($any($event.target).value)"
+        />
+      </label>
+
+      <button type="button" class="se__btn" (click)="svc.savePreset()">
+        保存皮肤
+      </button>
+      <button type="button" class="se__btn" (click)="deleteCurrentPreset()">
+        删除
+      </button>
+      <button type="button" class="se__btn" (click)="svc.resetAll()">
+        重置全部
+      </button>
+
+      <label class="se__btn se__file">
+        导入 .less
+        <input
+          class="se__file-input"
+          type="file"
+          accept=".less,.css"
+          (change)="onImport($event)"
+        />
+      </label>
+      <button type="button" class="se__btn" (click)="loadDarkExample()">
+        载入 dark 示例
+      </button>
+
+      <label class="se__control">
+        <span>预览</span>
+        <select
+          class="se__input"
+          [value]="svc.previewTarget()"
+          (change)="onTargetChange($event)"
+        >
+          <option value="bike-tower">bike-tower (4210)</option>
+          <option value="emp">emp (4201)</option>
+        </select>
+      </label>
+
+      <button
+        type="button"
+        class="se__btn se__btn--primary"
+        (click)="openExport()"
+      >
+        导出
+      </button>
+    </div>
+  </header>
+
+  <div class="se__layout">
+    <aside class="se__groups">
+      <input
+        class="se__input"
+        placeholder="搜索键值或名称"
+        [value]="svc.search()"
+        (input)="svc.search.set($any($event.target).value)"
+      />
+      <div class="se__group-list">
+        @for (group of svc.visibleGroups(); track group.id) {
+          <button
+            type="button"
+            class="se__group"
+            [class.se__group--active]="group.id === svc.selectedGroupId()"
+            (click)="selectGroup(group)"
+          >
+            <span class="se__group-label">{{ group.label }}</span>
+            @if (svc.groupModifiedCounts()[group.id]) {
+              <span class="se__badge">{{ svc.groupModifiedCounts()[group.id] }}</span>
+            }
+          </button>
+        }
+        @if (!svc.visibleGroups().length) {
+          <p class="se__empty">没有匹配的分组</p>
+        }
+      </div>
+    </aside>
+
+    <main class="se__preview">
+      <div class="se__preview-bar">
+        <span class="se__preview-target">
+          {{ svc.previewTarget() === 'emp' ? 'emp /showcase' : 'bike-tower /showcase' }}
+        </span>
+        <button type="button" class="se__btn se__btn--small" (click)="reloadPreview()">
+          刷新
+        </button>
+        <button
+          type="button"
+          class="se__btn se__btn--small"
+          (click)="highlightSelected()"
+        >
+          高亮当前组
+        </button>
+      </div>
+      <iframe
+        #previewFrame
+        class="se__frame"
+        title="皮肤预览"
+        [src]="safeSrc()"
+        (load)="onFrameLoad()"
+      ></iframe>
+    </main>
+
+    <section class="se__fields">
+      <div class="se__fields-head">
+        <div class="se__fields-title">
+          <h3>{{ svc.selectedGroup().label }}</h3>
+          <code>{{ svc.selectedGroup().selector }}</code>
+        </div>
+        <button type="button" class="se__btn se__btn--small" (click)="resetGroup()">
+          重置本组
+        </button>
+      </div>
+
+      <div class="se__field-list">
+        @for (field of svc.visibleFields(); track field.key) {
+          <div
+            class="se__field"
+            [class.se__field--modified]="svc.isModified(field.key)"
+          >
+            <div class="se__field-head">
+              <label class="se__field-label">{{ field.label }}</label>
+              <code class="se__field-key">{{ field.key }}</code>
+              <button
+                type="button"
+                class="se__icon"
+                title="重置该项"
+                (click)="svc.resetField(field.key)"
+              >
+                ↺
+              </button>
+            </div>
+
+            @switch (field.type) {
+              @case ('color') {
+                <div class="se__row">
+                  <input
+                    class="se__color"
+                    type="color"
+                    [value]="swatch(svc.value(field.key))"
+                    (input)="onText(field, $event)"
+                  />
+                  <input
+                    class="se__input"
+                    type="text"
+                    [value]="svc.value(field.key)"
+                    (change)="onText(field, $event)"
+                  />
+                </div>
+              }
+              @case ('length') {
+                <div class="se__row">
+                  <input
+                    class="se__range"
+                    type="range"
+                    [min]="field.min ?? 0"
+                    [max]="field.max ?? 64"
+                    [step]="field.step ?? 1"
+                    [value]="pxValue(svc.value(field.key))"
+                    (input)="onRange(field, $event)"
+                  />
+                  <input
+                    class="se__input se__input--short"
+                    type="text"
+                    [value]="svc.value(field.key)"
+                    (change)="onText(field, $event)"
+                  />
+                </div>
+              }
+              @case ('select') {
+                <select
+                  class="se__input"
+                  [value]="svc.value(field.key)"
+                  (change)="onText(field, $event)"
+                >
+                  @for (option of field.options ?? []; track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                  }
+                </select>
+              }
+              @case ('font') {
+                <select
+                  class="se__input"
+                  [value]="svc.value(field.key)"
+                  (change)="onText(field, $event)"
+                >
+                  @for (option of field.options ?? []; track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                  }
+                </select>
+              }
+              @case ('shadow') {
+                <select
+                  class="se__input"
+                  [value]="svc.value(field.key)"
+                  (change)="onText(field, $event)"
+                >
+                  @for (option of field.options ?? []; track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                  }
+                </select>
+              }
+              @default {
+                <input
+                  class="se__input"
+                  type="text"
+                  [value]="svc.value(field.key)"
+                  (change)="onText(field, $event)"
+                />
+              }
+            }
+          </div>
+        }
+        @if (!svc.visibleFields().length) {
+          <p class="se__empty">没有匹配的键值</p>
+        }
+      </div>
+    </section>
+  </div>
+
+  @if (exportOpen()) {
+    <div class="se__modal" (click)="exportOpen.set(false)">
+      <div class="se__modal-card" (click)="$event.stopPropagation()">
+        <div class="se__modal-head">
+          <h3>导出皮肤</h3>
+          <button
+            type="button"
+            class="se__icon"
+            (click)="exportOpen.set(false)"
+          >
+            ×
+          </button>
+        </div>
+
+        <label class="se__control">
+          <span>格式</span>
+          <select
+            class="se__input"
+            [value]="svc.exportFormat()"
+            (change)="onFormatChange($event)"
+          >
+            <option value="classes">Class 属性（普通 CSS 属性）</option>
+            <option value="variables">分组变量</option>
+          </select>
+        </label>
+
+        @if (svc.exportFormat() === 'classes') {
+          <label class="se__control">
+            <span>作用域</span>
+            <select
+              class="se__input"
+              [value]="svc.exportScope()"
+              (change)="onScopeChange($event)"
+            >
+              <option value="combined">单文件（global + scoped）</option>
+              <option value="exclude">仅全局（排除 data-skin-off）</option>
+              <option value="scoped">仅 .emp-skin</option>
+              <option value="global">全局（无排除）</option>
+            </select>
+          </label>
+        }
+
+        <label class="se__control">
+          <span>写入文件名</span>
+          <input
+            class="se__input"
+            [value]="exportName()"
+            (input)="exportName.set($any($event.target).value)"
+          />
+        </label>
+        <p class="se__hint">
+          写入路径：src/styles/skins/&lt;文件名&gt;.less，并自动维护
+          src/styles.less 的 @import。Class 格式使用普通 CSS 属性，并通过
+          !important 覆盖组件默认样式。单文件模式同时生成 global 与
+          .emp-skin 两段，并排对比页右栏会自动同步。
+        </p>
+
+        <pre class="se__code">{{ svc.exportContent() }}</pre>
+
+        @if (exportMessage()) {
+          <p class="se__message">{{ exportMessage() }}</p>
+        }
+
+        <div class="se__modal-actions">
+          <button type="button" class="se__btn" (click)="downloadSkin()">
+            下载 .less
+          </button>
+          <button type="button" class="se__btn" (click)="writeToProject('emp')">
+            写入 emp
+          </button>
+          <button
+            type="button"
+            class="se__btn se__btn--primary"
+            (click)="writeToProject('bike-tower')"
+          >
+            写入 bike-tower
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

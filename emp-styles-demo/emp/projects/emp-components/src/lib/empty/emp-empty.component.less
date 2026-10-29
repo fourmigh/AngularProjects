@@ -1,0 +1,37 @@
+:host {
+  display: block;
+}
+
+.emp-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: var(--emp-empty-padding, 32px);
+  border: 1px dashed var(--emp-empty-border-color, #dbdbdb);
+  border-radius: var(--emp-empty-radius, 12px);
+  background: var(--emp-empty-bg, transparent);
+  text-align: center;
+
+  &__icon {
+    color: var(--emp-empty-icon, #7d7d7d);
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  &__title {
+    color: var(--emp-empty-title, #222222);
+    font-size: var(--emp-font-size-lg, 16px);
+    font-weight: var(--emp-font-weight-medium, 500);
+  }
+
+  &__text {
+    color: var(--emp-empty-text, #6b6b6b);
+    font-size: var(--emp-font-size-sm, 13px);
+  }
+
+  &__extra:empty {
+    display: none;
+  }
+}

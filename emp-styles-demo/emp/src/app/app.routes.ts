@@ -1,8 +1,15 @@
 import { Routes } from '@angular/router';
-import { DemoHomeComponent } from './pages/demo-home/demo-home.component';
-import { ThemeEditorComponent } from './pages/theme-editor/theme-editor.component';
+import { ShowcaseComponent } from './pages/showcase/showcase.component';
 
 export const routes: Routes = [
-  { path: '', component: DemoHomeComponent },
-  { path: 'theme-editor', component: ThemeEditorComponent },
+  { path: '', component: ShowcaseComponent },
+  { path: 'showcase', component: ShowcaseComponent },
+  {
+    path: 'skin-editor',
+    loadComponent: () =>
+      import('./pages/skin-editor/skin-editor.component').then(
+        (m) => m.SkinEditorComponent,
+      ),
+  },
+  { path: '**', redirectTo: '' },
 ];

@@ -1,0 +1,160 @@
+<div class="emp-page showcase" [class.showcase--embedded]="embedded()">
+  <emp-toolbar>
+    <span empToolbarStart class="showcase__brand">Bike Tower · 组件展厅</span>
+    <span empToolbarEnd class="showcase__actions">
+      <emp-badge tone="info">皮肤实时预览</emp-badge>
+      <emp-button variant="secondary" (click)="dialogOpen.set(true)">
+        打开弹窗
+      </emp-button>
+    </span>
+  </emp-toolbar>
+
+  <section class="showcase__section">
+    <h3 class="showcase__title">自定义组件 · 工作台</h3>
+    <bt-workbench>
+      <span workbenchActions class="showcase__workbench-action">同步中</span>
+      <div class="showcase__stat-grid">
+        <bt-stat-card label="本月工单" value="1,284" delta="+12.4%" trend="up" />
+        <bt-stat-card label="平均处理时长" value="2.4h" delta="-8.1%" trend="down" />
+        <bt-stat-card label="在线设备" value="326" delta="持平" trend="flat" />
+      </div>
+      <div class="showcase__block">
+        <bt-record-list [items]="records" />
+      </div>
+    </bt-workbench>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__title">卡片</h3>
+    <div class="showcase__grid">
+      <emp-card title="默认卡片">
+        卡片、边框、圆角、阴影与文字颜色全部来自皮肤键值。
+      </emp-card>
+      <emp-card title="可交互卡片" [interactive]="true">
+        悬停时会使用皮肤里的卡片悬停背景。
+      </emp-card>
+      <emp-card title="自定义卡片">
+        同一套皮肤同时作用于基础组件和 bike-tower 自定义组件。
+      </emp-card>
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__title">按钮</h3>
+    <div class="showcase__row">
+      <emp-button>主要按钮</emp-button>
+      <emp-button variant="secondary">次要按钮</emp-button>
+      <emp-button variant="danger">危险按钮</emp-button>
+      <emp-button variant="ghost">幽灵按钮</emp-button>
+      <emp-button [disabled]="true">禁用按钮</emp-button>
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__title">表单</h3>
+    <div class="showcase__grid">
+      <emp-input
+        label="项目名称"
+        placeholder="请输入项目名称"
+        hint="用于展示输入框皮肤键值"
+        [value]="projectName()"
+        (valueChange)="projectName.set($event)"
+      />
+      <emp-select
+        label="负责人"
+        [options]="owners"
+        [value]="owner()"
+        (valueChange)="owner.set($event)"
+      />
+    </div>
+    <div class="showcase__row showcase__row--spaced">
+      <emp-check
+        label="启用通知"
+        [checked]="notify()"
+        (checkedChange)="notify.set($event)"
+      />
+      <emp-check
+        variant="switch"
+        label="自动同步"
+        [checked]="autoSync()"
+        (checkedChange)="autoSync.set($event)"
+      />
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__title">标签页</h3>
+    <emp-tabs
+      [tabs]="tabs"
+      [active]="tab()"
+      (activeChange)="tab.set($event)"
+    />
+    <p class="showcase__hint">当前标签：{{ tab() }}</p>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__title">表格</h3>
+    <emp-table caption="工单列表" [columns]="columns" [rows]="rows" />
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__title">徽标与提示</h3>
+    <div class="showcase__row">
+      <emp-badge>默认</emp-badge>
+      <emp-badge tone="success">已完成</emp-badge>
+      <emp-badge tone="warning">待处理</emp-badge>
+      <emp-badge tone="danger">已驳回</emp-badge>
+      <emp-badge tone="info">进行中</emp-badge>
+    </div>
+    <div class="showcase__stack">
+      <emp-alert title="信息提示">所有组件的颜色都来自当前皮肤。</emp-alert>
+      <emp-alert tone="success" title="保存成功">皮肤键值已写入预览。</emp-alert>
+      <emp-alert tone="warning" title="注意">导出后需要重启 dev server。</emp-alert>
+      <emp-alert tone="danger" title="错误">皮肤文件解析失败。</emp-alert>
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__title">弹窗、分页与空状态</h3>
+    <div class="showcase__grid">
+      <emp-dialog title="确认操作">
+        <p class="showcase__hint">内联展示的弹窗，用于编辑背景、边框、圆角与阴影。</p>
+        <div empDialogFooter>
+          <emp-button variant="secondary">取消</emp-button>
+          <emp-button>确认</emp-button>
+        </div>
+      </emp-dialog>
+      <emp-empty
+        title="暂无工单"
+        description="当前筛选条件下没有数据"
+      >
+        <emp-button variant="secondary">新建工单</emp-button>
+      </emp-empty>
+    </div>
+    <div class="showcase__row showcase__row--spaced">
+      <emp-pagination
+        [total]="128"
+        [page]="page()"
+        [pageSize]="10"
+        (pageChange)="page.set($event)"
+      />
+    </div>
+  </section>
+</div>
+
+@if (dialogOpen()) {
+  <emp-dialog
+    title="确认提交"
+    [overlay]="true"
+    [closable]="true"
+    (closed)="dialogOpen.set(false)"
+  >
+    <p class="showcase__hint">遮罩与弹窗同样使用皮肤键值。</p>
+    <div empDialogFooter>
+      <emp-button variant="secondary" (click)="dialogOpen.set(false)">
+        取消
+      </emp-button>
+      <emp-button (click)="dialogOpen.set(false)">确认</emp-button>
+    </div>
+  </emp-dialog>
+}

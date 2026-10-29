@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.emp-card {
+  background: var(--emp-card-bg, #ffffff);
+  border: var(--emp-card-border-width, 1px) solid
+    var(--emp-card-border-color, #dbdbdb);
+  border-radius: var(--emp-card-radius, 12px);
+  box-shadow: var(--emp-card-shadow, 0 1px 3px rgba(0, 0, 0, 0.06));
+  padding: var(--emp-card-padding, 16px);
+  color: var(--emp-card-text, #6b6b6b);
+  font-size: var(--emp-font-size-base, 15px);
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+
+  &--interactive:hover {
+    background: var(--emp-card-hover-bg, #f5f5f5);
+  }
+
+  &__title {
+    margin-bottom: 8px;
+    color: var(--emp-card-title, #222222);
+    font-size: var(--emp-font-size-lg, 16px);
+    font-weight: var(--emp-font-weight-semibold, 600);
+  }
+
+  &__body {
+    line-height: var(--emp-line-height, 1.5);
+  }
+}

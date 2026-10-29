@@ -9,4 +9,8 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
 })
-export class AppComponent {}
+export class AppComponent {
+  protected readonly embedded = new URLSearchParams(
+    window.location.search,
+  ).has('embed');
+}

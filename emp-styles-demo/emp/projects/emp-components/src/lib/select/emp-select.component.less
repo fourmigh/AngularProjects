@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.emp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__label {
+    color: var(--emp-color-text, #222222);
+    font-size: var(--emp-font-size-sm, 13px);
+    font-weight: var(--emp-font-weight-medium, 500);
+  }
+}
+
+.emp-select {
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+  padding: var(--emp-select-padding-y, 8px) var(--emp-select-padding-x, 12px);
+  padding-right: 32px;
+  border: var(--emp-select-border-width, 1px) solid
+    var(--emp-select-border-color, #dbdbdb);
+  border-radius: var(--emp-select-radius, 8px);
+  background-color: var(--emp-select-bg, #ffffff);
+  background-image: linear-gradient(
+      45deg,
+      transparent 50%,
+      var(--emp-select-arrow, #6b6b6b) 50%
+    ),
+    linear-gradient(135deg, var(--emp-select-arrow, #6b6b6b) 50%, transparent 50%);
+  background-position:
+    calc(100% - 17px) 50%,
+    calc(100% - 12px) 50%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  color: var(--emp-select-text, #222222);
+  font-family: inherit;
+  font-size: var(--emp-font-size-base, 15px);
+  line-height: 1.4;
+  outline: none;
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+
+  &:focus {
+    border-color: var(--emp-select-focus-border-color, #00679e);
+    box-shadow: 0 0 0 2px rgba(0, 103, 158, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

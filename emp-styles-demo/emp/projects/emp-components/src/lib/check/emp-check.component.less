@@ -1,0 +1,95 @@
+:host {
+  display: inline-flex;
+}
+
+.emp-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--emp-check-label, #222222);
+  font-size: var(--emp-font-size-base, 15px);
+  cursor: pointer;
+  user-select: none;
+
+  &__input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  &__control {
+    position: relative;
+    flex: 0 0 auto;
+    width: var(--emp-check-size, 18px);
+    height: var(--emp-check-size, 18px);
+    box-sizing: border-box;
+    border: var(--emp-check-border-width, 1px) solid
+      var(--emp-check-border-color, #dbdbdb);
+    border-radius: var(--emp-check-radius, 4px);
+    background: var(--emp-check-bg, #ffffff);
+    transition:
+      background-color 120ms ease,
+      border-color 120ms ease;
+  }
+
+  &__input:checked + &__control {
+    background: var(--emp-check-checked-bg, #00679e);
+    border-color: var(--emp-check-checked-border-color, #00679e);
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 46%;
+      width: 4px;
+      height: 8px;
+      border: solid var(--emp-check-mark, #ffffff);
+      border-width: 0 2px 2px 0;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+  }
+
+  &__input:focus-visible + &__control {
+    box-shadow: 0 0 0 2px rgba(0, 103, 158, 0.25);
+  }
+
+  &__input:disabled + &__control {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--switch {
+    .emp-check__control {
+      width: var(--emp-switch-width, 38px);
+      height: var(--emp-switch-height, 22px);
+      border: none;
+      border-radius: var(--emp-radius-pill, 100px);
+      background: var(--emp-switch-track, #dbdbdb);
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: calc(var(--emp-switch-height, 22px) - 4px);
+        height: calc(var(--emp-switch-height, 22px) - 4px);
+        border: none;
+        border-radius: 50%;
+        background: var(--emp-switch-thumb, #ffffff);
+        transform: none;
+        transition: left 140ms ease;
+      }
+    }
+
+    .emp-check__input:checked + .emp-check__control {
+      background: var(--emp-switch-track-checked, #00679e);
+
+      &::after {
+        left: calc(var(--emp-switch-width, 38px) - var(--emp-switch-height, 22px) + 2px);
+        border: none;
+        transform: none;
+      }
+    }
+  }
+}

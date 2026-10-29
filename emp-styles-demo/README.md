@@ -1,138 +1,371 @@
 # emp-styles-demo
 
-用于验证 **emp-components 共享样式方案** 的独立 demo：一个小型库工作区（`emp`，含库组件与宿主 app）
-和一个消费方应用（`bike-tower`，通过本地 tarball 安装该库）。全部代码都在本目录内，
-**不依赖、也不修改**真实仓库 `emp/`、`bike-tower/`。
+验证 **emp-components 共享皮肤方案** 的工作区：
+
+- `emp/`：库工作区（`@tikmac/emp-components`）+ emp-ui 宿主应用 + 皮肤编辑器
+- `bike-tower/`：消费方应用，包含全部组件的展示页和 3 个自定义业务组件
+- `design/`：默认皮肤配色的来源（Nextcloud 页面）
+
+## 核心概念
+
+**一套皮肤 = 一个 `.less` 文件**。皮肤文件只包含 CSS 变量：
+
+```less
+/* emp skin: nextcloud */
+:root {
+  --emp-color-primary: #00679e;
+  --emp-card-bg: #ffffff;
+  --emp-card-border-color: #dbdbdb;
+  --emp-card-radius: 12px;
+  /* ... */
+}
+```
+
+组件和页面样式引用这些变量，因此：
+
+- 替换皮肤文件即可整体换肤
+- emp 与 bike-tower 可以共用同一份皮肤文件
+- 同一类组件只维护一组键值，例如所有卡片共用 `--emp-card-*`
+
+编辑器也支持导出 **Class 属性格式**：每个组件一个 class，使用普通
+`background` / `border` / `border-radius` 等属性，便于阅读和给自定义组件复用。
+
+默认皮肤（Nextcloud 配色）直接内联在库的 `base.less` 中，所以不引入任何皮肤文件也能正常显示。
 
 ## 目录结构
 
 ```
 emp-styles-demo/
-  build.sh                    # 统一脚本：lib / serve / all / stop / help
-  emp/                        # 库工作区（对应 emp/UI/emp-ui）
-    projects/emp-components/  # 库：@tikmac/emp-components（仅含共享样式 + demo-card）
-      src/lib/styles/         # 共享样式：tokens.less + theme.less
-      src/lib/demo-card/      # 示例组件（引用共享令牌）
-    src/                      # emp-ui 宿主 app（源码方式引入主题）
-      app/pages/theme-editor/ # 主题可视化编辑器（demo 内置，不在库中）+「一键应用到项目」
-  bike-tower/                 # 消费方（对应 bike-tower/UI）
-    src/                      # 通过 node_modules 引入“已发布”主题
-    scripts/                  # pack-lib.mjs / bootstrap.mjs
+  build.sh
+  emp/
+    projects/emp-components/src/lib/
+      styles/
+        base.less                 # 全部 --emp-* 默认值 + html/body + .emp-app-frame
+        index.less                # @import './base.less'
+      card/ button/ input/ select/ check/ table/ tabs/
+      badge/ alert/ dialog/ toolbar/ pagination/ empty/
+      skin/                       # SkinOptOutService + EmpSkinOffDirective
+    src/
+      app/pages/showcase/         # emp 侧组件展示页
+      app/pages/skin-editor/      # 皮肤编辑器（路由懒加载）
+        skin-schema.ts            # 皮肤键值与控件定义（唯一清单）
+        skin-serializer.ts        # 导入/导出变量格式 .less
+        skin-classes.ts           # 导出 Class 属性格式 .less
+        skin-editor.service.ts    # 皮肤状态、草稿、预设
+        skin-editor.component.*
+      styles/skins/current.less   # 唯一皮肤文件（global + scoped）
+      styles.less                 # @import 库基础样式 + current.less
+    public/skins/dark.less        # 第二套皮肤示例
+    scripts/check-skin-schema.mjs # 校验 schema 与 base.less 键值一致
+  bike-tower/
+    src/app/components/           # 自定义业务组件 bt-workbench / bt-stat-card / bt-record-list
+    src/app/pages/home/           # 皮肤系统教学首页
+    src/app/pages/showcase/       # 全部组件 + 自定义组件的展示页（编辑器预览）
+    src/app/pages/compare/        # 并排对比 / 无皮肤 / 有皮肤
+    src/styles/skins/current.less # 唯一皮肤文件（global + scoped，当前 dark）
+    src/styles/raw.less           # plain 页视觉重置
+    src/styles/theme.less         # @import '@tikmac/emp-components/styles/index.less'
+    src/skin-bridge.ts            # 接收编辑器 postMessage，注入皮肤与高亮
+    src/styles.less
 ```
 
-## 快速开始
+## 皮肤键值
 
-脚本依赖 `nohup`/`fuser`/`curl` 等 Linux 工具：
+键值按组件/页面分组，每项包含背景、边框、圆角、颜色、内边距、阴影等：
 
-- **Windows 推荐用 Git Bash**（与本机 Windows Node 同平台，`node_modules` 已按 win32 安装）：
-  ```bash
-  cd /f/Github/AngularProjects/emp-styles-demo
-  bash build.sh lib                 # 构建 emp-components -> 打包 -> 装进 bike-tower
-  bash build.sh serve emp-ui        # 起 emp-ui（http://localhost:4201，含主题编辑器）
-  bash build.sh serve bike-tower    # 起 bike-tower（http://localhost:4200）
-  bash build.sh serve all           # 两个一起起
-  # Ctrl-C 停止
-  ```
-- 也可在 **WSL** 下运行，但需在 WSL 内重新 `npm install`（避免 win32/linux 原生依赖不匹配）。
-
-### 命令
-
-| 命令 | 说明 |
+| 分组 | 示例键值 |
 | --- | --- |
-| `lib` | 构建库、`npm pack`、安装进 bike-tower |
-| `serve [bike-tower\|emp-ui\|all]` | 后台启动 dev server（默认 bike-tower，端口 4200/4201） |
-| `all [--serve=<target>]` | 先 `lib` 再 `serve` |
-| `stop` | 停止后台服务 |
-| `help` | 帮助 |
+| 全局配色 | `--emp-color-primary`、`--emp-color-text`、`--emp-color-border`、状态色 |
+| 字体与圆角 | `--emp-font-family`、`--emp-font-size-base`、`--emp-radius-md` |
+| 页面与应用框架 | `--emp-app-outer-bg`、`--emp-app-inset`、`--emp-page-bg` |
+| 卡片 | `--emp-card-bg`、`--emp-card-border-color`、`--emp-card-radius` |
+| 按钮 | `--emp-button-bg`、`--emp-button-radius`、`--emp-button-hover-bg` |
+| 输入框 / 选择框 / 勾选开关 | `--emp-input-*`、`--emp-select-*`、`--emp-check-*` |
+| 表格 / 标签页 / 徽标 / 提示 / 弹窗 / 工具栏 / 分页 / 空状态 | `--emp-<component>-*` |
+| 自定义组件 | `--emp-bt-workbench-*`、`--emp-bt-stat-*`、`--emp-bt-record-*` |
 
-## 共享样式方案
+完整清单见 `emp/src/app/pages/skin-editor/skin-schema.ts`；默认值见 `base.less`。
+运行 `cd emp && npm run check:skin` 可校验两者是否一致。
 
-- **`tokens.less`**：语义设计令牌（唯一来源），色板沿用 bike-tower 命名（`@color-primary` 等）。
-- **`theme.less`**：`@import ./tokens.less`，输出 `:root` 上的 `--emp-*` CSS 变量 + `html,body`
-  字体 + `body` 背景；并提供 `.emp-app-frame` 应用外框。
-- **引入方式**：
-  - 同工作区（emp-ui）：`@import 'projects/emp-components/src/lib/styles/theme.less';`
-  - 已发布（bike-tower）：`@import '@tikmac/emp-components/styles/theme.less';`
-    （或相对路径 `../node_modules/@tikmac/emp-components/styles/theme.less`）
-- **背景形状**：默认矩形（`--emp-radius-app:0px`、`--emp-bg-inset:0px`）。改为圆角卡片只需覆盖：
-  ```css
-  :root {
-    --emp-bg-inset: 16px;
-    --emp-radius-app: 12px;
-    --emp-bg-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
-  }
-  ```
-  > 注意：形状令牌**必须带单位**（`0px` 而非 `0`）。`.emp-app-frame` 用
-  > `height: calc(100% - 2 * var(--emp-bg-inset))`，若变量是纯数字 `0`，
-  > `calc(100% - 2*0)`（百分比减纯数字）在 CSS 中非法，会导致整条 `height` 失效、
-  > 应用外框退化为内容高度、整页出现滚动。
+## 启动
 
-## 消费方如何覆盖（bike-tower）
+推荐在 **WSL（Ubuntu）** 中开发：
 
-bike-tower 用**两层**：**基座** + **令牌覆盖**。
-
+```bash
+cd /mnt/f/Github/AngularProjects/emp-styles-demo
+./build.sh all --serve=all        # 构建库 + 启动 emp-ui 与 bike-tower
 ```
-bike-tower/src/
-  styles.less            # 全局入口（angular.json 指向它）
-  styles/
-    theme.less           # 库主题基座 + 基础布局（body / .emp-app-frame / .theme-compact）
-    overrides.less       # 令牌覆盖（主题编辑器「一键应用到项目」生成，用库变量名）
+
+或分开执行：
+
+```bash
+./build.sh lib                    # 构建库、打包并安装进 bike-tower
+./build.sh serve emp-ui           # http://127.0.0.1:4201
+./build.sh serve bike-tower       # http://127.0.0.1:4210
+./build.sh serve all
 ```
+
+`serve` 在前台运行，按 `Ctrl-C` 停止全部服务。
+
+启动脚本会轮询端口，只有两个服务都返回 HTTP 200 后才打印
+`Stack is up`。首次在 `/mnt/f` 上编译可能需要几分钟，默认等待 300 秒，可通过
+`EMP_WAIT_TIMEOUT` 调整：
+
+```bash
+EMP_WAIT_TIMEOUT=600 ./build.sh all --serve=all
+```
+
+Windows 浏览器建议使用 `127.0.0.1`，避免 `localhost` 优先解析到 IPv6 `::1`。
+
+> 部分 Windows 环境中 4200 被系统服务 `iphlpsvc` 占用，因此 bike-tower 使用 **4210**。
+
+### Windows / WSL 依赖不能共用
+
+Angular 22 使用 `rolldown`、`oxc-parser`、`esbuild`、`lightningcss` 等原生模块。
+Windows 和 WSL 的 `node_modules` 平台不兼容，直接复用会报
+`Cannot find native binding`。
+
+`build.sh` 会检测当前平台的原生模块是否可用；不可用时会自动删除
+`node_modules` 并执行 `npm ci`。也可以手动执行：
+
+```bash
+cd emp && rm -rf node_modules && npm ci
+cd ../bike-tower && rm -rf node_modules && npm ci
+```
+
+不要在两个平台之间来回共用同一份 `node_modules`。
+
+## 皮肤编辑器
+
+打开 `http://127.0.0.1:4201/skin-editor`。
+
+- 左栏：按页面/组件/自定义组件分组，显示已修改数量，支持搜索
+- 中间：iframe 实时预览 `bike-tower /showcase`（也可切换到 `emp /showcase`）
+- 右栏：编辑当前分组的背景、边框、圆角、颜色、尺寸、阴影、字体等
+- 顶部：
+  - 切换内置默认皮肤或已保存皮肤
+  - 保存 / 删除本地皮肤草稿（`localStorage`）
+  - 导入 `.less` 皮肤文件
+  - 载入 `public/skins/dark.less` 示例
+  - 切换预览目标
+  - 导出
+
+编辑即时生效：同源（emp）直接注入 `<style>`，跨域（bike-tower）通过 `postMessage` 由 `skin-bridge.ts` 注入。
+
+## 导出到项目
+
+导出格式有两种，可在导出弹窗中切换：
+
+- **Class 属性（默认）**：每个组件一个 class，里面是普通 CSS 属性
+  （`background`、`border`、`border-radius`、`box-shadow` 等）
+- **分组变量**：按组件分块的 `--emp-*` CSS 变量，输出 `:root`，始终全局生效
+
+Class 格式示例：
 
 ```less
-// bike-tower/src/styles.less（顺序：先基座，后覆盖）
-@import './styles/theme.less';       // 1) 库主题基座
-@import './styles/overrides.less';   // 2) 令牌覆盖（须在基座之后）
+.emp-card {
+  background: #ffffff !important;
+  border: 1px solid #dbdbdb !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+  padding: 16px !important;
+  color: #6b6b6b !important;
+}
 
-// bike-tower/src/styles/overrides.less（编辑器生成，使用库的 LESS 变量名）
-@color-primary: #4f11df;
-@emp-bg-app: #603db3;
-@emp-radius-app: 0px;
-@emp-bg-inset: 0px;
-@emp-bg-shadow: none;
+.emp-card__title {
+  color: #222222 !important;
+}
+
+.emp-card:hover {
+  background: #f5f5f5 !important;
+}
 ```
 
-- **覆盖方式**：在 `overrides.less` 里写**库的 LESS 变量**（`@color-*` / `@emp-*`）。该文件本身不输出 CSS，
-  它改变的是库主题那条 `:root` 的取值；因此**必须在 `@import theme.less` 之后**引入才生效
-  （Less 同作用域「后定义者胜」）。
-- 该文件通常由主题编辑器右上角 **「一键应用到项目」** 自动生成：选择项目根目录 → 写入
-  `src/styles/overrides.less` 并在 `src/styles.less` 幂等追加 `@import './styles/overrides.less';`。
-- 只对使用 `var(--emp-*)` 的样式生效（含库 `theme.less` 与改造过的 `emp-demo-card`）。
-- 基础布局覆盖（如 `body{}` / `.emp-app-frame{}`）放在 `theme.less`；局部/多主题可在容器 class 里覆盖 `--emp-*`。
+Class 格式使用 `!important` 覆盖组件默认样式，因此基础组件不需要改动，自定义组件只要加对应
+class 即可复用。
 
-## 主题编辑器（demo 内置）
+点击「导出」后：
 
-位于 `emp/src/app/pages/theme-editor/`（`emp-theme-editor` 组件 + 服务 + 令牌元数据），
-**仅存在于 demo（emp-ui），不随 `@tikmac/emp-components` 发布**；路由 `/theme-editor`。
+- **下载 .less**：生成 `<name>.less`
+- **写入 emp / 写入 bike-tower**：用 File System Access API 选择项目根目录，写入
+  `src/styles/skins/<文件名>.less`，并幂等维护 `src/styles.less` 中的
+  `@import './styles/skins/<文件名>.less';`
 
-- 覆盖 `tokens.less` 全部令牌（颜色 / 排版 / 形状 / 背景）。
-- **排版令牌（刻度制）**：family 角色（正文 `--emp-font-family`、标题 `--emp-font-family-heading`、
-  代码 `--emp-font-family-code`）+ 字号刻度（`xs/sm/base/lg/xl/2xl`）+ 字重刻度（`regular/medium/semibold/bold`）
-  + 行高刻度（`tight/base/loose`）。**只在 `:root` 暴露变量、不自动应用到标签**，由消费方/组件用 `var(--emp-*)` 取用。
-- 右侧每个选项行也在末尾直接显示该令牌的 LESS 键值（如 `@color-text-primary: #333;`），与左侧示例一一对应。
-- 字体下拉提供常用**西文（英文/德文）字体栈**，选项文字即完整 `font-family` 值（不做中文翻译）。
-- 左侧「样式样板」为**每个令牌**都提供可见示例（外框/形状、品牌色、文字、黑/白、背景、边框、字体），
-  并在示例旁直接显示对应 LESS 代码（如 `@color-text-primary: #333;`，**实时反映当前值**）；
-  **鼠标悬停或聚焦右侧某行时，左侧对应示例会高亮描边**。
-- **整页实时预览**：写入 `document.documentElement` 的内联 `--emp-*`，优先级高于 `theme.less`。
-- 持久化到 `localStorage`，并提供「重置」回到默认。
-- **「一键应用到项目」按钮**（编辑器头部，demo 内置）：用浏览器 File System Access API 让用户
-  **选择项目根目录并授权**后，自动写入 `src/styles/overrides.less` 并在 `src/styles.less`（库主题行之后）
-  幂等追加 `@import './styles/overrides.less';`。**仅 Chrome/Edge**，需 `localhost` 等安全上下文；
-  不支持的浏览器会提示改用 Chrome/Edge。写文件逻辑在 demo 内，**库本身不含该能力**。
-- 布局：编辑页整页不滚动，右侧选项列表独立上下滚动，左侧预览与代码区固定。
-- 提示：该组件需宿主页提供有界高度（demo 的 emp-ui 已保证）。
+写入后需要重启对应的 dev server（Less 在构建期编译）。需要 Chrome / Edge 且通过 `localhost` 访问。
 
-## 已核实的验证结论
+Class 格式支持四种「作用域」：
 
-1. `ng build emp-components` 会把 `src/lib/styles/*.less` 拷贝到产物 `dist/emp-components/styles/`。✅
-2. 产物 `package.json` 保留自定义 `exports: { "./styles/*": "./styles/*" }` 与 `sideEffects`。✅
-3. emp-ui 以**源码路径**引入主题、bike-tower 以**打包包名/相对路径**引入主题，均构建成功，
-   且编译出的 `styles-*.css` 哈希一致（= 主题完全相同）。✅
-4. 裸标识符 `@import '@tikmac/emp-components/styles/theme.less'` 也能被 less 经 `exports` 解析。✅
-5. 组件样式 `@import '../styles/tokens.less'`（编译期）+ `var(--emp-*)`（运行期）混合使用可编译。✅
-6. 编辑页布局（用无头浏览器量测）：整页 `scrollHeight == innerHeight`（不滚动），
-   右栏 `.theme-editor__controls` 内容高于可视区、独立滚动。✅
-7. 修复了一个真实缺陷：形状令牌原先为无单位 `0`，导致 `calc(100% - 2*0)` 非法、
-   整页随内容增高；改为 `0px` 后应用外框正确撑满视口。✅
-8. 样板覆盖全部令牌并用无头浏览器逐项校验：17/17 个右侧选项悬停都能高亮左侧对应示例。✅
+- **单文件（global + scoped，默认）**：同一个文件同时生成排除段和 `.emp-skin` 段
+- **仅全局（排除 `data-skin-off`）**：默认页面应用皮肤，带 `empSkinOff` 的页面跳过
+- **仅 `.emp-skin`**：只作用于带 `emp-skin` class 的容器
+- **全局（无排除）**：不带任何排除条件
+
+单文件模式示例：
+
+```less
+/* 正常页面 */
+body:not([data-skin-off]) .emp-card {
+  background: #ffffff !important;
+  ...
+}
+
+/* 并排页右栏 */
+.emp-skin .emp-card {
+  background: #ffffff !important;
+  ...
+}
+```
+
+单文件模式导出一次，正常页面和并排页右栏都会同步。
+
+页面跳过皮肤：
+
+```html
+<div class="compare" empSkinOff>
+  <app-showcase />
+</div>
+```
+
+`empSkinOff` 来自 `@tikmac/emp-components`，运行时会给 `<body>` 加 `data-skin-off`，离开页面时移除。
+
+## 样式对比页面
+
+bike-tower 首页是皮肤系统教学页，提供编辑器入口和对比页入口：
+
+- 首页：`http://127.0.0.1:4210/`
+- 组件展示：`http://127.0.0.1:4210/showcase`
+- 并排对比：`http://127.0.0.1:4210/compare`
+- 无皮肤：`http://127.0.0.1:4210/compare/plain`
+- 有皮肤：`http://127.0.0.1:4210/compare/skinned`
+- 编辑器：`http://127.0.0.1:4201/skin-editor`
+
+首页本身使用 `empSkinOff`，保持稳定的教学页样式。
+
+无皮肤页面使用 `.emp-raw` 做视觉重置：背景、边框、圆角、阴影、颜色、字体
+回到浏览器默认，保留基本布局，页面由外层滚动容器滚动。
+
+默认皮肤是 `current.less` 中的 **dark**（global + scoped 两段）。
+编辑器默认加载**浅色 Nextcloud** 值。导出浅色并重启 dev server 后，
+`/compare/skinned`、`/compare` 右栏和 `/showcase` 会从 dark 切换到浅色。
+
+并排对比页左右两栏复用同一个 `<app-showcase />`，共用一个纵向滚动容器，
+滚动时两栏天然同步。左栏使用 `.emp-raw`，右栏使用 `current.less` 中的
+`.emp-skin` 段：
+
+```html
+<div class="compare" empSkinOff>
+  <app-compare-nav />
+  <div class="compare__scroll">
+    <div class="compare__grid">
+      <section class="compare__pane">
+        <div class="compare__pane-title">无皮肤</div>
+        <div class="emp-raw">
+          <app-showcase [embedded]="true" />
+        </div>
+      </section>
+      <section class="compare__pane">
+        <div class="compare__pane-title">有皮肤</div>
+        <div class="emp-skin">
+          <app-showcase [embedded]="true" />
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+```
+
+- 整页加 `empSkinOff`，避免全局皮肤影响左栏
+- 右栏加 `.emp-skin`，使用 `current.less` 中的 scoped 段
+- 左栏 `.emp-raw`，使用浏览器默认样式
+
+单独的无皮肤 / 有皮肤页面仍然保留，代码差异只有一个标记：
+
+```html
+<!-- plain：跳过皮肤 + 视觉重置 -->
+<div class="compare" empSkinOff>
+  <div class="compare__body compare__body--scroll emp-raw">
+    <app-showcase [embedded]="true" />
+  </div>
+</div>
+
+<!-- skinned：默认应用皮肤 -->
+<div class="compare">
+  <div class="compare__body">
+    <app-showcase />
+  </div>
+</div>
+```
+
+一套皮肤只有一个文件：`bike-tower/src/styles/skins/current.less`。
+它同时包含 `body:not([data-skin-off])` 和 `.emp-skin` 两段。
+
+当前默认是 dark。编辑器默认浅色；导出时选择「单文件（global + scoped）」
+并覆盖 `current.less`，重启 dev server 后，深色会变成浅色，并排页右栏也会同步。
+
+相关文件：
+
+```
+bike-tower/src/app/pages/compare/
+  compare-nav.component.*
+  compare-page.less
+  split-compare.component.*
+  plain-compare.component.ts
+  skinned-compare.component.ts
+```
+
+## 项目接入
+
+```less
+// emp/src/styles.less
+@import '../projects/emp-components/src/lib/styles/index.less';
+@import './styles/skins/current.less';
+
+// bike-tower/src/styles.less
+@import './styles/theme.less'; // 内含 '@tikmac/emp-components/styles/index.less'
+@import './styles/skins/current.less';
+@import './styles/raw.less';
+```
+
+要新增一套皮肤：复制一份 `current.less` 为新的 `skins/<name>.less`，修改其中的值，然后把
+`styles.less` 中的 import 指向新文件。
+
+## 自定义组件如何参与皮肤
+
+### 方式一：复用基础组件的 class（Class 格式）
+
+在自定义组件中直接使用基础组件的 class：
+
+```html
+<div class="my-card emp-card">
+  <div class="emp-card__title">标题</div>
+  <div class="emp-card__body">正文</div>
+</div>
+```
+
+- `.emp-card` 提供背景、边框、圆角、阴影、内边距、文字颜色
+- `.emp-card__title` / `.emp-card__body` 提供子元素样式
+- `class` 要放在真正绘制背景的元素上；如果放在组件宿主上，内部元素的背景可能遮住它
+- Class 格式带 `!important`，会覆盖自定义组件自身的冲突样式
+
+### 方式二：读取变量（分组变量格式）
+
+自定义组件样式只需引用 `--emp-*` 变量：
+
+```less
+:host {
+  background: var(--emp-card-bg);
+  border: var(--emp-card-border-width) solid var(--emp-card-border-color);
+  border-radius: var(--emp-card-radius);
+}
+```
+
+这种方式不需要加 class，但需要导出「分组变量」格式。
+
+### 新增自定义组件皮肤分组
+
+1. 在组件样式中使用 `--emp-bt-*`（或自定义前缀）变量
+2. 在 `skin-schema.ts` 中新增分组与字段（`kind: 'custom'`）
+3. 如需要 Class 格式，在 `skin-classes.ts` 中补充对应的选择器与属性
+
+`bike-tower/src/app/components/` 下的三个组件即示例；`bike-tower/src/app/pages/showcase/`
+同时展示基础组件与自定义组件，供编辑器预览。

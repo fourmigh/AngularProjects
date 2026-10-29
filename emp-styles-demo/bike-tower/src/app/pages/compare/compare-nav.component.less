@@ -1,0 +1,34 @@
+:host {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.compare-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  padding: 0 16px;
+  background: #111426;
+  color: #ffffff;
+  font-size: 13px;
+
+  &__brand {
+    margin-right: auto;
+    font-weight: 600;
+  }
+
+  a {
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+
+    &:hover,
+    &.active {
+      color: #ffffff;
+    }
+
+    &.active {
+      font-weight: 600;
+    }
+  }
+}

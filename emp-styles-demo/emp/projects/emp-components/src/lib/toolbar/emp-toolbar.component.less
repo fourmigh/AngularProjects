@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.emp-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: var(--emp-toolbar-height, 50px);
+  padding: 0 var(--emp-toolbar-padding-x, 20px);
+  background: var(--emp-toolbar-bg, #111426);
+  color: var(--emp-toolbar-text, #ffffff);
+  border-bottom: 1px solid
+    var(--emp-toolbar-border-color, rgba(255, 255, 255, 0.12));
+  box-sizing: border-box;
+
+  &__group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+
+    &--end {
+      justify-content: flex-end;
+    }
+  }
+
+  a,
+  button {
+    color: inherit;
+  }
+}

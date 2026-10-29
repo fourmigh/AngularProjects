@@ -1,0 +1,257 @@
+:root {
+  --emp-color-primary: #00679e;
+  --emp-color-primary-hover: #3285b1;
+  --emp-color-primary-active: #00507a;
+  --emp-color-primary-soft: #e5eff5;
+  --emp-color-primary-soft-text: #00293f;
+  --emp-color-on-primary: #ffffff;
+  --emp-color-text: #222222;
+  --emp-color-text-secondary: #6b6b6b;
+  --emp-color-text-muted: #7d7d7d;
+  --emp-color-surface: #ffffff;
+  --emp-color-surface-hover: #f5f5f5;
+  --emp-color-surface-dark: #ededed;
+  --emp-color-surface-darker: #dbdbdb;
+  --emp-color-border: #ededed;
+  --emp-color-border-dark: #dbdbdb;
+  --emp-color-border-strong: #7d7d7d;
+  --emp-color-success: #099f05;
+  --emp-color-success-bg: #d8f3da;
+  --emp-color-success-text: #005416;
+  --emp-color-info: #0077c7;
+  --emp-color-info-bg: #d5f1fa;
+  --emp-color-info-text: #0066ac;
+  --emp-color-warning: #bf7900;
+  --emp-color-warning-bg: #ffeec5;
+  --emp-color-warning-text: #664700;
+  --emp-color-danger: #c90000;
+  --emp-color-danger-bg: #ffe7e7;
+  --emp-color-danger-text: #8a0000;
+
+  --emp-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans,
+    Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  --emp-font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
+    monospace;
+  --emp-font-size-base: 15px;
+  --emp-font-size-sm: 13px;
+  --emp-font-size-lg: 16px;
+  --emp-font-size-xl: 20px;
+  --emp-font-weight-regular: 400;
+  --emp-font-weight-medium: 500;
+  --emp-font-weight-semibold: 600;
+  --emp-line-height: 1.5;
+  --emp-radius-sm: 4px;
+  --emp-radius-md: 8px;
+  --emp-radius-lg: 12px;
+  --emp-radius-xl: 16px;
+  --emp-radius-pill: 100px;
+
+  --emp-app-outer-bg: #111426;
+  --emp-app-bg: #ffffff;
+  --emp-app-inset: 8px;
+  --emp-app-radius: 16px;
+  --emp-app-shadow: none;
+  --emp-page-bg: #ffffff;
+  --emp-page-text: #222222;
+  --emp-page-padding: 24px;
+  --emp-page-radius: 12px;
+  --emp-header-height: 50px;
+  --emp-nav-width: 300px;
+
+  --emp-card-bg: #ffffff;
+  --emp-card-border-color: #dbdbdb;
+  --emp-card-border-width: 1px;
+  --emp-card-radius: 12px;
+  --emp-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --emp-card-padding: 16px;
+  --emp-card-title: #222222;
+  --emp-card-text: #6b6b6b;
+  --emp-card-hover-bg: #f5f5f5;
+
+  --emp-button-bg: #00679e;
+  --emp-button-text: #ffffff;
+  --emp-button-border-width: 1px;
+  --emp-button-border-color: transparent;
+  --emp-button-radius: 8px;
+  --emp-button-padding-y: 7px;
+  --emp-button-padding-x: 16px;
+  --emp-button-font-size: 15px;
+  --emp-button-font-weight: 500;
+  --emp-button-hover-bg: #00507a;
+  --emp-button-secondary-bg: #ffffff;
+  --emp-button-secondary-text: #222222;
+  --emp-button-secondary-border: #dbdbdb;
+  --emp-button-secondary-hover-bg: #f5f5f5;
+  --emp-button-danger-bg: #c90000;
+  --emp-button-danger-text: #ffffff;
+  --emp-button-danger-hover-bg: #a80000;
+  --emp-button-disabled-opacity: 0.5;
+
+  --emp-input-bg: #ffffff;
+  --emp-input-text: #222222;
+  --emp-input-placeholder: #7d7d7d;
+  --emp-input-border-color: #dbdbdb;
+  --emp-input-border-width: 1px;
+  --emp-input-radius: 8px;
+  --emp-input-padding-y: 8px;
+  --emp-input-padding-x: 12px;
+  --emp-input-font-size: 15px;
+  --emp-input-focus-border-color: #00679e;
+  --emp-input-focus-shadow: 0 0 0 2px rgba(0, 103, 158, 0.2);
+  --emp-input-disabled-bg: #ededed;
+
+  --emp-select-bg: #ffffff;
+  --emp-select-text: #222222;
+  --emp-select-border-color: #dbdbdb;
+  --emp-select-border-width: 1px;
+  --emp-select-radius: 8px;
+  --emp-select-padding-y: 8px;
+  --emp-select-padding-x: 12px;
+  --emp-select-focus-border-color: #00679e;
+  --emp-select-arrow: #6b6b6b;
+
+  --emp-check-size: 18px;
+  --emp-check-bg: #ffffff;
+  --emp-check-border-color: #dbdbdb;
+  --emp-check-border-width: 1px;
+  --emp-check-radius: 4px;
+  --emp-check-checked-bg: #00679e;
+  --emp-check-checked-border-color: #00679e;
+  --emp-check-mark: #ffffff;
+  --emp-check-label: #222222;
+  --emp-switch-width: 38px;
+  --emp-switch-height: 22px;
+  --emp-switch-track: #dbdbdb;
+  --emp-switch-track-checked: #00679e;
+  --emp-switch-thumb: #ffffff;
+
+  --emp-table-bg: #ffffff;
+  --emp-table-text: #222222;
+  --emp-table-border-color: #ededed;
+  --emp-table-radius: 12px;
+  --emp-table-header-bg: #ededed;
+  --emp-table-header-text: #222222;
+  --emp-table-row-hover-bg: #f5f5f5;
+  --emp-table-cell-padding-y: 10px;
+  --emp-table-cell-padding-x: 12px;
+  --emp-table-font-size: 15px;
+
+  --emp-tabs-bg: transparent;
+  --emp-tabs-text: #6b6b6b;
+  --emp-tabs-active-text: #00679e;
+  --emp-tabs-active-border: #00679e;
+  --emp-tabs-hover-text: #222222;
+  --emp-tabs-border-color: #ededed;
+  --emp-tabs-radius: 8px;
+  --emp-tabs-padding-y: 8px;
+  --emp-tabs-padding-x: 14px;
+  --emp-tabs-font-size: 15px;
+
+  --emp-badge-bg: #e5eff5;
+  --emp-badge-text: #00293f;
+  --emp-badge-radius: 100px;
+  --emp-badge-padding-y: 2px;
+  --emp-badge-padding-x: 8px;
+  --emp-badge-font-size: 13px;
+  --emp-badge-success-bg: #d8f3da;
+  --emp-badge-success-text: #005416;
+  --emp-badge-warning-bg: #ffeec5;
+  --emp-badge-warning-text: #664700;
+  --emp-badge-danger-bg: #ffe7e7;
+  --emp-badge-danger-text: #8a0000;
+  --emp-badge-info-bg: #d5f1fa;
+  --emp-badge-info-text: #0066ac;
+
+  --emp-alert-bg: #d5f1fa;
+  --emp-alert-text: #0066ac;
+  --emp-alert-border-color: #0077c7;
+  --emp-alert-radius: 8px;
+  --emp-alert-padding: 12px;
+  --emp-alert-title: #0066ac;
+  --emp-alert-success-bg: #d8f3da;
+  --emp-alert-success-text: #005416;
+  --emp-alert-success-border: #099f05;
+  --emp-alert-warning-bg: #ffeec5;
+  --emp-alert-warning-text: #664700;
+  --emp-alert-warning-border: #bf7900;
+  --emp-alert-danger-bg: #ffe7e7;
+  --emp-alert-danger-text: #8a0000;
+  --emp-alert-danger-border: #c90000;
+
+  --emp-dialog-bg: #ffffff;
+  --emp-dialog-text: #222222;
+  --emp-dialog-border-color: #dbdbdb;
+  --emp-dialog-radius: 16px;
+  --emp-dialog-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  --emp-dialog-padding: 20px;
+  --emp-dialog-title: #222222;
+  --emp-dialog-overlay-bg: rgba(17, 20, 38, 0.5);
+
+  --emp-toolbar-bg: #111426;
+  --emp-toolbar-text: #ffffff;
+  --emp-toolbar-border-color: rgba(255, 255, 255, 0.12);
+  --emp-toolbar-height: 50px;
+  --emp-toolbar-padding-x: 20px;
+  --emp-nav-bg: #ffffff;
+  --emp-nav-text: #222222;
+  --emp-nav-active-bg: #e5eff5;
+  --emp-nav-active-text: #00293f;
+  --emp-nav-border-color: #ededed;
+  --emp-nav-width: 300px;
+
+  --emp-pagination-bg: #ffffff;
+  --emp-pagination-text: #222222;
+  --emp-pagination-border-color: #dbdbdb;
+  --emp-pagination-radius: 8px;
+  --emp-pagination-active-bg: #00679e;
+  --emp-pagination-active-text: #ffffff;
+  --emp-pagination-hover-bg: #f5f5f5;
+  --emp-pagination-size: 34px;
+
+  --emp-empty-bg: transparent;
+  --emp-empty-text: #6b6b6b;
+  --emp-empty-title: #222222;
+  --emp-empty-icon: #7d7d7d;
+  --emp-empty-border-color: #dbdbdb;
+  --emp-empty-radius: 12px;
+  --emp-empty-padding: 32px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--emp-font-family);
+  font-size: var(--emp-font-size-base);
+  line-height: var(--emp-line-height);
+  color: var(--emp-page-text);
+}
+
+body {
+  background: var(--emp-app-outer-bg);
+}
+
+.emp-app-frame {
+  display: block;
+  margin: var(--emp-app-inset);
+  height: calc(100% - 2 * var(--emp-app-inset));
+  background: var(--emp-app-bg);
+  border-radius: var(--emp-app-radius);
+  box-shadow: var(--emp-app-shadow);
+  overflow: hidden;
+}
+
+.emp-app-frame *,
+.emp-page * {
+  box-sizing: border-box;
+}
+
+.emp-page {
+  min-height: 100%;
+  padding: var(--emp-page-padding);
+  background: var(--emp-page-bg);
+  color: var(--emp-page-text);
+  border-radius: var(--emp-page-radius);
+}

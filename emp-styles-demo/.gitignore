@@ -3,5 +3,6 @@ dist/
 out-tsc/
 .angular/
 .build-logs/
+design/
 *.tgz
 .DS_Store
