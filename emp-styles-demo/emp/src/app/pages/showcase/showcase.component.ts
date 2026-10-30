@@ -16,6 +16,12 @@ import {
   type EmpSelectOption,
   type EmpTab,
 } from 'emp-components';
+import {
+  EmpCustomRecordListComponent,
+  type EmpCustomRecordItem,
+} from '../../components/emp-custom-record-list.component';
+import { EmpCustomStatCardComponent } from '../../components/emp-custom-stat-card.component';
+import { EmpCustomWorkbenchComponent } from '../../components/emp-custom-workbench.component';
 
 @Component({
   selector: 'app-showcase',
@@ -34,6 +40,9 @@ import {
     EmpDialogComponent,
     EmpPaginationComponent,
     EmpEmptyComponent,
+    EmpCustomWorkbenchComponent,
+    EmpCustomStatCardComponent,
+    EmpCustomRecordListComponent,
   ],
   templateUrl: './showcase.component.html',
   styleUrls: ['./showcase.component.less'],
@@ -64,5 +73,11 @@ export class ShowcaseComponent {
     ['工单同步', 'Alice', '运行中'],
     ['数据导出', 'Bob', '已完成'],
     ['权限校验', 'Carol', '待处理'],
+  ];
+
+  protected readonly records: EmpCustomRecordItem[] = [
+    { title: '任务 EMP-201', meta: '数据同步 · 10 分钟前', status: '执行中' },
+    { title: '任务 EMP-198', meta: '权限校验 · 32 分钟前', status: '已完成' },
+    { title: '任务 EMP-195', meta: '报表导出 · 1 小时前', status: '待开始' },
   ];
 }

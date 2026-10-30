@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { EmpSkinOffDirective } from '@tikmac/emp-components';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, EmpSkinOffDirective],
+  imports: [RouterLink],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.less'],
 })

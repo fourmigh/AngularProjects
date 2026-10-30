@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { EmpSkinOffDirective } from '@tikmac/emp-components';
 import { CompareNavComponent } from './compare-nav.component';
 import { ShowcaseComponent } from '../showcase/showcase.component';
 
 @Component({
   selector: 'app-compare-split',
   standalone: true,
-  imports: [CompareNavComponent, ShowcaseComponent, EmpSkinOffDirective],
+  imports: [CompareNavComponent, ShowcaseComponent],
   template: `
-    <div class="compare" empSkinOff>
+    <div class="compare">
       <app-compare-nav />
 
       <div class="compare__scroll">

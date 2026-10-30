@@ -20,7 +20,10 @@ const base = readFileSync(baseFile, 'utf8');
 const keyPattern = /'(--emp-[\w-]+)'/g;
 const schemaKeys = new Set();
 for (const match of schema.matchAll(keyPattern)) {
-  if (!match[1].startsWith('--emp-bt-')) {
+  if (
+    !match[1].startsWith('--emp-bt-') &&
+    !match[1].startsWith('--emp-custom-')
+  ) {
     schemaKeys.add(match[1]);
   }
 }

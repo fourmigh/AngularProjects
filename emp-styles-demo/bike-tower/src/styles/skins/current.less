@@ -394,91 +394,69 @@ body:not([data-skin-off]) .emp-empty__icon {
   color: #6b6b6b !important;
 }
 
-/* 自定义 · 工作台 */
-body:not([data-skin-off]) .bt-workbench {
-  background: #171717 !important;
-  border: 1px solid #292929 !important;
-  border-radius: 16px !important;
-}
-body:not([data-skin-off]) .bt-workbench__header {
-  background: #111426 !important;
-  color: #ffffff !important;
-}
-body:not([data-skin-off]) .bt-workbench__brand {
-  font-weight: 600 !important;
-}
-body:not([data-skin-off]) .bt-workbench__sidebar {
-  background: #171717 !important;
-  color: #ebebeb !important;
-  border-color: #292929 !important;
-}
-body:not([data-skin-off]) .bt-workbench__nav {
-  border-radius: 8px !important;
-  font-size: 13px !important;
-}
-body:not([data-skin-off]) .bt-workbench__nav--active {
-  background: #1e3a4a !important;
-  color: #9fd8ee !important;
-  font-weight: 500 !important;
-}
-body:not([data-skin-off]) .bt-workbench__content {
-  background: #171717 !important;
+/* 自定义 · 活动时间线 */
+body:not([data-skin-off]) .bt-activity-timeline {
+  --emp-bt-activity-timeline--border-color: #292929 !important;
+  --emp-bt-activity-timeline--radius: 14px !important;
+  --emp-bt-activity-timeline--background: #1f1f1f !important;
+  --emp-bt-activity-timeline--title: #ebebeb !important;
+  --emp-bt-activity-timeline--line-color: #3a3a3a !important;
+  --emp-bt-activity-timeline--dot-color: #00679e !important;
+  --emp-bt-activity-timeline--active-color: #f59e0b !important;
+  --emp-bt-activity-timeline--meta: #b8b8b8 !important;
 }
 
-/* 自定义 · 指标卡 */
-body:not([data-skin-off]) .bt-stat-card {
-  background: #1f1f1f !important;
-  border: 1px solid #292929 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
-}
-body:not([data-skin-off]) .bt-stat-card__label {
-  color: #b8b8b8 !important;
-  font-size: 13px !important;
-}
-body:not([data-skin-off]) .bt-stat-card__value {
-  color: #ebebeb !important;
-  font-size: 20px !important;
-  font-weight: 600 !important;
-}
-body:not([data-skin-off]) .bt-stat-card__delta {
-  font-size: 13px !important;
-}
-body:not([data-skin-off]) .bt-stat-card__delta--up {
-  color: #7bd88a !important;
-}
-body:not([data-skin-off]) .bt-stat-card__delta--down {
-  color: #ff8a8a !important;
+/* 自定义 · 设备卡片 */
+body:not([data-skin-off]) .bt-device-card {
+  --emp-bt-device-card--border-color: #292929 !important;
+  --emp-bt-device-card--radius: 14px !important;
+  --emp-bt-device-card--background: #1f1f1f !important;
+  --emp-bt-device-card--shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+  --emp-bt-device-card--title: #ebebeb !important;
+  --emp-bt-device-card--status-background: #1e3a4a !important;
+  --emp-bt-device-card--status-text: #9fd8ee !important;
+  --emp-bt-device-card--meta: #b8b8b8 !important;
+  --emp-bt-device-card--battery-background: #292929 !important;
+  --emp-bt-device-card--battery-fill: #4caf50 !important;
 }
 
 /* 自定义 · 记录列表 */
-body:not([data-skin-off]) .bt-record-list {
-  background: #1f1f1f !important;
-  border: 1px solid #292929 !important;
-  border-radius: 12px !important;
-}
-body:not([data-skin-off]) .bt-record-list__row {
-  border-color: #292929 !important;
-}
-body:not([data-skin-off]) .bt-record-list__row:hover {
-  background: #262626 !important;
-}
-body:not([data-skin-off]) .bt-record-list__title {
-  color: #ebebeb !important;
-  font-size: 15px !important;
-  font-weight: 500 !important;
-}
-body:not([data-skin-off]) .bt-record-list__meta {
-  color: #b8b8b8 !important;
-  font-size: 13px !important;
-}
-body:not([data-skin-off]) .bt-record-list__status {
-  background: #1e3a4a !important;
-  color: #9fd8ee !important;
-  font-size: 13px !important;
-  border-radius: 100px !important;
+body:not([data-skin-off]) .emp-custom-record-list {
+  --emp-custom-record-list--border-color: #292929 !important;
+  --emp-custom-record-list--radius: 12px !important;
+  --emp-custom-record-list--background: #1f1f1f !important;
+  --emp-custom-record-list--row-hover-background: #262626 !important;
+  --emp-custom-record-list--title: #ebebeb !important;
+  --emp-custom-record-list--meta: #b8b8b8 !important;
+  --emp-custom-record-list--status-background: #1e3a4a !important;
+  --emp-custom-record-list--status-text: #9fd8ee !important;
 }
 
+/* 自定义 · 指标卡 */
+body:not([data-skin-off]) .emp-custom-stat-card {
+  --emp-custom-stat-card--border-color: #292929 !important;
+  --emp-custom-stat-card--radius: 12px !important;
+  --emp-custom-stat-card--background: #1f1f1f !important;
+  --emp-custom-stat-card--shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+  --emp-custom-stat-card--label: #b8b8b8 !important;
+  --emp-custom-stat-card--value: #ebebeb !important;
+  --emp-custom-stat-card--up: #7bd88a !important;
+  --emp-custom-stat-card--down: #ff8a8a !important;
+}
+
+/* 自定义 · 工作台 */
+body:not([data-skin-off]) .emp-custom-workbench {
+  --emp-custom-workbench--border-color: #292929 !important;
+  --emp-custom-workbench--radius: 16px !important;
+  --emp-custom-workbench--background: #171717 !important;
+  --emp-custom-workbench--header-background: #111426 !important;
+  --emp-custom-workbench--header-text: #ffffff !important;
+  --emp-custom-workbench--sidebar-background: #171717 !important;
+  --emp-custom-workbench--sidebar-text: #ebebeb !important;
+  --emp-custom-workbench--sidebar-active-background: #1e3a4a !important;
+  --emp-custom-workbench--sidebar-active-text: #9fd8ee !important;
+  --emp-custom-workbench--content-background: #171717 !important;
+}
 /* Scoped section for the split compare page. */
 .emp-skin {
   --emp-color-primary: #00679e;
@@ -857,87 +835,68 @@ body:not([data-skin-off]) .bt-record-list__status {
   color: #6b6b6b !important;
 }
 
-/* 自定义 · 工作台 */
-.emp-skin .bt-workbench {
-  background: #171717 !important;
-  border: 1px solid #292929 !important;
-  border-radius: 16px !important;
-}
-.emp-skin .bt-workbench__header {
-  background: #111426 !important;
-  color: #ffffff !important;
-}
-.emp-skin .bt-workbench__brand {
-  font-weight: 600 !important;
-}
-.emp-skin .bt-workbench__sidebar {
-  background: #171717 !important;
-  color: #ebebeb !important;
-  border-color: #292929 !important;
-}
-.emp-skin .bt-workbench__nav {
-  border-radius: 8px !important;
-  font-size: 13px !important;
-}
-.emp-skin .bt-workbench__nav--active {
-  background: #1e3a4a !important;
-  color: #9fd8ee !important;
-  font-weight: 500 !important;
-}
-.emp-skin .bt-workbench__content {
-  background: #171717 !important;
+/* 自定义 · 活动时间线 */
+.emp-skin .bt-activity-timeline {
+  --emp-bt-activity-timeline--border-color: #292929 !important;
+  --emp-bt-activity-timeline--radius: 14px !important;
+  --emp-bt-activity-timeline--background: #1f1f1f !important;
+  --emp-bt-activity-timeline--title: #ebebeb !important;
+  --emp-bt-activity-timeline--line-color: #3a3a3a !important;
+  --emp-bt-activity-timeline--dot-color: #00679e !important;
+  --emp-bt-activity-timeline--active-color: #f59e0b !important;
+  --emp-bt-activity-timeline--meta: #b8b8b8 !important;
 }
 
-/* 自定义 · 指标卡 */
-.emp-skin .bt-stat-card {
-  background: #1f1f1f !important;
-  border: 1px solid #292929 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
-}
-.emp-skin .bt-stat-card__label {
-  color: #b8b8b8 !important;
-  font-size: 13px !important;
-}
-.emp-skin .bt-stat-card__value {
-  color: #ebebeb !important;
-  font-size: 20px !important;
-  font-weight: 600 !important;
-}
-.emp-skin .bt-stat-card__delta {
-  font-size: 13px !important;
-}
-.emp-skin .bt-stat-card__delta--up {
-  color: #7bd88a !important;
-}
-.emp-skin .bt-stat-card__delta--down {
-  color: #ff8a8a !important;
+/* 自定义 · 设备卡片 */
+.emp-skin .bt-device-card {
+  --emp-bt-device-card--border-color: #292929 !important;
+  --emp-bt-device-card--radius: 14px !important;
+  --emp-bt-device-card--background: #1f1f1f !important;
+  --emp-bt-device-card--shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+  --emp-bt-device-card--title: #ebebeb !important;
+  --emp-bt-device-card--status-background: #1e3a4a !important;
+  --emp-bt-device-card--status-text: #9fd8ee !important;
+  --emp-bt-device-card--meta: #b8b8b8 !important;
+  --emp-bt-device-card--battery-background: #292929 !important;
+  --emp-bt-device-card--battery-fill: #4caf50 !important;
 }
 
 /* 自定义 · 记录列表 */
-.emp-skin .bt-record-list {
-  background: #1f1f1f !important;
-  border: 1px solid #292929 !important;
-  border-radius: 12px !important;
+.emp-skin .emp-custom-record-list {
+  --emp-custom-record-list--border-color: #292929 !important;
+  --emp-custom-record-list--radius: 12px !important;
+  --emp-custom-record-list--background: #1f1f1f !important;
+  --emp-custom-record-list--row-hover-background: #262626 !important;
+  --emp-custom-record-list--title: #ebebeb !important;
+  --emp-custom-record-list--meta: #b8b8b8 !important;
+  --emp-custom-record-list--status-background: #1e3a4a !important;
+  --emp-custom-record-list--status-text: #9fd8ee !important;
 }
-.emp-skin .bt-record-list__row {
-  border-color: #292929 !important;
+
+/* 自定义 · 指标卡 */
+.emp-skin .emp-custom-stat-card {
+  --emp-custom-stat-card--border-color: #292929 !important;
+  --emp-custom-stat-card--radius: 12px !important;
+  --emp-custom-stat-card--background: #1f1f1f !important;
+  --emp-custom-stat-card--shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+  --emp-custom-stat-card--label: #b8b8b8 !important;
+  --emp-custom-stat-card--value: #ebebeb !important;
+  --emp-custom-stat-card--up: #7bd88a !important;
+  --emp-custom-stat-card--down: #ff8a8a !important;
 }
-.emp-skin .bt-record-list__row:hover {
-  background: #262626 !important;
+
+/* 自定义 · 工作台 */
+.emp-skin .emp-custom-workbench {
+  --emp-custom-workbench--border-color: #292929 !important;
+  --emp-custom-workbench--radius: 16px !important;
+  --emp-custom-workbench--background: #171717 !important;
+  --emp-custom-workbench--header-background: #111426 !important;
+  --emp-custom-workbench--header-text: #ffffff !important;
+  --emp-custom-workbench--sidebar-background: #171717 !important;
+  --emp-custom-workbench--sidebar-text: #ebebeb !important;
+  --emp-custom-workbench--sidebar-active-background: #1e3a4a !important;
+  --emp-custom-workbench--sidebar-active-text: #9fd8ee !important;
+  --emp-custom-workbench--content-background: #171717 !important;
 }
-.emp-skin .bt-record-list__title {
-  color: #ebebeb !important;
-  font-size: 15px !important;
-  font-weight: 500 !important;
-}
-.emp-skin .bt-record-list__meta {
-  color: #b8b8b8 !important;
-  font-size: 13px !important;
-}
-.emp-skin .bt-record-list__status {
-  background: #1e3a4a !important;
-  color: #9fd8ee !important;
-  font-size: 13px !important;
-  border-radius: 100px !important;
-}
+
+

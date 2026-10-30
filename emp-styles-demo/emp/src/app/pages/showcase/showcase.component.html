@@ -10,6 +10,36 @@
   </emp-toolbar>
 
   <section class="showcase__section">
+    <h3 class="showcase__title">自定义组件 · 工作台</h3>
+    <emp-custom-workbench>
+      <span workbenchActions class="showcase__workbench-action">同步中</span>
+      <div class="showcase__stat-grid">
+        <emp-custom-stat-card
+          label="本月任务"
+          value="286"
+          delta="+9.2%"
+          trend="up"
+        />
+        <emp-custom-stat-card
+          label="平均耗时"
+          value="3.1h"
+          delta="-4.5%"
+          trend="down"
+        />
+        <emp-custom-stat-card
+          label="在线成员"
+          value="42"
+          delta="持平"
+          trend="flat"
+        />
+      </div>
+      <div class="showcase__block">
+        <emp-custom-record-list [items]="records" />
+      </div>
+    </emp-custom-workbench>
+  </section>
+
+  <section class="showcase__section">
     <h3 class="showcase__title">卡片</h3>
     <div class="showcase__grid">
       <emp-card title="默认卡片">

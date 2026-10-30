@@ -1,4 +1,7 @@
-import { SKIN_GROUPS } from './skin-schema';
+import {
+  SKIN_GROUPS,
+  type SkinClassDeclaration,
+} from './skin-schema';
 
 type Values = Record<string, string>;
 
@@ -27,7 +30,7 @@ export function serializeSkinClasses(
       scope: '.emp-skin',
       header: false,
     });
-    return `${globalSection}\n/* Scoped section for the split compare page. */\n${scopedSection}`;
+    return `${globalSection.trimEnd()}\n/* Scoped section for the split compare page. */\n${scopedSection}`;
   }
 
   const v = (key: string) => value(values, key);
@@ -47,6 +50,29 @@ export function serializeSkinClasses(
     `${selectorFor(selector)} {\n${important(declarations)}\n}`;
   const rawRule = (selector: string, declarations: string[]): string =>
     `${selector} {\n${important(declarations)}\n}`;
+  const renderDeclaration = (
+    declaration: SkinClassDeclaration,
+  ): string => {
+    const raw = v(declaration.field);
+    const value = declaration.template
+      ? declaration.template.replace('{value}', raw)
+      : raw;
+    return `${declaration.property}: ${value}`;
+  };
+  const customRuleBlocks = SKIN_GROUPS.flatMap((group) =>
+    group.classRules?.length
+      ? [
+          `/* ${group.label} */`,
+          ...group.classRules.map((classRule) =>
+            rule(
+              classRule.selector,
+              classRule.declarations.map(renderDeclaration),
+            ),
+          ),
+          '',
+        ]
+      : [],
+  );
 
   const tokenFields = SKIN_GROUPS.filter(
     (group) => group.id === 'global' || group.id === 'typography',
@@ -429,86 +455,7 @@ export function serializeSkinClasses(
     ]),
     rule('.emp-empty__icon', [`color: ${v('--emp-empty-icon')}`]),
     '',
-    '/* 自定义 · 工作台 */',
-    rule('.bt-workbench', [
-      `background: ${v('--emp-bt-workbench-bg')}`,
-      `border: 1px solid ${v('--emp-bt-workbench-border-color')}`,
-      `border-radius: ${v('--emp-bt-workbench-radius')}`,
-    ]),
-    rule('.bt-workbench__header', [
-      `background: ${v('--emp-bt-workbench-header-bg')}`,
-      `color: ${v('--emp-bt-workbench-header-text')}`,
-    ]),
-    rule('.bt-workbench__brand', [
-      `font-weight: ${v('--emp-font-weight-semibold')}`,
-    ]),
-    rule('.bt-workbench__sidebar', [
-      `background: ${v('--emp-bt-workbench-sidebar-bg')}`,
-      `color: ${v('--emp-bt-workbench-sidebar-text')}`,
-      `border-color: ${v('--emp-bt-workbench-border-color')}`,
-    ]),
-    rule('.bt-workbench__nav', [
-      `border-radius: ${v('--emp-radius-md')}`,
-      `font-size: ${v('--emp-font-size-sm')}`,
-    ]),
-    rule('.bt-workbench__nav--active', [
-      `background: ${v('--emp-bt-workbench-sidebar-active-bg')}`,
-      `color: ${v('--emp-bt-workbench-sidebar-active-text')}`,
-      `font-weight: ${v('--emp-font-weight-medium')}`,
-    ]),
-    rule('.bt-workbench__content', [
-      `background: ${v('--emp-bt-workbench-content-bg')}`,
-    ]),
-    '',
-    '/* 自定义 · 指标卡 */',
-    rule('.bt-stat-card', [
-      `background: ${v('--emp-bt-stat-bg')}`,
-      `border: 1px solid ${v('--emp-bt-stat-border-color')}`,
-      `border-radius: ${v('--emp-bt-stat-radius')}`,
-      `box-shadow: ${v('--emp-bt-stat-shadow')}`,
-    ]),
-    rule('.bt-stat-card__label', [
-      `color: ${v('--emp-bt-stat-label')}`,
-      `font-size: ${v('--emp-font-size-sm')}`,
-    ]),
-    rule('.bt-stat-card__value', [
-      `color: ${v('--emp-bt-stat-value')}`,
-      `font-size: ${v('--emp-font-size-xl')}`,
-      `font-weight: ${v('--emp-font-weight-semibold')}`,
-    ]),
-    rule('.bt-stat-card__delta', [
-      `font-size: ${v('--emp-font-size-sm')}`,
-    ]),
-    rule('.bt-stat-card__delta--up', [`color: ${v('--emp-bt-stat-up')}`]),
-    rule('.bt-stat-card__delta--down', [`color: ${v('--emp-bt-stat-down')}`]),
-    '',
-    '/* 自定义 · 记录列表 */',
-    rule('.bt-record-list', [
-      `background: ${v('--emp-bt-record-bg')}`,
-      `border: 1px solid ${v('--emp-bt-record-border-color')}`,
-      `border-radius: ${v('--emp-bt-record-radius')}`,
-    ]),
-    rule('.bt-record-list__row', [
-      `border-color: ${v('--emp-bt-record-border-color')}`,
-    ]),
-    rule('.bt-record-list__row:hover', [
-      `background: ${v('--emp-bt-record-row-hover-bg')}`,
-    ]),
-    rule('.bt-record-list__title', [
-      `color: ${v('--emp-bt-record-title')}`,
-      `font-size: ${v('--emp-font-size-base')}`,
-      `font-weight: ${v('--emp-font-weight-medium')}`,
-    ]),
-    rule('.bt-record-list__meta', [
-      `color: ${v('--emp-bt-record-meta')}`,
-      `font-size: ${v('--emp-font-size-sm')}`,
-    ]),
-    rule('.bt-record-list__status', [
-      `background: ${v('--emp-bt-record-status-bg')}`,
-      `color: ${v('--emp-bt-record-status-text')}`,
-      `font-size: ${v('--emp-font-size-sm')}`,
-      `border-radius: ${v('--emp-radius-pill')}`,
-    ]),
+    ...customRuleBlocks,
   ];
 
   return `${blocks.join('\n')}\n`;

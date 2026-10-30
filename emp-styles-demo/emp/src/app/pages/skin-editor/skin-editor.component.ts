@@ -120,6 +120,12 @@ export class SkinEditorComponent {
   }
 
   protected selectGroup(group: SkinGroup): void {
+    if (
+      group.previewTarget &&
+      group.previewTarget !== this.svc.previewTarget()
+    ) {
+      this.svc.previewTarget.set(group.previewTarget);
+    }
     this.svc.selectGroup(group.id);
     this.highlightSelected();
   }

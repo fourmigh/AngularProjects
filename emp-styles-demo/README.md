@@ -44,21 +44,26 @@ emp-styles-demo/
         index.less                # @import './base.less'
       card/ button/ input/ select/ check/ table/ tabs/
       badge/ alert/ dialog/ toolbar/ pagination/ empty/
-      skin/                       # SkinOptOutService + EmpSkinOffDirective
     src/
+      app/components/             # emp-ui 自定义组件 emp-custom-*
       app/pages/showcase/         # emp 侧组件展示页
       app/pages/skin-editor/      # 皮肤编辑器（路由懒加载）
-        skin-schema.ts            # 皮肤键值与控件定义（唯一清单）
+        skin-schema.ts            # 静态键值 + 导入生成的 custom groups
         skin-serializer.ts        # 导入/导出变量格式 .less
-        skin-classes.ts           # 导出 Class 属性格式 .less
+        skin-classes.ts           # 根据 classRules 生成 Class 属性格式 .less
+        custom-skin.generated.ts  # 自动扫描生成的自定义组件清单
         skin-editor.service.ts    # 皮肤状态、草稿、预设
         skin-editor.component.*
       styles/skins/current.less   # 唯一皮肤文件（global + scoped）
       styles.less                 # @import 库基础样式 + current.less
     public/skins/dark.less        # 第二套皮肤示例
-    scripts/check-skin-schema.mjs # 校验 schema 与 base.less 键值一致
+    scripts/
+      check-skin-schema.mjs       # 校验 schema 与 base.less 键值一致
+      generate-custom-skin-manifest.mjs
+      skin-properties.json        # 属性名 -> label/type
+      custom-skin-overrides.json  # 组件 label/selector/额外规则
   bike-tower/
-    src/app/components/           # 自定义业务组件 bt-workbench / bt-stat-card / bt-record-list
+    src/app/components/           # bike-tower 自定义组件 bt-device-card / bt-activity-timeline
     src/app/pages/home/           # 皮肤系统教学首页
     src/app/pages/showcase/       # 全部组件 + 自定义组件的展示页（编辑器预览）
     src/app/pages/compare/        # 并排对比 / 无皮肤 / 有皮肤
@@ -82,7 +87,8 @@ emp-styles-demo/
 | 按钮 | `--emp-button-bg`、`--emp-button-radius`、`--emp-button-hover-bg` |
 | 输入框 / 选择框 / 勾选开关 | `--emp-input-*`、`--emp-select-*`、`--emp-check-*` |
 | 表格 / 标签页 / 徽标 / 提示 / 弹窗 / 工具栏 / 分页 / 空状态 | `--emp-<component>-*` |
-| 自定义组件 | `--emp-bt-workbench-*`、`--emp-bt-stat-*`、`--emp-bt-record-*` |
+| emp-ui 自定义组件 | `--emp-custom-<component>--<property>` |
+| bike-tower 自定义组件 | `--emp-bt-<component>--<property>` |
 
 完整清单见 `emp/src/app/pages/skin-editor/skin-schema.ts`；默认值见 `base.less`。
 运行 `cd emp && npm run check:skin` 可校验两者是否一致。
@@ -196,7 +202,7 @@ class 即可复用。
 Class 格式支持四种「作用域」：
 
 - **单文件（global + scoped，默认）**：同一个文件同时生成排除段和 `.emp-skin` 段
-- **仅全局（排除 `data-skin-off`）**：默认页面应用皮肤，带 `empSkinOff` 的页面跳过
+- **仅全局（排除 `data-skin-off`）**：默认页面应用皮肤，路由 `data.skin === false` 的页面跳过
 - **仅 `.emp-skin`**：只作用于带 `emp-skin` class 的容器
 - **全局（无排除）**：不带任何排除条件
 
@@ -220,13 +226,16 @@ body:not([data-skin-off]) .emp-card {
 
 页面跳过皮肤：
 
-```html
-<div class="compare" empSkinOff>
-  <app-showcase />
-</div>
+```ts
+{
+  path: 'compare/plain',
+  component: PlainCompareComponent,
+  data: { skin: false },
+}
 ```
 
-`empSkinOff` 来自 `@tikmac/emp-components`，运行时会给 `<body>` 加 `data-skin-off`，离开页面时移除。
+`skinGuard` 在路由激活前给 `<body>` 切换 `data-skin-off`。
+页面组件不需要 import 任何指令。
 
 ## 样式对比页面
 
@@ -239,7 +248,7 @@ bike-tower 首页是皮肤系统教学页，提供编辑器入口和对比页入
 - 有皮肤：`http://127.0.0.1:4210/compare/skinned`
 - 编辑器：`http://127.0.0.1:4201/skin-editor`
 
-首页本身使用 `empSkinOff`，保持稳定的教学页样式。
+首页路由使用 `data: { skin: false }`，保持稳定的教学页样式。
 
 无皮肤页面使用 `.emp-raw` 做视觉重置：背景、边框、圆角、阴影、颜色、字体
 回到浏览器默认，保留基本布局，页面由外层滚动容器滚动。
@@ -253,7 +262,7 @@ bike-tower 首页是皮肤系统教学页，提供编辑器入口和对比页入
 `.emp-skin` 段：
 
 ```html
-<div class="compare" empSkinOff>
+<div class="compare">
   <app-compare-nav />
   <div class="compare__scroll">
     <div class="compare__grid">
@@ -274,15 +283,15 @@ bike-tower 首页是皮肤系统教学页，提供编辑器入口和对比页入
 </div>
 ```
 
-- 整页加 `empSkinOff`，避免全局皮肤影响左栏
+- 该路由配置 `data: { skin: false }`，避免全局皮肤影响左栏
 - 右栏加 `.emp-skin`，使用 `current.less` 中的 scoped 段
 - 左栏 `.emp-raw`，使用浏览器默认样式
 
-单独的无皮肤 / 有皮肤页面仍然保留，代码差异只有一个标记：
+单独的无皮肤 / 有皮肤页面仍然保留，代码差异只体现在路由 data：
 
 ```html
-<!-- plain：跳过皮肤 + 视觉重置 -->
-<div class="compare" empSkinOff>
+<!-- plain：路由 data.skin = false + 视觉重置 -->
+<div class="compare">
   <div class="compare__body compare__body--scroll emp-raw">
     <app-showcase [embedded]="true" />
   </div>
@@ -363,9 +372,72 @@ bike-tower/src/app/pages/compare/
 
 ### 新增自定义组件皮肤分组
 
-1. 在组件样式中使用 `--emp-bt-*`（或自定义前缀）变量
-2. 在 `skin-schema.ts` 中新增分组与字段（`kind: 'custom'`）
-3. 如需要 Class 格式，在 `skin-classes.ts` 中补充对应的选择器与属性
+自定义组件通过约定 + 自动扫描进入编辑器，不再手工修改 `skin-schema.ts`。
 
-`bike-tower/src/app/components/` 下的三个组件即示例；`bike-tower/src/app/pages/showcase/`
-同时展示基础组件与自定义组件，供编辑器预览。
+#### 命名约定
+
+```text
+bike-tower：--emp-bt-<component>--<property>
+emp-ui：    --emp-custom-<component>--<property>
+```
+
+对于组件根类：
+
+```text
+bike-tower：.bt-<component>
+emp-ui：    .emp-custom-<component>
+```
+
+#### 新增步骤
+
+1. 在 `bike-tower/src/app/components/` 或
+   `emp/src/app/components/` 新增组件
+2. 组件 LESS 使用约定变量，并提供 fallback
+3. 在对应 showcase 页面使用该组件
+4. 运行自动扫描：
+
+```bash
+cd emp
+npm run skins:manifest
+```
+
+5. 重新导出 `current.less`
+
+#### 自动生成内容
+
+扫描结果写入：
+
+```text
+emp/src/app/pages/skin-editor/custom-skin.generated.ts
+```
+
+生成内容包括：
+
+- 自定义组件分组
+- 字段 label/type/default
+- Class 规则（在组件根类上设置 CSS 变量）
+
+属性 label/type 来自：
+
+```text
+emp/scripts/skin-properties.json
+```
+
+组件中文名、特殊选择器、额外 Class 规则来自：
+
+```text
+emp/scripts/custom-skin-overrides.json
+```
+
+如果自动扫描无法表达复杂变体，可在 overrides 里补充 `classRules`。
+
+Class 格式的 global、scoped、预览和 combined 段都会自动生成，不需要修改
+`skin-classes.ts`。编辑器中点击 emp-ui 自定义组件会自动切换到 emp 预览，
+点击 bike-tower 自定义组件会自动切换到 bike-tower 预览。
+
+当前示例：
+
+- `emp/src/app/components/`：工作台、指标卡、记录列表
+- `bike-tower/src/app/components/`：设备卡片、活动时间线
+
+首页「自定义组件如何接入皮肤」也包含同样流程。

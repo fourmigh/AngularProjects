@@ -1,4 +1,4 @@
-<div class="home" empSkinOff>
+<div class="home">
   <header class="home-nav">
     <a class="home-nav__brand" routerLink="/">emp 皮肤系统</a>
     <nav class="home-nav__links">
@@ -38,7 +38,7 @@
         <div class="chips">
           <span class="chip">一套 Less = 一套皮肤</span>
           <span class="chip">默认启用</span>
-          <span class="chip">empSkinOff 跳过</span>
+          <span class="chip">路由 skin: false 跳过</span>
         </div>
       </div>
 
@@ -150,6 +150,57 @@ body:not([data-skin-off]) .emp-card &#123;
 
     <section class="section">
       <div class="section__head">
+        <span class="eyebrow">custom components</span>
+        <h2>自定义组件如何接入皮肤</h2>
+      </div>
+
+      <p class="section__lead">
+        bike-tower 自定义组件使用
+        --emp-bt-&lt;component&gt;--&lt;property&gt;，emp-ui 自定义组件使用
+        --emp-custom-&lt;component&gt;--&lt;property&gt;。新增组件后运行
+        npm run skins:manifest，编辑器会自动生成分组，不需要手改
+        skin-schema 或 skin-classes。
+      </p>
+
+      <div class="steps">
+        <article class="card">
+          <span class="step__num">01</span>
+          <h3>组件样式使用变量</h3>
+          <p>按命名约定使用 var()，并保留默认 fallback。</p>
+          <pre class="code"><code>.bt-timeline &#123;
+  background: var(--emp-bt-timeline--background, #ffffff);
+  border: 1px solid var(--emp-bt-timeline--border-color, #dbdbdb);
+  border-radius: var(--emp-bt-timeline--radius, 12px);
+&#125;</code></pre>
+        </article>
+
+        <article class="card">
+          <span class="step__num">02</span>
+          <h3>运行自动扫描</h3>
+          <p>脚本扫描 components 目录，按属性字典生成字段和 Class 规则。</p>
+          <pre class="code"><code>cd emp
+npm run skins:manifest
+
+# 生成
+# custom-skin.generated.ts</code></pre>
+        </article>
+
+        <article class="card">
+          <span class="step__num">03</span>
+          <h3>展示并重新导出</h3>
+          <p>在 showcase 页面使用新组件，然后重新导出 current.less。</p>
+          <pre class="code"><code>&lt;bt-timeline title="项目里程碑"&gt;
+  ...
+&lt;/bt-timeline&gt;</code></pre>
+          <p class="card__note">
+            已有皮肤需要重新导出一次，才会包含新的组件规则。
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head">
         <span class="eyebrow">scope</span>
         <h2>页面启用与跳过</h2>
       </div>
@@ -163,11 +214,12 @@ body:not([data-skin-off]) .emp-card &#123;
 
         <article class="card">
           <span class="tag tag--off">跳过</span>
-          <h3>empSkinOff</h3>
-          <p>给页面根元素加 empSkinOff，进入页面时给 body 加 data-skin-off。</p>
-          <pre class="code"><code>&lt;div class="compare" empSkinOff&gt;
-  &lt;app-showcase /&gt;
-&lt;/div&gt;</code></pre>
+          <h3>路由 skin: false</h3>
+          <p>在路由 data 中标记 skin: false，skinGuard 在激活前设置 body。</p>
+          <pre class="code"><code>&#123;
+  path: 'compare/plain',
+  data: &#123; skin: false &#125;,
+&#125;</code></pre>
         </article>
 
         <article class="card">

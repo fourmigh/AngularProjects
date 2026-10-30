@@ -1,3 +1,5 @@
+import { GENERATED_CUSTOM_GROUPS } from './custom-skin.generated';
+
 export type SkinFieldType =
   | 'color'
   | 'length'
@@ -22,6 +24,17 @@ export interface SkinField {
   step?: number;
 }
 
+export interface SkinClassDeclaration {
+  property: string;
+  field: string;
+  template?: string;
+}
+
+export interface SkinClassRule {
+  selector: string;
+  declarations: SkinClassDeclaration[];
+}
+
 export type SkinGroupKind = 'base' | 'page' | 'component' | 'custom';
 
 export interface SkinGroup {
@@ -29,7 +42,9 @@ export interface SkinGroup {
   label: string;
   kind: SkinGroupKind;
   selector?: string;
+  previewTarget?: 'emp' | 'bike-tower';
   fields: SkinField[];
+  classRules?: SkinClassRule[];
 }
 
 export const FONT_STACKS: SkinFieldOption[] = [
@@ -477,56 +492,7 @@ export const SKIN_GROUPS: SkinGroup[] = [
       length('--emp-empty-padding', '内边距', '32px', 0, 80),
     ],
   },
-  {
-    id: 'custom-workbench',
-    label: '自定义 · 工作台',
-    kind: 'custom',
-    selector: 'bt-workbench, .bt-workbench',
-    fields: [
-      color('--emp-bt-workbench-bg', '背景', '#ffffff'),
-      color('--emp-bt-workbench-header-bg', '顶栏背景', '#111426'),
-      color('--emp-bt-workbench-header-text', '顶栏文字', '#ffffff'),
-      color('--emp-bt-workbench-sidebar-bg', '侧栏背景', '#ffffff'),
-      color('--emp-bt-workbench-sidebar-text', '侧栏文字', '#222222'),
-      color('--emp-bt-workbench-sidebar-active-bg', '侧栏选中背景', '#e5eff5'),
-      color('--emp-bt-workbench-sidebar-active-text', '侧栏选中文字', '#00293f'),
-      color('--emp-bt-workbench-content-bg', '内容背景', '#ffffff'),
-      color('--emp-bt-workbench-border-color', '分隔线', '#ededed'),
-      length('--emp-bt-workbench-radius', '圆角', '16px', 0, 48),
-    ],
-  },
-  {
-    id: 'custom-stat',
-    label: '自定义 · 指标卡',
-    kind: 'custom',
-    selector: 'bt-stat-card, .bt-stat-card',
-    fields: [
-      color('--emp-bt-stat-bg', '背景', '#ffffff'),
-      color('--emp-bt-stat-border-color', '边框', '#dbdbdb'),
-      length('--emp-bt-stat-radius', '圆角', '12px', 0, 40),
-      shadow('--emp-bt-stat-shadow', '阴影', '0 1px 3px rgba(0, 0, 0, 0.06)'),
-      color('--emp-bt-stat-label', '标签文字', '#6b6b6b'),
-      color('--emp-bt-stat-value', '数值文字', '#222222'),
-      color('--emp-bt-stat-up', '上升颜色', '#099f05'),
-      color('--emp-bt-stat-down', '下降颜色', '#c90000'),
-    ],
-  },
-  {
-    id: 'custom-record',
-    label: '自定义 · 记录列表',
-    kind: 'custom',
-    selector: 'bt-record-list, .bt-record-list',
-    fields: [
-      color('--emp-bt-record-bg', '背景', '#ffffff'),
-      color('--emp-bt-record-border-color', '边框', '#ededed'),
-      length('--emp-bt-record-radius', '圆角', '12px', 0, 40),
-      color('--emp-bt-record-title', '标题文字', '#222222'),
-      color('--emp-bt-record-meta', '次要文字', '#6b6b6b'),
-      color('--emp-bt-record-row-hover-bg', '行悬停背景', '#f5f5f5'),
-      color('--emp-bt-record-status-bg', '状态背景', '#e5eff5'),
-      color('--emp-bt-record-status-text', '状态文字', '#00293f'),
-    ],
-  },
+  ...GENERATED_CUSTOM_GROUPS,
 ];
 
 export const ALL_FIELDS: SkinField[] = SKIN_GROUPS.flatMap(

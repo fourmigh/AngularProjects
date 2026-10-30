@@ -10,18 +10,35 @@
   </emp-toolbar>
 
   <section class="showcase__section">
-    <h3 class="showcase__title">自定义组件 · 工作台</h3>
-    <bt-workbench>
-      <span workbenchActions class="showcase__workbench-action">同步中</span>
-      <div class="showcase__stat-grid">
-        <bt-stat-card label="本月工单" value="1,284" delta="+12.4%" trend="up" />
-        <bt-stat-card label="平均处理时长" value="2.4h" delta="-8.1%" trend="down" />
-        <bt-stat-card label="在线设备" value="326" delta="持平" trend="flat" />
-      </div>
-      <div class="showcase__block">
-        <bt-record-list [items]="records" />
-      </div>
-    </bt-workbench>
+    <h3 class="showcase__title">自定义组件 · 设备卡片</h3>
+    <div class="showcase__grid">
+      <bt-device-card
+        name="共享单车 A-18"
+        code="A-18"
+        status="在线"
+        [battery]="86"
+        location="东门站点"
+      />
+      <bt-device-card
+        name="共享单车 C-07"
+        code="C-07"
+        status="维护中"
+        [battery]="54"
+        location="西门站点"
+      />
+      <bt-device-card
+        name="共享单车 B-33"
+        code="B-33"
+        status="低电量"
+        [battery]="23"
+        location="南门站点"
+      />
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__title">自定义组件 · 活动时间线</h3>
+    <bt-activity-timeline title="最近活动" [items]="activities" />
   </section>
 
   <section class="showcase__section">

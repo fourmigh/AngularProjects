@@ -1,0 +1,7 @@
+{
+  "emp:workbench": { "label": "工作台" },
+  "emp:stat-card": { "label": "指标卡" },
+  "emp:record-list": { "label": "记录列表" },
+  "bt:device-card": { "label": "设备卡片" },
+  "bt:activity-timeline": { "label": "活动时间线" }
+}

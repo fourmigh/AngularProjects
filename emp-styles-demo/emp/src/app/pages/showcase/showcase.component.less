@@ -47,11 +47,26 @@
     }
   }
 
+  &__stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  &__block {
+    margin-top: 16px;
+  }
+
   &__stack {
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-top: 16px;
+  }
+
+  &__workbench-action {
+    font-size: var(--emp-font-size-sm, 13px);
+    opacity: 0.8;
   }
 
   &__hint {

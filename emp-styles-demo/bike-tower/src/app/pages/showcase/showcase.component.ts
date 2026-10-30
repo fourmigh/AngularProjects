@@ -16,9 +16,11 @@ import {
   type EmpSelectOption,
   type EmpTab,
 } from '@tikmac/emp-components';
-import { BtRecordListComponent, type BtRecordItem } from '../../components/bt-record-list.component';
-import { BtStatCardComponent } from '../../components/bt-stat-card.component';
-import { BtWorkbenchComponent } from '../../components/bt-workbench.component';
+import {
+  BtActivityTimelineComponent,
+  type BtActivityItem,
+} from '../../components/bt-activity-timeline.component';
+import { BtDeviceCardComponent } from '../../components/bt-device-card.component';
 
 @Component({
   selector: 'app-showcase',
@@ -37,9 +39,8 @@ import { BtWorkbenchComponent } from '../../components/bt-workbench.component';
     EmpDialogComponent,
     EmpPaginationComponent,
     EmpEmptyComponent,
-    BtWorkbenchComponent,
-    BtStatCardComponent,
-    BtRecordListComponent,
+    BtDeviceCardComponent,
+    BtActivityTimelineComponent,
   ],
   templateUrl: './showcase.component.html',
   styleUrls: ['./showcase.component.less'],
@@ -76,9 +77,9 @@ export class ShowcaseComponent {
     ['BT-1036', '共享单车 B-33', 'Alice', '已完成'],
   ];
 
-  protected readonly records: BtRecordItem[] = [
-    { title: '工单 BT-1042', meta: '共享单车 A-18 · 10 分钟前', status: '处理中' },
-    { title: '工单 BT-1041', meta: '共享单车 C-07 · 32 分钟前', status: '已完成' },
-    { title: '工单 BT-1039', meta: '调度车 D-02 · 1 小时前', status: '待分配' },
+  protected readonly activities: BtActivityItem[] = [
+    { title: '工单 BT-1042 已分配', meta: '共享单车 A-18 · 10 分钟前', active: true },
+    { title: '设备 C-07 完成检修', meta: '东门站点 · 32 分钟前' },
+    { title: '调度车 D-02 出发', meta: '中心仓库 · 1 小时前' },
   ];
 }
