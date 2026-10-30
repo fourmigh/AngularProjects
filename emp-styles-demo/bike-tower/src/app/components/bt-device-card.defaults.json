@@ -1,0 +1,31 @@
+{
+  "variants": [
+    {
+      "inputs": {
+        "name": "共享单车 A-18",
+        "code": "A-18",
+        "status": "在线",
+        "battery": 86,
+        "location": "东门站点"
+      }
+    },
+    {
+      "inputs": {
+        "name": "共享单车 C-07",
+        "code": "C-07",
+        "status": "维护中",
+        "battery": 54,
+        "location": "西门站点"
+      }
+    },
+    {
+      "inputs": {
+        "name": "共享单车 B-33",
+        "code": "B-33",
+        "status": "低电量",
+        "battery": 23,
+        "location": "南门站点"
+      }
+    }
+  ]
+}

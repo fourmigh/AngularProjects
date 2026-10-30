@@ -157,9 +157,10 @@ body:not([data-skin-off]) .emp-card &#123;
       <p class="section__lead">
         bike-tower 自定义组件使用
         --emp-bt-&lt;component&gt;--&lt;property&gt;，emp-ui 自定义组件使用
-        --emp-custom-&lt;component&gt;--&lt;property&gt;。新增组件后运行
-        npm run skins:manifest，编辑器会自动生成分组，不需要手改
-        skin-schema 或 skin-classes。
+        --emp-custom-&lt;component&gt;--&lt;property&gt;。默认 showcase 不展示自定义组件；
+        新增组件后运行 npm run skins:manifest，编辑器会自动生成分组，
+        showcase 会通过生成的注册表自动挂载，不需要手改 skin-schema、
+        skin-classes 或 showcase 模板。
       </p>
 
       <div class="steps">
@@ -177,26 +178,181 @@ body:not([data-skin-off]) .emp-card &#123;
         <article class="card">
           <span class="step__num">02</span>
           <h3>运行自动扫描</h3>
-          <p>脚本扫描 components 目录，按属性字典生成字段和 Class 规则。</p>
+          <p>脚本扫描 components 目录，生成皮肤分组和 showcase 注册表。</p>
           <pre class="code"><code>cd emp
 npm run skins:manifest
 
+# 或在仓库根目录
+./build.sh manifest
+
 # 生成
-# custom-skin.generated.ts</code></pre>
+# custom-skin.generated.ts
+# custom-showcase.generated.ts</code></pre>
+          <p class="card__note">
+            皮肤分组和 showcase 注册表生成文件都不提交，安装依赖和启动/构建前会自动生成。
+          </p>
         </article>
 
         <article class="card">
           <span class="step__num">03</span>
-          <h3>展示并重新导出</h3>
-          <p>在 showcase 页面使用新组件，然后重新导出 current.less。</p>
-          <pre class="code"><code>&lt;bt-timeline title="项目里程碑"&gt;
-  ...
-&lt;/bt-timeline&gt;</code></pre>
+          <h3>配置默认数据并重新导出</h3>
+          <p>
+            在组件同目录新增 &lt;component&gt;.defaults.json，填写 inputs；
+            多个示例用 variants。
+          </p>
+          <pre class="code"><code>&#123;
+  "inputs": &#123;
+    "title": "最近活动",
+    "items": []
+  &#125;
+&#125;</code></pre>
           <p class="card__note">
+            每个组件一个 defaults JSON，生成器会自动合并。
             已有皮肤需要重新导出一次，才会包含新的组件规则。
           </p>
         </article>
       </div>
+
+      <h3 class="tutorial-title">手动与自动</h3>
+
+      <div class="tutorial-table">
+        <table>
+          <thead>
+            <tr>
+              <th>步骤</th>
+              <th>类型</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>创建组件 .ts / .less</td>
+              <td><span class="tag tag--manual">手动</span></td>
+              <td>放到 <code>components/</code> 目录</td>
+            </tr>
+            <tr>
+              <td>写变量与 fallback</td>
+              <td><span class="tag tag--manual">手动</span></td>
+              <td>
+                <code>--emp-bt-&lt;component&gt;--&lt;property&gt;</code>
+              </td>
+            </tr>
+            <tr>
+              <td>自动加入 showcase</td>
+              <td><span class="tag tag--auto">自动</span></td>
+              <td>
+                生成注册表，showcase 用 <code>NgComponentOutlet</code> 渲染
+              </td>
+            </tr>
+            <tr>
+              <td>提供默认演示数据</td>
+              <td><span class="tag tag--manual">手动可选</span></td>
+              <td>
+                组件同目录
+                <code>&lt;component&gt;.defaults.json</code>
+              </td>
+            </tr>
+            <tr>
+              <td>排除自动展示</td>
+              <td><span class="tag tag--manual">手动可选</span></td>
+              <td>
+                在 defaults 中设置 <code>auto: false</code>；
+                <code>ng-content</code> 默认跳过
+              </td>
+            </tr>
+            <tr>
+              <td>新属性名补字典</td>
+              <td><span class="tag tag--manual">手动</span></td>
+              <td>仅新属性需要，写入 <code>skin-properties.json</code></td>
+            </tr>
+            <tr>
+              <td>特殊 label / selector / 复杂规则</td>
+              <td><span class="tag tag--manual">手动可选</span></td>
+              <td>写入 <code>custom-skin-overrides.json</code></td>
+            </tr>
+            <tr>
+              <td>运行 <code>npm run skins:manifest</code></td>
+              <td><span class="tag tag--semi">半自动</span></td>
+              <td>
+                两端 start / build 前，以及 emp postinstall 自动执行
+              </td>
+            </tr>
+            <tr>
+              <td>扫描并生成清单</td>
+              <td><span class="tag tag--auto">自动</span></td>
+              <td>
+                key / fallback / fields / classRules / previewTarget /
+                defaults 数据 / showcase 注册表
+              </td>
+            </tr>
+            <tr>
+              <td>合并进编辑器 schema</td>
+              <td><span class="tag tag--auto">自动</span></td>
+              <td><code>skin-schema.ts</code> 导入生成结果</td>
+            </tr>
+            <tr>
+              <td>调整颜色和尺寸</td>
+              <td><span class="tag tag--manual">手动</span></td>
+              <td>编辑器里操作</td>
+            </tr>
+            <tr>
+              <td>导出 <code>current.less</code></td>
+              <td><span class="tag tag--manual">手动</span></td>
+              <td>点击导出</td>
+            </tr>
+            <tr>
+              <td>重启 dev server</td>
+              <td><span class="tag tag--manual">手动</span></td>
+              <td>Less 是构建期编译</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="card__note">
+        默认 showcase 只有基础组件。custom-showcase.generated.ts 不提交，
+        由 postinstall、start、build 生成。dev server 已启动时新增组件，
+        需要重新运行 npm run skins:manifest，或直接重启服务。
+      </p>
+
+      <h3 class="tutorial-title">新增属性：两种路径</h3>
+
+      <div class="split">
+        <article class="card">
+          <span class="tag tag--local">已有属性名</span>
+          <h3>只改组件 LESS</h3>
+          <p>属性名已经在 skin-properties.json 中，例如 border-color。</p>
+          <pre class="code"><code>.bt-activity-timeline &#123;
+  border: 1px solid
+    var(--emp-bt-activity-timeline--border-color, #dbdbdb);
+&#125;</code></pre>
+        </article>
+
+        <article class="card">
+          <span class="tag tag--manual">新属性</span>
+          <h3>组件 LESS + 属性字典</h3>
+          <p>
+            新属性名需要补 skin-properties.json，否则只能使用通用
+            label/type。
+          </p>
+          <pre class="code"><code>&#123;
+  "battery-fill": &#123;
+    "label": "电量填充",
+    "type": "color"
+  &#125;
+&#125;</code></pre>
+        </article>
+      </div>
+
+      <article class="card tutorial-note">
+        <h3>生成器自动完成</h3>
+        <p>
+          扫描变量、解析 fallback、生成字段、classRules 和
+          previewTarget，并合并进 skin-schema；同时生成 showcase
+          注册表，由 NgComponentOutlet 自动渲染。Class 导出自动生成 global
+          / scoped / preview / combined 段。
+        </p>
+      </article>
     </section>
 
     <section class="section">

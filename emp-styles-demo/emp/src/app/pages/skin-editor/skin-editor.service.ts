@@ -51,19 +51,25 @@ export class SkinEditorService {
   );
 
   readonly visibleGroups = computed(() => {
+    const target = this.previewTarget();
     const term = this.search().trim().toLowerCase();
-    if (!term) {
-      return this.groups;
-    }
-    return this.groups.filter(
-      (group) =>
+
+    return this.groups.filter((group) => {
+      if (group.previewTarget && group.previewTarget !== target) {
+        return false;
+      }
+      if (!term) {
+        return true;
+      }
+      return (
         group.label.toLowerCase().includes(term) ||
         group.fields.some(
           (field) =>
             field.label.toLowerCase().includes(term) ||
             field.key.toLowerCase().includes(term),
-        ),
-    );
+        )
+      );
+    });
   });
 
   readonly visibleFields = computed(() => {
@@ -172,6 +178,16 @@ export class SkinEditorService {
 
   selectGroup(id: string): void {
     this.selectedGroupId.set(id);
+  }
+
+  ensureSelectedGroupVisible(): void {
+    const groups = this.visibleGroups();
+    if (
+      groups.length &&
+      !groups.some((group) => group.id === this.selectedGroupId())
+    ) {
+      this.selectedGroupId.set(groups[0].id);
+    }
   }
 
   savePreset(): void {

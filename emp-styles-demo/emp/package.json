@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "postinstall": "node scripts/generate-custom-skin-manifest.mjs",
     "skins:manifest": "node scripts/generate-custom-skin-manifest.mjs",
     "start": "npm run skins:manifest && ng serve emp-ui --port 4201 --host 0.0.0.0",
     "build": "ng build emp-components",

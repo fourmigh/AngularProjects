@@ -6,3 +6,8 @@ out-tsc/
 design/
 *.tgz
 .DS_Store
+
+# Generated skin/showcase artifacts
+emp/src/app/pages/skin-editor/custom-skin.generated.ts
+emp/src/app/pages/showcase/custom-showcase.generated.ts
+bike-tower/src/app/pages/showcase/custom-showcase.generated.ts

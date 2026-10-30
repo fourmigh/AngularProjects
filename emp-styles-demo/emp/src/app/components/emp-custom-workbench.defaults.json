@@ -1,0 +1,4 @@
+{
+  "$comment": "工作台使用 ng-content，自动渲染无法填充投影内容，因此默认跳过。",
+  "auto": false
+}

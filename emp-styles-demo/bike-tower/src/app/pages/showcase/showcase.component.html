@@ -9,37 +9,24 @@
     </span>
   </emp-toolbar>
 
-  <section class="showcase__section">
-    <h3 class="showcase__title">自定义组件 · 设备卡片</h3>
-    <div class="showcase__grid">
-      <bt-device-card
-        name="共享单车 A-18"
-        code="A-18"
-        status="在线"
-        [battery]="86"
-        location="东门站点"
-      />
-      <bt-device-card
-        name="共享单车 C-07"
-        code="C-07"
-        status="维护中"
-        [battery]="54"
-        location="西门站点"
-      />
-      <bt-device-card
-        name="共享单车 B-33"
-        code="B-33"
-        status="低电量"
-        [battery]="23"
-        location="南门站点"
-      />
-    </div>
-  </section>
-
-  <section class="showcase__section">
-    <h3 class="showcase__title">自定义组件 · 活动时间线</h3>
-    <bt-activity-timeline title="最近活动" [items]="activities" />
-  </section>
+  @if (autoComponents.length) {
+    <section class="showcase__section">
+      <h3 class="showcase__title">自动发现组件</h3>
+      @for (entry of autoComponents; track entry.id) {
+        <div class="showcase__block">
+          <h4 class="showcase__title">{{ entry.label }}</h4>
+          <div [class.showcase__grid]="entry.layout === 'grid'">
+            @for (variant of entry.variants; track $index) {
+              <ng-container
+                [ngComponentOutlet]="entry.component"
+                [ngComponentOutletInputs]="variant.inputs"
+              />
+            }
+          </div>
+        </div>
+      }
+    </section>
+  }
 
   <section class="showcase__section">
     <h3 class="showcase__title">卡片</h3>

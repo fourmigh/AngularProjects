@@ -1,0 +1,28 @@
+{
+  "variants": [
+    {
+      "inputs": {
+        "label": "本月任务",
+        "value": "286",
+        "delta": "+9.2%",
+        "trend": "up"
+      }
+    },
+    {
+      "inputs": {
+        "label": "平均耗时",
+        "value": "3.1h",
+        "delta": "-4.5%",
+        "trend": "down"
+      }
+    },
+    {
+      "inputs": {
+        "label": "在线成员",
+        "value": "42",
+        "delta": "持平",
+        "trend": "flat"
+      }
+    }
+  ]
+}

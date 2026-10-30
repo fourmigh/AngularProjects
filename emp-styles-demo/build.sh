@@ -3,6 +3,7 @@
 # Usage: bash build.sh <command> [options]
 #
 #   lib                       Build emp-components, npm pack, install into bike-tower
+#   manifest                  Generate skin/showcase manifests
 #   serve [target]            Start dev server in background (default: bike-tower)
 #                             target = bike-tower (4210) | emp-ui (4201) | all
 #   all [--serve=target]      Run 'lib' then 'serve'
@@ -67,6 +68,13 @@ cmd_lib() {
   ( cd "$BIKE_TOWER" && rm -rf node_modules/@tikmac && npm install --no-audit --no-fund --no-save "$tgz" )
 
   echo "==> Done. emp-components packed and installed into bike-tower."
+}
+
+cmd_manifest() {
+  ensure_deps "$EMP"
+
+  echo "==> Generating skin and showcase manifests..."
+  ( cd "$EMP" && node scripts/generate-custom-skin-manifest.mjs )
 }
 
 start_web_bg() {
@@ -199,6 +207,7 @@ show_help() {
   echo ""
   echo "Commands:"
   echo "  lib                     Build emp-components, pack, install into bike-tower"
+  echo "  manifest                Generate skin/showcase manifests"
   echo "  serve [target]          Start dev server in background (default: bike-tower)"
   echo "                          target = bike-tower (4210) | emp-ui (4201) | all"
   echo "  all [--serve=target]    Run 'lib' then 'serve'"
@@ -213,6 +222,9 @@ case "${1:-help}" in
   lib)
     shift
     cmd_lib ;;
+  manifest)
+    shift
+    cmd_manifest ;;
   serve)
     shift
     cmd_serve "$@" ;;

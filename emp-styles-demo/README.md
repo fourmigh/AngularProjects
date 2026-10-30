@@ -106,6 +106,7 @@ cd /mnt/f/Github/AngularProjects/emp-styles-demo
 
 ```bash
 ./build.sh lib                    # 构建库、打包并安装进 bike-tower
+./build.sh manifest               # 生成皮肤分组和 showcase 注册表
 ./build.sh serve emp-ui           # http://127.0.0.1:4201
 ./build.sh serve bike-tower       # http://127.0.0.1:4210
 ./build.sh serve all
@@ -370,9 +371,10 @@ bike-tower/src/app/pages/compare/
 
 这种方式不需要加 class，但需要导出「分组变量」格式。
 
-### 新增自定义组件皮肤分组
+### 新增自定义组件皮肤分组与 showcase
 
-自定义组件通过约定 + 自动扫描进入编辑器，不再手工修改 `skin-schema.ts`。
+自定义组件通过约定 + 自动扫描进入编辑器和 showcase，不再手工修改
+`skin-schema.ts`、`skin-classes.ts` 或 showcase 模板。
 
 #### 命名约定
 
@@ -388,34 +390,158 @@ bike-tower：.bt-<component>
 emp-ui：    .emp-custom-<component>
 ```
 
-#### 新增步骤
+#### 新增组件：手动与自动
 
-1. 在 `bike-tower/src/app/components/` 或
-   `emp/src/app/components/` 新增组件
-2. 组件 LESS 使用约定变量，并提供 fallback
-3. 在对应 showcase 页面使用该组件
-4. 运行自动扫描：
+| 步骤 | 类型 | 说明 |
+| --- | --- | --- |
+| 创建组件 `.ts` / `.less` | 手动 | 放到 `bike-tower/src/app/components/` 或 `emp/src/app/components/` |
+| 写变量与 fallback | 手动 | 使用 `--emp-bt-<component>--<property>` 或 `--emp-custom-<component>--<property>` |
+| 自动加入 showcase | 自动 | 扫描后生成注册表，showcase 用 `NgComponentOutlet` 渲染 |
+| 提供默认演示数据 | 手动可选 | 在组件同目录新增 `<component>.defaults.json` |
+| 排除自动展示 | 手动可选 | 在 defaults JSON 中设置 `auto: false`；`ng-content` 组件默认跳过 |
+| 新属性名补字典 | 手动 | 仅新属性需要，写入 `emp/scripts/skin-properties.json` |
+| 特殊 label / selector / 复杂规则 | 手动可选 | 写入 `emp/scripts/custom-skin-overrides.json` |
+| 运行 `npm run skins:manifest` | 半自动 | 两端 `start` / `build` 前以及 emp `postinstall` 自动执行 |
+| 扫描并生成清单 | 自动 | 解析 key、fallback、fields、classRules、previewTarget、showcase |
+| 合并进编辑器 schema | 自动 | `skin-schema.ts` 导入生成结果 |
+| 调整颜色和尺寸 | 手动 | 在编辑器里操作 |
+| 导出 `current.less` | 手动 | 点击导出 |
+| 重启 dev server | 手动 | Less 是构建期编译 |
 
-```bash
-cd emp
-npm run skins:manifest
+如果 dev server 已启动，新增组件后需要重新运行 `npm run skins:manifest`，或直接重启服务；showcase 注册表也会同时更新。
+
+默认 showcase 只展示基础组件，不包含手工自定义组件区块。自定义组件在扫描后通过
+注册表自动出现；两个 `custom-showcase.generated.ts` 都不提交，由生成器创建。
+
+#### showcase 自动挂载
+
+生成器会同时扫描 `.component.ts`、`.less` 和组件同目录的 `.defaults.json`，
+提取组件类名、selector、输入和默认演示数据，生成双端注册表：
+
+```text
+emp/src/app/pages/showcase/custom-showcase.generated.ts
+bike-tower/src/app/pages/showcase/custom-showcase.generated.ts
 ```
 
-5. 重新导出 `current.less`
+每个自定义组件一个默认数据文件：
+
+```text
+bike-tower/src/app/components/bt-activity-timeline.defaults.json
+bike-tower/src/app/components/bt-device-card.defaults.json
+emp/src/app/components/emp-custom-workbench.defaults.json
+emp/src/app/components/emp-custom-workbench-demo.defaults.json
+emp/src/app/components/emp-custom-stat-card.defaults.json
+emp/src/app/components/emp-custom-record-list.defaults.json
+```
+
+普通组件使用 `inputs`：
+
+```json
+{
+  "inputs": {
+    "title": "最近活动",
+    "items": [
+      {
+        "title": "工单 BT-1042 已分派",
+        "meta": "共享单车 A-18 · 10 分钟前",
+        "active": true
+      }
+    ]
+  }
+}
+```
+
+需要多个示例实例时使用 `variants`：
+
+```json
+{
+  "variants": [
+    {
+      "inputs": {
+        "name": "共享单车 A-18",
+        "battery": 86
+      }
+    },
+    {
+      "inputs": {
+        "name": "共享单车 C-07",
+        "battery": 54
+      }
+    }
+  ]
+}
+```
+
+原始工作台使用 `ng-content`，默认跳过：
+
+```json
+{
+  "auto": false
+}
+```
+
+工作台预览由 `emp-custom-workbench-demo` 包装组件提供，内部组合工作台、指标卡和记录列表，因此编辑器中仍能看到完整工作台示例。
+
+合并顺序：
+
+```text
+组件 input 默认值
+  < 组件同目录 .defaults.json
+```
+
+- `auto` 默认 `true`
+- `inputs` 会覆盖组件 input 默认值
+- `variants` 会生成多个实例，默认使用 `grid` 布局
+- `layout` 可显式设为 `grid` 或 `block`
+- `input.required()` 在合并后仍缺失时，生成器会警告并跳过该组件
+- 使用 `ng-content` 的组件默认跳过；设置 `auto: true` 可以强制渲染，但投影内容为空
+
+#### 新增属性：两种路径
+
+已有属性名，例如 `border-color`，只需要在组件 LESS 中使用：
+
+```less
+.bt-activity-timeline {
+  border: 1px solid
+    var(--emp-bt-activity-timeline--border-color, #dbdbdb);
+}
+```
+
+新属性名，例如 `battery-fill`，还需要补属性字典：
+
+```json
+{
+  "battery-fill": { "label": "电量填充", "type": "color" }
+}
+```
+
+如果自动扫描无法表达复杂变体，再在 overrides 里补充 `classRules`。
 
 #### 自动生成内容
 
-扫描结果写入：
+皮肤扫描结果写入：
 
 ```text
 emp/src/app/pages/skin-editor/custom-skin.generated.ts
 ```
+
+showcase 注册表写入：
+
+```text
+emp/src/app/pages/showcase/custom-showcase.generated.ts
+bike-tower/src/app/pages/showcase/custom-showcase.generated.ts
+```
+
+所有 generated 文件都在 `.gitignore` 中，由 `postinstall`、`start`、
+`build` 前的扫描生成。首次打开 IDE 时如果提示文件不存在，运行一次
+`npm run skins:manifest` 或 `./build.sh manifest` 即可。
 
 生成内容包括：
 
 - 自定义组件分组
 - 字段 label/type/default
 - Class 规则（在组件根类上设置 CSS 变量）
+- showcase 组件注册表和默认输入
 
 属性 label/type 来自：
 
@@ -429,15 +555,20 @@ emp/scripts/skin-properties.json
 emp/scripts/custom-skin-overrides.json
 ```
 
-如果自动扫描无法表达复杂变体，可在 overrides 里补充 `classRules`。
+演示输入和自动展示开关来自组件同目录：
+
+```text
+<component>.defaults.json
+```
 
 Class 格式的 global、scoped、预览和 combined 段都会自动生成，不需要修改
-`skin-classes.ts`。编辑器中点击 emp-ui 自定义组件会自动切换到 emp 预览，
-点击 bike-tower 自定义组件会自动切换到 bike-tower 预览。
+`skin-classes.ts`。编辑器左侧只显示当前预览目标对应的自定义分组；点击分组只选中并高亮，不会切换预览目标。切换目标时会自动修正当前选中分组。
 
 当前示例：
 
-- `emp/src/app/components/`：工作台、指标卡、记录列表
-- `bike-tower/src/app/components/`：设备卡片、活动时间线
+- 扫描后自动展示：活动时间线（3 条）、设备卡片（3 个）、指标卡（3 个）、记录列表（3 条）
+- 工作台通过 `emp-custom-workbench-demo` 自动展示完整内容
+- 默认数据来自各组件同目录的 `.defaults.json`
+- 原始 `emp-custom-workbench` 因使用 `ng-content` 且 `auto: false` 不直接渲染
 
 首页「自定义组件如何接入皮肤」也包含同样流程。

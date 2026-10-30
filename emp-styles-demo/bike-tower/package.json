@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "prestart": "node scripts/bootstrap.mjs",
+    "skins:manifest": "node ../emp/scripts/generate-custom-skin-manifest.mjs",
+    "prestart": "npm run skins:manifest && node scripts/bootstrap.mjs",
     "start": "ng serve --port 4210 --host 0.0.0.0",
+    "prebuild": "npm run skins:manifest",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "lib:pack": "node scripts/pack-lib.mjs"
